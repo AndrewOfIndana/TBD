@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed04f83d27df5514cb810036b3f254dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bugSpeed: 5
+  enemySpeed: 5
 --- !u!1 &7228203084907974778
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,6 +87,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7228203084907974777}
   - component: {fileID: 7228203084907974776}
+  - component: {fileID: 2438831370072833134}
   m_Layer: 6
   m_Name: Sprite
   m_TagString: Untagged
@@ -162,3 +163,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2438831370072833134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7228203084907974778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae92928f92124f439054f7d136b25eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
