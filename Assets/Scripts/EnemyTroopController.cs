@@ -1,24 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class EnemyController : MonoBehaviour, IObjectPoolFunctions
+public class EnemyTroopController : MonoBehaviour, IObjectPoolFunctions
 {
     /*  
-        Name: EnemyController.cs
+        Name: EnemyTroopController.cs
         Description: This script allows for object pooling, or reusing the same objects instead of creating and deleting new ones.
 
     */
-    public float enemySpeed; //Store the speed of the enemy
+    public Image healthBar;
+    public SpriteRenderer enemySprite;
+    public BoxCollider enemyCollider;
+    private float enemyAttack; //Store the attack of the enemy
+    private float enemyHealth; //Store the health of the enemy
+    private float enemySpeed; //Store the speed of the enemy
+    // private float enemyAttackRate;
+    // private float enemyAttackRange;
+
     private Transform target; //A reference to the target transform
     private int wavePointIndex = 0; //Keeps track of which waypoint the enemy is at
+    private float enemyHealthMax;
 
     /*---      SETUP FUNCTIONS     ---*/
+    public void SetUnit(Stats newStats)
+    {
+        enemyAttack = newStats.unitAttack;
+        enemyHealth = newStats.unitHealth;
+        enemySpeed = newStats.unitSpeed;
+        enemyHealthMax = newStats.unitHealth;
+        //enemyAttackRate = newStats.unitAttackRate;
+        //enemyAttackRange = newStats.unitAttackRange;
+        enemySprite.sprite = newStats.unitEnemySprite;
+        enemyCollider.size =  newStats.unitSize;
+        healthBar.fillAmount = enemyHealth/enemyHealthMax;
+    }
     /*-  Starts when the object has spawned from pool -*/
     public void OnObjectSpawn()
     {
         wavePointIndex = 0; //Resets wayPointIndex to 0 when the enemy spawns
         target = WayPoints.points[0]; //Sets the target transform to the first wayPoint 
+
     }
 
     /*---      UPDATE FUNCTIONS     ---*/
@@ -48,14 +71,14 @@ public class EnemyController : MonoBehaviour, IObjectPoolFunctions
         wavePointIndex++; //Add the waypoint index
         target = WayPoints.points[wavePointIndex]; //Sets target to new waypoint
     }
-    /*-  event for something has entered the collider -*/
-    private void OnTriggerEnter(Collider other)
+    public void TakeDamage(float damage)
     {
-        //if the object collider is a bullet
-        if (other.gameObject.CompareTag("Bullet"))
+        enemyHealth -= damage;
+        healthBar.fillAmount = enemyHealth/enemyHealthMax;
+
+        if(enemyHealth <= 0)
         {
-            other.gameObject.SetActive(false); //deactivate the bullet
-            this.gameObject.SetActive(false); //deactivate the enemy
+            this.gameObject.SetActive(false);
         }
     }
 }

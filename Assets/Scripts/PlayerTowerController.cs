@@ -1,21 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class TowerController : MonoBehaviour
+public class PlayerTowerController : MonoBehaviour
 {
     /*  
-        Name: TowerController.cs
+        Name: PlayerTowerController.cs
         Description: This script controls the player's towers and how they react toe enemies
 
     */
-
+    public Image healthBar;
     ObjectPool objectPool; //Reference to the object pool
     public Transform firingPoint; //Reference to the firing point transform
-    public float fireRate = 1.1f; //Stores the fire rate of the tower
-    public float range = 10f; //Store the range of the tower
+    public SpriteRenderer allySprite;
+    public BoxCollider allyCollider;
+    private float allyAttack; //Store the attack of the ally
+    private float allyHealth; //Store the health of the ally
+    private float allyAttackRate;
+    private float allyAttackRange;
     private float fireCountDown; //Stores how long it takes for the tower to fire again
     private Transform targetDetected; //Private reference to the target the tower is trying to fire at
+    private float allyHealthMax;
+
+    /*---      SETUP FUNCTIONS     ---*/
+    public void SetUnit(Stats newStats)
+    {
+        allyAttack = newStats.unitAttack;
+        allyHealth = newStats.unitHealth;
+        allyHealthMax = newStats.unitHealth;
+        allyAttackRate = newStats.unitAttackRate;
+        allyAttackRange = newStats.unitAttackRange;
+        allySprite.sprite = newStats.unitSprite;
+        allyCollider.size =  newStats.unitSize;
+        healthBar.fillAmount = allyHealth/allyHealthMax;
+    }
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Starts on the first frame -*/
@@ -43,7 +62,7 @@ public class TowerController : MonoBehaviour
         if (fireCountDown <= 0f)
         {
             Shoot(); //Calls the shoot function
-            fireCountDown = 1f/fireRate; //Resets fireCountDown to 1 over the fireRate
+            fireCountDown = 1f/allyAttackRate; //Resets fireCountDown to 1 over the fireRate
         }
         fireCountDown -= Time.deltaTime; //fireCountDown count down from every second
     }
@@ -58,7 +77,7 @@ public class TowerController : MonoBehaviour
         //if this bullet exist
         if(bullet != null)
         {
-            bullet.Seek(targetDetected); //calls the bullet's seek function
+            bullet.Seek(targetDetected, allyAttack); //calls the bullet's seek function
         }
     }
     /*-  Controls targeting -*/
@@ -82,7 +101,7 @@ public class TowerController : MonoBehaviour
         }
 
         //if the nearestEnemy does exist and shortestDistance is less than or equal to the tower's range
-        if(nearestEnemy != null && shortestDistance <= range)
+        if(nearestEnemy != null && shortestDistance <= allyAttackRange)
         {
            targetDetected = nearestEnemy.transform; //Set targetDetected to the nearestEnemy's transform
         }
@@ -91,4 +110,15 @@ public class TowerController : MonoBehaviour
             targetDetected = null; //Set targetDetected to null
         }
     }
+    public void TakeDamage(float damage)
+    {
+        allyHealth -= damage;
+        healthBar.fillAmount = allyHealth/allyHealthMax;
+
+        if(allyHealth <= 0)
+        {
+            this.gameObject.SetActive(false);
+        }
+    }
+
 }

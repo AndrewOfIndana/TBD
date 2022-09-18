@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e78e5a09b020ae84eb5b79cd949e6db8, type: 3}
+  m_Name: 1ArcherStats
+  m_EditorClassIdentifier: 
+  unitID: 1
+  unitName: Archer
+  unitDescription: Attacks everything in its path at a range
+  unitHealth: 15
+  unitAttack: 10
+  unitSpeed: 7.5
+  unitAttackRate: 1
+  unitAttackRange: 10
+  unitSprite: {fileID: 21300000, guid: 0066e3dc0b24f524fbc6ad3033c948b3, type: 3}
+  unitEnemySprite: {fileID: 21300000, guid: bd089f2dfafa1d94fa65d6a3a86ab367, type: 3}
+  unitSize: {x: 1, y: 2, z: 1}
+  unitBehavior: 4
