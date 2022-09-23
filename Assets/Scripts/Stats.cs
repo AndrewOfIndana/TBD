@@ -6,20 +6,21 @@ using UnityEngine;
 public class Stats : ScriptableObject
 {
     [Header("Information")]
-    public int unitID;
-    public string unitName;
-    public string unitDescription;
+    public int unitID; //The ID number of the unit
+    public string unitName; //Name of the unit
+    public string unitDescription; //Description of the unit
 
     [Header("Stats")]
-    public float unitHealth;
-    public float unitAttack;
-    public float unitSpeed;
-    public float unitAttackRate;
-    public float unitAttackRange;
+    public float unitHealth; //Health of the unit
+    public float unitAttack; //Attack of the unit
+    public float unitSpeed; //Speed of the unit
+    public float unitAttackRate; //Attack Rate of the unit
+    public float unitAttackRange; //Attack Range of the unit
 
     [Header("Attributes")]
-    public Sprite unitSprite;
-    public Sprite unitEnemySprite;
-    public Vector3 unitSize;
+    public Sprite unitSprite; //Sprite of the unit
+    public Vector3 unitSize; //Size of the BoxCollider of unit
+    public float unitCost; //Cost of the unit
+    public bool isUnitEnemy; //is the unit an enemy
     public int unitBehavior;
 }

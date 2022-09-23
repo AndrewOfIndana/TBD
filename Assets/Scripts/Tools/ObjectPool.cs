@@ -10,9 +10,10 @@ public class ObjectPool : MonoBehaviour
         Description: This script allows for object pooling, or reusing the same objects instead of creating and deleting new ones.
 
     */
-
+    public static ObjectPool objectPoolInstance; //A static object that can be accessed in any script 
     /*  A class called pool stores what the objects name is what it is instantiating from the pool and how many of it is in the pool */
-    [System.Serializable] //Allows a class to be edited in editor
+
+    [System.Serializable] //Allows the class to be edited in editor
     public class Pool 
     {
         public string objName; 
@@ -20,7 +21,6 @@ public class ObjectPool : MonoBehaviour
         public int objNum;
     }
 
-    public static ObjectPool objectPoolInstance; //A static object that can be accessed in any script 
     public List<Pool> pools; //A listArray that stores how many object pools there should be
     public Dictionary<string, Queue<GameObject>> poolDictionary; //A dictionary that stores the name and a gameObject
 

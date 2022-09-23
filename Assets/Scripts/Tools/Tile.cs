@@ -6,31 +6,23 @@ public class Tile : MonoBehaviour
 {
     /*  
         Name: Tile.cs
-        Description: This script checks if a tile is used, handles user input, and allows the player to build a tower.
+        Description: This script checks if a mouse is on a tile, allows the player to create a tower on top of said tile, and checks if the tile is used or not
 
     */
-    private GameObject tower;
-    public Vector3 positionOffset;
+    public Vector3 positionOffset; //Stores the offset of an spawned GameObject tower
 
     /*---      FUNCTIONS     ---*/
     /*-  Checks if a mouse is on screen -*/
     void OnMouseDown()
     {
-        if(tower != null)
-        {
-            Debug.Log("Already has tower");
-            return;
-        }
+        GameObject playerTowerObj = ObjectPool.objectPoolInstance.SpawnFromPool("AllyTower", transform.position + positionOffset, Quaternion.identity); //Spawn an player tower from the pool
+        TowerController playerTower = playerTowerObj.GetComponent<TowerController>(); //Gets the PlayerTowerController component from the spawned playerTowerObj
 
-        Stats towerToBuild = PlayerUnits.playerUnitsInstance.GetUnitToPlace();
-        GameObject playerTowerObj = ObjectPool.objectPoolInstance.SpawnFromPool("PlayerTower", transform.position + positionOffset, Quaternion.identity); //Spawn an player tower from the pool
-        PlayerTowerController playerTower = playerTowerObj.GetComponent<PlayerTowerController>(); //Gets the PlayerTowerController component from the spawned playerTowerObj
-        
         //if this playerTower exist
         if(playerTower != null)
         {
-            playerTower.SetUnit(towerToBuild); //Sets enemy type based on random number generator
-            playerTower.firingPoint.transform.position = transform.position + positionOffset;
+            playerTower.SetUnit(PlayerController.playerControllerInstance.GetTowerToPlace()); //Sets player tower type and stats using playerControllerInstance.GetTowerToPlace()
+            playerTower.firingPoint.transform.position = playerTower.firingPoint.transform.position + positionOffset; //Offsets playerTower's firingPoint's position
         }
     }
 }

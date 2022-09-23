@@ -6,7 +6,7 @@ public interface IObjectPoolFunctions
 {
     /*  
         Name: IObjectPoolFunctions.cs
-        Description: This script is a interface that contains functions for pools objects
+        Description: This script is a interface that contains the OnObjectSpawn() function
 
     */
     void OnObjectSpawn();

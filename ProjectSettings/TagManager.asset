@@ -4,20 +4,25 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Enemy
-  - Friend
-  - Bullet
+  - EnemyTroop
+  - EnemyTower
+  - EnemyAssassin
+  - EnemyBullet
+  - AllyTroop
+  - AllyTower
+  - AllyAssassin
+  - AllyBullet
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - Enemy
-  - Friend
-  - Bullet
-  - Player
+  - EnemyUnit
+  - EnemyBullet
+  - AllyUnit
+  - AllyBullet
   - Tile
   - 
   - 

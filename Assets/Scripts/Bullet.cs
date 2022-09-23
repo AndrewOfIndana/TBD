@@ -11,47 +11,37 @@ public class Bullet : MonoBehaviour
     */
 
     public float speed = 70f; //Store the speed of the bullet
-    private float bulletAttack;
-    private Transform targetedEnemy; //Private reference to the targetedEnemy's transform
+    [HideInInspector]
+    public float bulletAttack; //Stores the attack value of the bullet
+    private Transform target; //Private reference to the target's transform
 
     /*---      SETUP FUNCTIONS     ---*/
-    /*-  Sets targetedEnemy to the tower's enemyDetected -*/
+    /*-  Sets target to the tower's enemyDetected as well as the attack value -*/
     public void Seek(Transform targ, float atk)
     {
-        targetedEnemy = targ; //Sets targetedEnemy to targ
-        bulletAttack = atk;
+        target = targ; //Sets target to targ
+        bulletAttack = atk; //Sets bulletAttack to the unit's atk
     }
 
     /*---      UPDATE FUNCTIONS     ---*/
     /*-  Is called every frame -*/
     void Update()
     {
-        if(targetedEnemy == null)
+        //if target doesn't exist
+        if(target == null)
         {
-            DestroyBullet();
-            return;
+            DestroyBullet(); //Calls DestroyBullet
+            return; //Exits if statement
         }
 
-        Vector3 dir = targetedEnemy.position - transform.position;
+        Vector3 dir = target.position - transform.position; //Gets direction from target's and this object's position and stores it in a Vector3
         float distanceThisFrame = speed * Time.deltaTime; //The amount of distance covered by the speed times the time
         transform.Translate(dir.normalized * distanceThisFrame, Space.World); //Moves the bullet towards the enemy
-        Invoke("DestroyBullet", .5f);
+        Invoke("DestroyBullet", .5f); //Destroys bullet after half a second
     }
     /*---      FUNCTIONS     ---*/
-        /*-  event for something has entered the collider -*/
-    private void OnTriggerEnter(Collider other)
-    {
-        //if the object collider is a enemy
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            EnemyTroopController enemyTroop = other.gameObject.GetComponent<EnemyTroopController>();
-            enemyTroop.TakeDamage(bulletAttack);
-            DestroyBullet();
-        }
-    }
-
     /*-  Destroys the bullet -*/
-    void DestroyBullet()
+    public void DestroyBullet()
     {
         this.gameObject.SetActive(false); //Disables the bullet
     }

@@ -10,10 +10,10 @@ public class WayPoints : MonoBehaviour
 
     */
 
-    public static Transform[] points;  //A static transform array that can be accessed in any script 
+    public static Transform[] points; //A static transform array that can be accessed in any script 
 
     /*---      SETUP FUNCTIONS     ---*/
-    /*-  Starts when the script is awake -*/
+    /*-  Starts when script is awake -*/
     void Awake()
     {
         points = new Transform[transform.childCount]; //Instantiates a new transform array with a max number named points
