@@ -109,7 +109,8 @@ GameObject:
   - component: {fileID: 4374202085250568023}
   - component: {fileID: 4374202085250567978}
   - component: {fileID: 4374202085250568025}
-  - component: {fileID: 5782254058836217667}
+  - component: {fileID: 6039887343698419176}
+  - component: {fileID: 2704798118925150968}
   m_Layer: 6
   m_Name: EnemyTrooper
   m_TagString: EnemyTroop
@@ -176,10 +177,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 6411988933267775021}
-  troopSprite: {fileID: 4374202084776315381}
-  troopCollider: {fileID: 4374202085250567978}
+  thisSprite: {fileID: 4374202084776315381}
+  thisCollider: {fileID: 4374202085250567978}
+  stat: {fileID: 0}
   attack: 0
---- !u!65 &5782254058836217667
+  health: 0
+  speed: 0
+  attackRate: 0
+  attackRange: 0
+  targetDetected: {fileID: 0}
+  targetEngaged: {fileID: 0}
+  towerEngaged: {fileID: 0}
+--- !u!114 &6039887343698419176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4374202085250568022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0432642b370f74fa6d29bd8230ea0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &2704798118925150968
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

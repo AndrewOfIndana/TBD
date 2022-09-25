@@ -68,14 +68,6 @@ public class ObjectPool : MonoBehaviour
         spawnedObj.transform.position = spawnPosition; //sets the object's position to spawnPosition
         spawnedObj.transform.rotation = spawnRotation; //sets the object's rotation to spawnRotation
 
-        IObjectPoolFunctions spawnedObjStart = spawnedObj.GetComponent<IObjectPoolFunctions>(); //get the IObjectPoolFunctions component from the spawnedObj as a reference;
-
-        //if spawnedObjStart does exist
-        if(spawnedObjStart != null)
-        {
-            spawnedObjStart.OnObjectSpawn(); //Calls ObObjectSpawn function
-        }
-
         poolDictionary[name].Enqueue(spawnedObj); //Readds spawnedObj to the poolDictionary
         return spawnedObj; //Returns spawnedObj as a GameObject
     }

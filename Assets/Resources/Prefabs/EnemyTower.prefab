@@ -113,6 +113,8 @@ GameObject:
   - component: {fileID: 2124282917778928633}
   - component: {fileID: 2124282917778928516}
   - component: {fileID: 2938866095992955101}
+  - component: {fileID: 1249751990809900958}
+  - component: {fileID: 2280912569806508270}
   m_Layer: 6
   m_Name: EnemyTower
   m_TagString: EnemyTower
@@ -180,13 +182,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 723564703209552319}
-  towerSprite: {fileID: 2124282918260651355}
-  towerCollider: {fileID: 2124282917778928516}
-  isEnemy: 0
+  thisSprite: {fileID: 2124282918260651355}
+  thisCollider: {fileID: 2124282917778928516}
+  stat: {fileID: 0}
   attack: 0
+  health: 0
+  speed: 0
+  attackRate: 0
   attackRange: 0
   firingPoint: {fileID: 8733962264299078929}
-  targetDetected: {fileID: 0}
+--- !u!114 &1249751990809900958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124282917778928632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0432642b370f74fa6d29bd8230ea0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &2280912569806508270
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124282917778928632}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2124282918260651353
 GameObject:
   m_ObjectHideFlags: 0

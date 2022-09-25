@@ -10,14 +10,17 @@ public class EnemySpawner : MonoBehaviour
 
     */
     ObjectPool objectPool; //Reference to the object pool
+
     public float spawnRate; //The spawn rate of the enemies
-    public Stats[] typesOfEnemies; //The types of enemies available
+    public StatsList unitsLists;
+    private Stats[] typesOfEnemies; //The types of enemies available
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Starts on the first frame -*/
-    void Start()
+    private void Start()
     {
         objectPool = ObjectPool.objectPoolInstance; ///Set objectPool to the objectPool instance 
+        typesOfEnemies = unitsLists.statsLists;
         StartCoroutine(SpawnEnemy(spawnRate)); //Calls SpawnEnemy IEnumerator at spawnRate
     }
 

@@ -15,9 +15,10 @@ public class PlayerController : MonoBehaviour
     public static PlayerController playerControllerInstance; //A static instance of this script that can be accessed in any script 
 
     [Header("Script References")]
-    public PlayerTroopSpawner playerTroopSpawner; //A reference to the Player's troop spawner
-    public Stats[] units; //The types of unit the player has access to
-    private Stats towerToPlace; //The current tower the player has selected
+    public PlayerSpawner playerSpawner; //A reference to the Player's troop spawner
+    public StatsList unitsLists;
+    private Stats[] units; //The types of unit the player has access to
+    public Stats towerToPlace; //The current tower the player has selected
 
     [Header("PlayerController Values")]
     public float mana = 100; //Stores the current amount of mana
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour
             return; //exit if statement
         }
         playerControllerInstance = this; //Sets playerUnitsInstance to this script
+        units = unitsLists.statsLists;
     }
     /*-  Starts on the first frame -*/
     void Start()
@@ -74,13 +76,13 @@ public class PlayerController : MonoBehaviour
     private void OnButtonClick(int index)
     {
         //if the mana minus the unitCost isn't less than or equal to 0
-        if((mana - units[index].unitCost) >= 0)
+        if(CheckManaCost(units[index].unitCost))
         {
             //if the buttons are troop deploying buttons
             if(index < 6)
             {
-                mana -= units[index].unitCost; //Subtracts the unitCost from the mana
-                playerTroopSpawner.SpawnTroop(units[index]); //Calls the spawnTroop function in the playerTroopSpawner script
+                SpendMana(units[index].unitCost);
+                playerSpawner.SpawnTroop(units[index]); //Calls the spawnTroop function in the playerTroopSpawner script
                 UpdateUI(); //Calls the UpdateUI function
             }
             else if(index >= 6) //if the buttons are tower deploying buttons
@@ -100,6 +102,7 @@ public class PlayerController : MonoBehaviour
     /*-  Gets the tower to place -*/
     public Stats GetTowerToPlace()
     {
+        SpendMana(towerToPlace.unitCost);
         return towerToPlace;
     }
     /*-  Repeatedly regenerates mana, takes a float for the time -*/
@@ -114,5 +117,21 @@ public class PlayerController : MonoBehaviour
         }
         UpdateUI(); //Calls the UpdateUI function
         StartCoroutine(RegenerateMana(1f)); //Recalls RegenerateMana IEnumerator at 1 second
+    }
+    public void SpendMana(float cost)
+    {
+        mana -= cost;
+        UpdateUI(); //Calls the UpdateUI function
+    }
+    public bool CheckManaCost(float cost)
+    {
+        if((mana - cost) >= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

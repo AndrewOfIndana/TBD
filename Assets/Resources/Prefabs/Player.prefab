@@ -268,9 +268,10 @@ GameObject:
   - component: {fileID: 7037220480807331792}
   - component: {fileID: 7037220480807331793}
   - component: {fileID: -3280512316852286127}
+  - component: {fileID: 595206621860369269}
   m_Layer: 3
   m_Name: Player
-  m_TagString: Player
+  m_TagString: AllyTroop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -333,7 +334,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55645ebc92cede54fb00391bfb11505f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 3
+  healthBar: {fileID: 2145755683}
+  stat: {fileID: 11400000, guid: 1eec6fa06b189da4093e28b2ffe09a55, type: 2}
+  attack: 0
+  health: 0
+  attackRate: 0
+  attackRange: 0
+  targetsDetected: []
+  speed: 0
 --- !u!65 &-3280512316852286127
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -347,6 +355,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 2, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &595206621860369269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7037220480807331756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0432642b370f74fa6d29bd8230ea0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7037220481289707789
 GameObject:
   m_ObjectHideFlags: 0

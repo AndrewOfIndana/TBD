@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e78e5a09b020ae84eb5b79cd949e6db8, type: 3}
+  m_Name: a5_TrollStats 3
+  m_EditorClassIdentifier: 
+  unitID: 5
+  unitName: Troll
+  unitDescription: Follows path, ignores everything
+  unitHealth: 45
+  unitAttack: 35
+  unitSpeed: 2
+  unitAttackRange: 5
+  unitAttackRate: 1
+  unitSprite: {fileID: 21300000, guid: e4f407ab4352b5446b3eb8b0384d90f5, type: 3}
+  unitSize: {x: 1.5, y: 2, z: 1.5}
+  isUnitEnemy: 0
+  unitTag: AllyTroop
+  targetTags: []
+  bulletTag: AllyBullet
+  oncomingBulletTag: EnemyBullet
+  oncomingTroopTag: EnemyTroop
+  oncomingAssassinTag: EnemyAssassin
+  oncomingTowerTag: EnemyTower
+  unitCost: 45
+  unitBehaviour: 3

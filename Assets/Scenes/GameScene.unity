@@ -1924,16 +1924,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e92c4d5be2742a4dbd5aa4fc30c46a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTroopSpawner: {fileID: 2094680867}
-  units:
-  - {fileID: 11400000, guid: d5e19639f44298a4fb88f8915073d3f1, type: 2}
-  - {fileID: 11400000, guid: e7d72a8ba24d3a1439bfa11dee401b49, type: 2}
-  - {fileID: 11400000, guid: 9133c4db547471240be6455205f6068b, type: 2}
-  - {fileID: 11400000, guid: 48891250c6bafb447ba2a94778609e69, type: 2}
-  - {fileID: 11400000, guid: 089b787e64af911428db547fcb194f41, type: 2}
-  - {fileID: 11400000, guid: 02dbbefa1b31bde418fbaf12cc768a29, type: 2}
-  - {fileID: 11400000, guid: 6bac69ff774476541b9fdc3977da5976, type: 2}
-  - {fileID: 11400000, guid: 886c35140d51cb44eb0f021bb86f5871, type: 2}
+  playerSpawner: {fileID: 2094680867}
+  unitsLists: {fileID: 11400000, guid: 47406490dfae22442ae466b48bf97a33, type: 2}
+  towerToPlace: {fileID: 0}
   mana: 100
   manaRegen: 5
   unitButtons:
@@ -1967,6 +1960,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f628315d910a864fbfd1eff0ef8fa0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 7037220480807331756, guid: 3766a3decefa70b46999ff18930951f6,
+    type: 3}
+  playerSpawn: {fileID: 752077054}
+  Vcams:
+  - {fileID: 1465621968}
+  - {fileID: 1378678114}
 --- !u!4 &470813690
 Transform:
   m_ObjectHideFlags: 0
@@ -3923,12 +3922,18 @@ PrefabInstance:
     - target: {fileID: 7353847998751091911, guid: 83728073d6f32c644a0a48420e842e86,
         type: 3}
       propertyPath: spawnRate
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7353847998751091911, guid: 83728073d6f32c644a0a48420e842e86,
         type: 3}
+      propertyPath: unitsLists
+      value: 
+      objectReference: {fileID: 11400000, guid: 1a6b99c4294362241ad6b8a23252f9ac,
+        type: 2}
+    - target: {fileID: 7353847998751091911, guid: 83728073d6f32c644a0a48420e842e86,
+        type: 3}
       propertyPath: typesOfEnemies.Array.size
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7353847998751091911, guid: 83728073d6f32c644a0a48420e842e86,
         type: 3}
@@ -3939,31 +3944,31 @@ PrefabInstance:
         type: 3}
       propertyPath: typesOfEnemies.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 20087dfe81cdb724ea4fc082a4a1e04f,
+      objectReference: {fileID: 11400000, guid: 4165b4f3815c95549a7704e86af79478,
         type: 2}
     - target: {fileID: 7353847998751091911, guid: 83728073d6f32c644a0a48420e842e86,
         type: 3}
       propertyPath: typesOfEnemies.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 20087dfe81cdb724ea4fc082a4a1e04f,
+      objectReference: {fileID: 11400000, guid: 4165b4f3815c95549a7704e86af79478,
         type: 2}
     - target: {fileID: 7353847998751091911, guid: 83728073d6f32c644a0a48420e842e86,
         type: 3}
       propertyPath: typesOfEnemies.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: 20087dfe81cdb724ea4fc082a4a1e04f,
+      objectReference: {fileID: 11400000, guid: 4165b4f3815c95549a7704e86af79478,
         type: 2}
     - target: {fileID: 7353847998751091911, guid: 83728073d6f32c644a0a48420e842e86,
         type: 3}
       propertyPath: typesOfEnemies.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: 20087dfe81cdb724ea4fc082a4a1e04f,
+      objectReference: {fileID: 11400000, guid: 8ba07300ae61bdc4dbd93826aa44ec04,
         type: 2}
     - target: {fileID: 7353847998751091911, guid: 83728073d6f32c644a0a48420e842e86,
         type: 3}
       propertyPath: typesOfEnemies.Array.data[4]
       value: 
-      objectReference: {fileID: 11400000, guid: 20087dfe81cdb724ea4fc082a4a1e04f,
+      objectReference: {fileID: 11400000, guid: 8ba07300ae61bdc4dbd93826aa44ec04,
         type: 2}
     - target: {fileID: 7353847998751091911, guid: 83728073d6f32c644a0a48420e842e86,
         type: 3}

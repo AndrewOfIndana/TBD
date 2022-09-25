@@ -11,8 +11,7 @@ public class Bullet : MonoBehaviour
     */
 
     public float speed = 70f; //Store the speed of the bullet
-    [HideInInspector]
-    public float bulletAttack; //Stores the attack value of the bullet
+    [HideInInspector] public float bulletAttack; //Stores the attack value of the bullet
     private Transform target; //Private reference to the target's transform
 
     /*---      SETUP FUNCTIONS     ---*/

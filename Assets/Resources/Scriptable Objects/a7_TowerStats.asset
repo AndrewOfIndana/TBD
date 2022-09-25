@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e78e5a09b020ae84eb5b79cd949e6db8, type: 3}
+  m_Name: a7_TowerStats
+  m_EditorClassIdentifier: 
+  unitID: 7
+  unitName: ArcherTower
+  unitDescription: Shoots oncoming troops
+  unitHealth: 45
+  unitAttack: 2.5
+  unitSpeed: 0
+  unitAttackRange: 7.5
+  unitAttackRate: 1.1
+  unitSprite: {fileID: 21300000, guid: 49c4b6bd11d215c4daec257441805fd1, type: 3}
+  unitSize: {x: 1.1, y: 2.5, z: 1.1}
+  isUnitEnemy: 0
+  unitTag: AllyTower
+  targetTags:
+  - EnemyTroop
+  bulletTag: AllyBullet
+  oncomingBulletTag: EnemyBullet
+  oncomingTroopTag: EnemyTroop
+  oncomingAssassinTag: EnemyAssassin
+  oncomingTowerTag: EnemyTower
+  unitCost: 50
+  unitBehaviour: 5
