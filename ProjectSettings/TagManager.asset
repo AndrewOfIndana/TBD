@@ -12,6 +12,8 @@ TagManager:
   - AllyTower
   - AllyAssassin
   - AllyBullet
+  - EnemyBase
+  - AllyBase
   layers:
   - Default
   - TransparentFX
@@ -24,8 +26,8 @@ TagManager:
   - AllyUnit
   - AllyBullet
   - Tile
-  - 
-  - 
+  - AllyBase
+  - EnemyBase
   - 
   - 
   - 
@@ -48,4 +50,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: 2
+    uniqueID: 3002538647
     locked: 0

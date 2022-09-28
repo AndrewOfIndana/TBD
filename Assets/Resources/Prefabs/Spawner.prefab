@@ -12,9 +12,11 @@ GameObject:
   - component: {fileID: 7353847998751091909}
   - component: {fileID: 7353847998751091908}
   - component: {fileID: 7353847998751091911}
-  m_Layer: 0
+  - component: {fileID: 7342398662340521693}
+  - component: {fileID: 1835514305}
+  m_Layer: 12
   m_Name: Spawner
-  m_TagString: Untagged
+  m_TagString: EnemyBase
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 7353847998751091906}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6, y: 20, z: 6}
+  m_LocalScale: {x: 5.5, y: 20, z: 5.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -96,5 +98,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389a9ed51f367b540be8063ef599eb6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnRate: 0
-  typesOfEnemies: []
+  healthBar: {fileID: 0}
+  health: 0
+  spawnRate: 3
+  unitsLists: {fileID: 11400000, guid: 1a6b99c4294362241ad6b8a23252f9ac, type: 2}
+--- !u!65 &7342398662340521693
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7353847998751091906}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 1, z: 1.5}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1835514305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7353847998751091906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0432642b370f74fa6d29bd8230ea0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

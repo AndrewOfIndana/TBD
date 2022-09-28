@@ -32,6 +32,7 @@ public class Stats : ScriptableObject
     public string oncomingTroopTag;
     public string oncomingAssassinTag;
     public string oncomingTowerTag;
+    public string oncomingBaseTag;
 
     [Header("Other Attributes")]
     public float unitCost; //Cost of the unit

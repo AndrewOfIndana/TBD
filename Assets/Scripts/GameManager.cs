@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public GameObject playerPrefab; //Reference to the player prefab GameObject
     public Transform playerSpawn; //Reference to the player spawn Transform
     public CinemachineVirtualCamera[] Vcams; //Array of Cinemachine Virtual Cameras references
+    private GameObject playerAvatar;
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Starts on the first frame -*/
@@ -26,10 +27,9 @@ public class GameManager : MonoBehaviour
     /*-  Spawns player (TEMPORARY) -*/
     void TempSpawnPlayer()
     {
-        GameObject player = Instantiate(playerPrefab, playerSpawn.position, playerSpawn.rotation); //Spawns player prefab and stores it in a GameObject
+        playerAvatar = Instantiate(playerPrefab, playerSpawn.position, playerSpawn.rotation); //Spawns player prefab and stores it in a GameObject
         Vcams[0].Priority = 0; //sets overworld camera to priority 0
         Vcams[1].Priority = 1; //sets player camera to priority 1
-        Vcams[1].Follow = player.transform; //sets player camera's follow to the player's transform
+        Vcams[1].Follow = playerAvatar.transform; //sets player camera's follow to the player's transform
     }
-
 }

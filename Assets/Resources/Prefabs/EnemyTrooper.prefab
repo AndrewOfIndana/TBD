@@ -185,9 +185,6 @@ MonoBehaviour:
   speed: 0
   attackRate: 0
   attackRange: 0
-  targetDetected: {fileID: 0}
-  targetEngaged: {fileID: 0}
-  towerEngaged: {fileID: 0}
 --- !u!114 &6039887343698419176
 MonoBehaviour:
   m_ObjectHideFlags: 0
