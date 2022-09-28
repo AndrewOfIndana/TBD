@@ -340,7 +340,6 @@ MonoBehaviour:
   health: 0
   attackRate: 0
   attackRange: 0
-  targetsDetected: []
   speed: 0
 --- !u!65 &-3280512316852286127
 BoxCollider:

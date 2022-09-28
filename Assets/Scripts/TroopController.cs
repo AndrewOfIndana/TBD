@@ -27,13 +27,14 @@ public class TroopController : MonoBehaviour, IUnitController
     /*-  Script References -*/
     private Transform path; //A reference to the path transform
     private int wavePointIndex; //Keeps track of which waypoint the troop is at
-    private Transform targetDetected; //Private reference to the target the troop is trying to attack
+    public Transform targetDetected; //Private reference to the target the troop is trying to attack
     private IUnitController targetEngaged; //Private reference to the enemy troop the troop is engaged with
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Sets the units stats when the object has spawned from pool using the newStats Stats variables -*/
     public void SetUnit(Stats newStats)
     {
+
         stat = newStats; //Sets stats to newStats
         attack = newStats.unitAttack; //Sets attack to the newStats's unitAttack
         health = newStats.unitHealth; //Sets health to the newStats's unitHealth
@@ -112,22 +113,28 @@ public class TroopController : MonoBehaviour, IUnitController
             //if the troop reaches the last waypoint
             if(wavePointIndex >= WayPoints.points.Length - 1)
             {
-                this.gameObject.SetActive(false); //deactivate the troop
-                return; //Exits if statement
+                this.gameObject.SetActive(false);
+                return;
             }
-            wavePointIndex++; //Add the waypoint index
-            path = WayPoints.points[wavePointIndex]; //Sets path to new waypoint
+            else
+            {
+                wavePointIndex++; //Add the waypoint index
+                path = WayPoints.points[wavePointIndex]; //Sets path to new waypoint
+            }
         }
         else if(!stat.isUnitEnemy) //if the troop isn't an enemy
         {
             //if the troop reaches the first waypoint
             if(wavePointIndex <= 0)
             {
-                this.gameObject.SetActive(false); //deactivate the troop
-                return; //Exits if statement
+                this.gameObject.SetActive(false);
+                return;
             }
-            wavePointIndex--; //Subtracts the waypoint index
-            path = WayPoints.points[wavePointIndex]; //Sets path to new waypoint
+            else
+            {
+                wavePointIndex--; //Subtracts the waypoint index
+                path = WayPoints.points[wavePointIndex]; //Sets path to new waypoint
+            }
         }
     }
     /*-  Controls targeting -*/
@@ -183,7 +190,7 @@ public class TroopController : MonoBehaviour, IUnitController
             bullet.DestroyBullet(); //Calls the bullet's DestroyBullet
         }
         //if the object collider is the tag oncomingTroopTag or oncomingAssassinTag ot oncomingTowerTag
-        else if(other.gameObject.CompareTag(stat.oncomingTroopTag) || other.gameObject.CompareTag(stat.oncomingAssassinTag) || other.gameObject.CompareTag(stat.oncomingTowerTag))
+        else if(other.gameObject.CompareTag(stat.oncomingTroopTag) || other.gameObject.CompareTag(stat.oncomingAssassinTag) || other.gameObject.CompareTag(stat.oncomingTowerTag) || other.gameObject.CompareTag(stat.oncomingBaseTag))
         {
             targetEngaged = other.gameObject.GetComponent<IUnitController>(); //Gets the TroopController component and stores it in targetEngaged
             StartCoroutine(Combat(attackRate)); //Calls Combat IEnumerator at attackRate
@@ -197,7 +204,7 @@ public class TroopController : MonoBehaviour, IUnitController
         if(targetEngaged != null)
         {
             targetEngaged.TakeDamage(this.attack); //Transfer the enemy's troop's attack to the this script's TakeDamage function
-            StartCoroutine(Combat(attackRange * Random.Range(1, 1.5f))); //Recalls Combat IEnumerator at attackRate * random
+            StartCoroutine(Combat(attackRate * Random.Range(1, 1.5f))); //Recalls Combat IEnumerator at attackRate * random
         }
     }
     /*-  Handles taking damage takes a float that is the oncoming damage value -*/

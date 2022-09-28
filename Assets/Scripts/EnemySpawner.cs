@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner : MonoBehaviour, IUnitController
 {
     /*  
         Name: EnemySpawner.cs
@@ -10,6 +11,10 @@ public class EnemySpawner : MonoBehaviour
 
     */
     ObjectPool objectPool; //Reference to the object pool
+
+    public Image healthBar; //Reference to the health bar image of the troop
+    public float health;
+    private float maxHealth = 1000;
 
     public float spawnRate; //The spawn rate of the enemies
     public StatsList unitsLists;
@@ -39,5 +44,19 @@ public class EnemySpawner : MonoBehaviour
         }
 
         StartCoroutine(SpawnEnemy(rate)); //Recalls SpawnEnemy IEnumerator at spawnRate
+    }
+
+     /*-  Handles taking damage takes a float that is the oncoming damage value -*/
+    public void TakeDamage(float damage)
+    {
+        health -= damage; //Subtracts from health with damage
+        healthBar.fillAmount = health/maxHealth; //Resets healthBar by dividing health by maxHealth
+
+        //if health is less than or equal to 0
+        if(health <= 0)
+        {
+            this.gameObject.SetActive(false); //deactivate the troop
+            Debug.Log("Enemies Wins");
+        }
     }
 }

@@ -31,5 +31,6 @@ MonoBehaviour:
   oncomingTroopTag: AllyTroop
   oncomingAssassinTag: AllyAssassin
   oncomingTowerTag: AllyTower
+  oncomingBaseTag: AllyBase
   unitCost: 0
   unitBehaviour: 6

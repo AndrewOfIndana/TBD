@@ -75,6 +75,7 @@ public class PlayerAvatar : MonoBehaviour, IUnitController
         if(health <= 0)
         {
             this.gameObject.SetActive(false); //deactivate the troop
+            StartCoroutine(RespawnPlayer(10));
         }
     }
     private IEnumerator RegenerateHealth(float time)
@@ -89,5 +90,9 @@ public class PlayerAvatar : MonoBehaviour, IUnitController
         healthBar.fillAmount = health/stat.unitHealth; //Resets healthBar by dividing health by maxHealth
         StartCoroutine(RegenerateHealth(1f)); //Recalls RegenerateMana IEnumerator at 1 second
     }
-
+    public IEnumerator RespawnPlayer(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime); //Waits for rate
+        this.gameObject.SetActive(true);
+    }
 }

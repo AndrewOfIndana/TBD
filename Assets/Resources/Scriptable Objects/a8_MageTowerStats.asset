@@ -31,5 +31,6 @@ MonoBehaviour:
   oncomingTroopTag: EnemyTroop
   oncomingAssassinTag: EnemyAssassin
   oncomingTowerTag: EnemyTower
+  oncomingBaseTag: EnemyBase
   unitCost: 65
   unitBehaviour: 6

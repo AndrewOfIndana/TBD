@@ -28,10 +28,12 @@ MonoBehaviour:
   - AllyTower
   - AllyAssassin
   - AllyTroop
+  - AllyBase
   bulletTag: EnemyBullet
   oncomingBulletTag: AllyBullet
   oncomingTroopTag: AllyTroop
   oncomingAssassinTag: AllyAssassin
   oncomingTowerTag: AllyTower
+  oncomingBaseTag: AllyBase
   unitCost: 0
   unitBehaviour: 1

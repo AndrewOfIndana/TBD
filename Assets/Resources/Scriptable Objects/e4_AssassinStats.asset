@@ -24,11 +24,13 @@ MonoBehaviour:
   unitSize: {x: 1.5, y: 2, z: 1.5}
   isUnitEnemy: 1
   unitTag: EnemyAssassin
-  targetTags: []
+  targetTags:
+  - AllyBase
   bulletTag: EnemyBullet
   oncomingBulletTag: AllyBullet
   oncomingTroopTag: AllyTroop
   oncomingAssassinTag: AllyAssassin
   oncomingTowerTag: AllyTower
+  oncomingBaseTag: AllyBase
   unitCost: 0
   unitBehaviour: 3
