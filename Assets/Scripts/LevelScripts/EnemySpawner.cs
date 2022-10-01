@@ -13,8 +13,8 @@ public class EnemySpawner : MonoBehaviour, IUnitController
     ObjectPool objectPool; //Reference to the object pool
 
     public Image healthBar; //Reference to the health bar image of the troop
-    public float health;
-    private float maxHealth = 1000;
+    public float health = 1000;
+    private float maxHealth;
 
     public float spawnRate; //The spawn rate of the enemies
     public StatsList unitsLists;
@@ -26,6 +26,10 @@ public class EnemySpawner : MonoBehaviour, IUnitController
     {
         objectPool = ObjectPool.objectPoolInstance; ///Set objectPool to the objectPool instance 
         typesOfEnemies = unitsLists.statsLists;
+        maxHealth = health;
+    }
+    public void StartGame()
+    {
         StartCoroutine(SpawnEnemy(spawnRate)); //Calls SpawnEnemy IEnumerator at spawnRate
     }
 

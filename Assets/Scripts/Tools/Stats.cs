@@ -26,8 +26,9 @@ public class Stats : ScriptableObject
     [Header("Tag Attributes")]
     public bool isUnitEnemy; //is the unit an enemy
     public string unitTag;
-    public string[] targetTags;
     public string bulletTag;
+    public string[] targetTags;
+    public StatsTags oncomingTags;
     public string oncomingBulletTag;
     public string oncomingTroopTag;
     public string oncomingAssassinTag;

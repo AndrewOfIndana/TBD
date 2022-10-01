@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Starts when the script is first awake -*/
-    void Awake()
+    private void Awake()
     {
         //if another playerUnitsInstance exists 
         if(playerControllerInstance != null)
@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
         units = unitsLists.statsLists;
     }
     /*-  Starts on the first frame -*/
-    void Start()
+    private void Start()
     {
         UpdateUI(); //Calls the UpdateUI function
         lastSelection = 6; //Sets the lastSelection to 6
@@ -58,6 +58,9 @@ public class PlayerController : MonoBehaviour
         }
         unselected = unitButtonImgs[0].color; //Sets the unselected to the default img color
         unitButtonImgs[lastSelection].color = selected; //Sets the current towerToPlace button color to the selected img color
+    }
+    public void StartGame()
+    {
         StartCoroutine(RegenerateMana(1f)); //Calls RegenerateMana IEnumerator at 1 second
     }
     /*-  Adds listeners to each button, takes a button and the index from the for loop -*/
@@ -75,6 +78,7 @@ public class PlayerController : MonoBehaviour
     /*-  Checks if a button is clicked, uses an index to indicate which button -*/
     private void OnButtonClick(int index)
     {
+
         //if the mana minus the unitCost isn't less than or equal to 0
         if(CheckManaCost(units[index].unitCost))
         {

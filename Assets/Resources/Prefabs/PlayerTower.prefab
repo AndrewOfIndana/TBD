@@ -251,7 +251,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.1, y: 2.5, z: 1.1}
+  m_Size: {x: 1.75, y: 2.5, z: 1.75}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &-8070600105745491596
 MonoBehaviour:
@@ -374,7 +374,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 49c4b6bd11d215c4daec257441805fd1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fabb89ddc14ba4646a72c8462a0a0b87, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -456,7 +456,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &6732520006104090255
 MonoBehaviour:

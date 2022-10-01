@@ -12,15 +12,15 @@ public class PlayerSpawner : MonoBehaviour, IUnitController
     */
     ObjectPool objectPool; //Reference to the object pool
     public Image healthBar; //Reference to the health bar image of the troop
-    public float health;
-    private float maxHealth = 1000;
+    public float health = 1000;
+    private float maxHealth;
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Starts on the first frame -*/
     private void Start()
     {
         objectPool = ObjectPool.objectPoolInstance; //Set objectPool to the objectPool instance 
-        health = maxHealth;
+        maxHealth = health;
     }
 
     /*---      FUNCTIONS     ---*/

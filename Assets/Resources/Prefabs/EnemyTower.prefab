@@ -59,7 +59,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &2619954935567098796
 MonoBehaviour:
@@ -167,7 +167,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.1, y: 2.5, z: 1.1}
+  m_Size: {x: 1.75, y: 2.5, z: 1.75}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2938866095992955101
 MonoBehaviour:
@@ -290,7 +290,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c99b244a440695e489da3c78a1568d59, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3d7f308c94a24db498e1e44ab3304271, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
