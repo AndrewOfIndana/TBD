@@ -1,25 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerSpawner : MonoBehaviour, IUnitController
 {
     /*  
         Name: PlayerSpawner.cs
-        Description: This script spawns the Player's troops that will. The player controller script to handle what units need to spawn and such
+        Description: This script spawns the player's troops and sets the stats of the troop
 
     */
-    ObjectPool objectPool; //Reference to the object pool
-    public Image healthBar; //Reference to the health bar image of the troop
+    /*[Header("Static References")]*/
+    LevelManager levelManager;
+    LevelUI levelUI;
+    ObjectPool objectPool;
+
+    [Header("Health Variables")]
     public float health = 1000;
-    private float maxHealth;
+    [HideInInspector] public float maxHealth;
 
     /*---      SETUP FUNCTIONS     ---*/
-    /*-  Starts on the first frame -*/
+    /*-  Start is called before the first frame update -*/
     private void Start()
     {
-        objectPool = ObjectPool.objectPoolInstance; //Set objectPool to the objectPool instance 
+        /* Gets the static instances and stores them in the Static References */
+        levelManager = LevelManager.levelManagerInstance;
+        levelUI = LevelUI.levelUIinstance;
+        objectPool = ObjectPool.objectPoolInstance;
+
         maxHealth = health;
     }
 
@@ -27,8 +34,8 @@ public class PlayerSpawner : MonoBehaviour, IUnitController
     /*-  Spawns troops takes a Stats  -*/
     public void SpawnTroop(Stats unitToSpawn)
     {
-        GameObject allyObj = objectPool.SpawnFromPool("Ally", transform.position, Quaternion.identity); //Spawn an player troop from the pool
-        TroopController ally = allyObj.GetComponent<TroopController>(); //Gets the TroopController component from the spawned allyObj
+        GameObject allyObj = objectPool.SpawnFromPool("Ally", transform.position, Quaternion.identity);
+        TroopController ally = allyObj.GetComponent<TroopController>(); 
         
         //if this unit exist
         if(ally != null)
@@ -36,16 +43,17 @@ public class PlayerSpawner : MonoBehaviour, IUnitController
             ally.SetUnit(unitToSpawn); //Sets ally type and stats using the unitToSpawn Stats
         }
     }
+    /*-  Handles taking damage takes a float that is the oncoming damage value -*/
     public void TakeDamage(float damage)
     {
-        health -= damage; //Subtracts from health with damage
-        healthBar.fillAmount = health/maxHealth; //Resets healthBar by dividing health by maxHealth
+        health -= damage; 
+        levelUI.UpdateUI(); //Updates UI in the levelUI
 
         //if health is less than or equal to 0
         if(health <= 0)
         {
+            levelManager.ChangeState(GameStates.LOSE); //Sets GameStates to LOSE in the levelManager
             this.gameObject.SetActive(false); //deactivate the troop
-            Debug.Log("Player Wins");
         }
     }
 }

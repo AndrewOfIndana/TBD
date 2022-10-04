@@ -5,5 +5,11 @@ using UnityEngine;
 [CreateAssetMenu] //Allows user create stats
 public class StatsList : ScriptableObject
 {
-    public Stats[] statsLists;
+    /*  
+        Name: StatsList.cs
+        Description: A ScriptableObject that holds a array of unit stats
+
+    */    
+
+    public Stats[] statsLists; //Array of units
 }

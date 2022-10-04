@@ -5,16 +5,24 @@ using UnityEngine;
 [CreateAssetMenu] //Allows user create stats
 public class Level : ScriptableObject
 {
+    /*  
+        Name: Level.cs
+        Description: A ScriptableObject that holds level specific variables for each level
+
+    */    
+
     [Header("Information")]
-    public int levelID; //The ID number of the unit
-    public string levelName; //Name of the unit
+    public int levelID; //The ID number of the level
+    public string levelName; //Name of the level
 
-    public StatsList availbleUnits;
-    public int unitLimit;
-    //public cards availableCards;
-    public int cardLimit;
+    [Header("Player Variables")]
+    public StatsList availbleUnits; //The available units the player can choose from
+    public int unitLimit; //the limit of units the player can choose
+    //public cards availableCards;  //The available cards the player can choose from
+    public int cardLimit; //the limit of cards the player can choose
 
-    public StatsList enemyUnits;
-    //public cards enemyCards;
-    public float enemySpawnRate;
+    [Header("Enemy Variables")]
+    public StatsList enemyUnits; //the units the enemy has for this level
+    //public cards enemyCards; //the cards the enemy has for this level
+    public float enemySpawnRate; ///the spawn rate of the enemy spawner
 }

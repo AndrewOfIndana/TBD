@@ -10,9 +10,9 @@ public class ObjectPool : MonoBehaviour
         Description: This script allows for object pooling, or reusing the same objects instead of creating and deleting new ones.
 
     */
-    public static ObjectPool objectPoolInstance; //A static object that can be accessed in any script 
-    /*  A class called pool stores what the objects name is what it is instantiating from the pool and how many of it is in the pool */
+    public static ObjectPool objectPoolInstance;
 
+    /*  A class called pool stores what the objects name is what it is instantiating from the pool and how many of it is in the pool */
     [System.Serializable] //Allows the class to be edited in editor
     public class Pool 
     {
@@ -25,17 +25,16 @@ public class ObjectPool : MonoBehaviour
     public Dictionary<string, Queue<GameObject>> poolDictionary; //A dictionary that stores the name and a gameObject
 
     /*---      SETUP FUNCTIONS     ---*/
-    /*-  Starts when script is awake -*/
-    public void Awake()
+    /*-  Awake is called when the script is being loaded -*/
+    private void Awake()
     {
         objectPoolInstance = this; //Set objectPoolInstance to this gameObject 
     }
-    /*-  Starts on the first frame -*/
-    void Start()
+    /*-  Start is called before the first frame update -*/
+    private void Start()
     {
-        poolDictionary = new Dictionary<string, Queue<GameObject>>(); //Instantiates a new poolDictionary
+        poolDictionary = new Dictionary<string, Queue<GameObject>>(); 
 
-        //for every pool in the list of pools
         foreach(Pool pool in pools)
         {
             Queue<GameObject> pooledObj = new Queue<GameObject>(); //Instantiates a new Queue of objects named pooledObj
@@ -43,8 +42,8 @@ public class ObjectPool : MonoBehaviour
             //for loop that makes and enqueue each new gameObject in the pool
             for(int i = 0; i < pool.objNum; i++)
             {
-                GameObject obj = Instantiate(pool.objPrefab); //Instantiates the gameObject from the pools prefab
-                obj.SetActive(false); //Disables object by default
+                GameObject obj = Instantiate(pool.objPrefab); 
+                obj.SetActive(false); 
                 pooledObj.Enqueue(obj); //Adds object the pooledObj queue
             }
 
@@ -60,13 +59,13 @@ public class ObjectPool : MonoBehaviour
         if(!poolDictionary.ContainsKey(name))
         {
             Debug.Log("Pool with the name: " + name + " doesn't exist");
-            return null; //return nothing
+            return null;
         }
 
         GameObject spawnedObj = poolDictionary[name].Dequeue(); //Dequeue the object from the pool
-        spawnedObj.SetActive(true); //enables the object
-        spawnedObj.transform.position = spawnPosition; //sets the object's position to spawnPosition
-        spawnedObj.transform.rotation = spawnRotation; //sets the object's rotation to spawnRotation
+        spawnedObj.SetActive(true);
+        spawnedObj.transform.position = spawnPosition; 
+        spawnedObj.transform.rotation = spawnRotation;
 
         poolDictionary[name].Enqueue(spawnedObj); //Readds spawnedObj to the poolDictionary
         return spawnedObj; //Returns spawnedObj as a GameObject

@@ -16,22 +16,19 @@ MonoBehaviour:
   unitName: Player
   unitDescription: Playable Character
   unitHealth: 100
-  unitAttack: 1
+  unitAttack: 2.5
   unitSpeed: 5
   unitAttackRange: 7.5
   unitAttackRate: 0
-  unitSprite: {fileID: 0}
-  unitSize: {x: 0, y: 0, z: 0}
+  unitSprite: {fileID: 21300000, guid: 3118d2cad8e7b4d448b7ae209ba465a5, type: 3}
+  unitSize: {x: 1.5, y: 2, z: 1.5}
   isUnitEnemy: 0
   unitTag: Player
   targetTags:
   - EnemyTroop
   - EnemyAssassin
   - EnemyTower
-  bulletTag: 
-  oncomingBulletTag: 
-  oncomingTroopTag: 
-  oncomingAssassinTag: 
-  oncomingTowerTag: 
+  sharedTags: {fileID: 11400000, guid: fef36fcd149f1b74d9614a1e3e09f962, type: 2}
   unitCost: 0
+  unitType: 0
   unitBehaviour: 0

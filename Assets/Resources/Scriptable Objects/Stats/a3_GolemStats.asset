@@ -19,19 +19,14 @@ MonoBehaviour:
   unitAttack: 7.5
   unitSpeed: 3.5
   unitAttackRange: 5
-  unitAttackRate: 1
+  unitAttackRate: 2
   unitSprite: {fileID: 21300000, guid: 655361c06c2df1347a2b164d5622e44d, type: 3}
   unitSize: {x: 1.5, y: 2, z: 1.5}
   isUnitEnemy: 0
   unitTag: AllyTroop
   targetTags:
   - EnemyTroop
-  - EnemyAssassin
-  bulletTag: AllyBullet
-  oncomingBulletTag: EnemyBullet
-  oncomingTroopTag: EnemyTroop
-  oncomingAssassinTag: EnemyAssassin
-  oncomingTowerTag: EnemyTower
-  oncomingBaseTag: EnemyBase
+  sharedTags: {fileID: 11400000, guid: fef36fcd149f1b74d9614a1e3e09f962, type: 2}
   unitCost: 30
+  unitType: 0
   unitBehaviour: 2

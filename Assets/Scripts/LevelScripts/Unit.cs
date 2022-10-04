@@ -4,20 +4,29 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    public static List<Unit> unitList = new List<Unit>();
+    /*  
+        Name: Unit.cs
+        Description: This script holds a static list of Units
 
+    */
+    public static List<Unit> unitList = new List<Unit>(); //A static list of Units
+
+    /*---      SETUP FUNCTIONS     ---*/
+    /*-  OnEnable is called when the object becomes enabled -*/
+    private void OnEnable()
+    {
+        unitList.Add(this); //Adds this unit to unitList
+    }
+
+    /*---      FUNCTIONS     ---*/
+    /*-  Returns the lists of Units -*/
     public static List<Unit> GetUnitList()
     {
         return unitList;
     }
-
-    private void OnEnable()
-    {
-        unitList.Add(this);
-    }
-    
+    /*-  OnDisable is called when the object becomes disabled -*/
     private void OnDisable()
     {
-        unitList.Remove(this);
+        unitList.Remove(this); //Removes this unit to unitList
     }
 }

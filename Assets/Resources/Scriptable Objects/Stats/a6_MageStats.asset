@@ -27,11 +27,7 @@ MonoBehaviour:
   targetTags:
   - AllyTroop
   - AllyAssassin
-  bulletTag: AllyBullet
-  oncomingBulletTag: EnemyBullet
-  oncomingTroopTag: EnemyTroop
-  oncomingAssassinTag: EnemyAssassin
-  oncomingTowerTag: EnemyTower
-  oncomingBaseTag: EnemyBase
+  sharedTags: {fileID: 11400000, guid: fef36fcd149f1b74d9614a1e3e09f962, type: 2}
   unitCost: 25
+  unitType: 0
   unitBehaviour: 4

@@ -16,7 +16,7 @@ MonoBehaviour:
   unitName: ArcherTower
   unitDescription: Shoots oncoming troops
   unitHealth: 45
-  unitAttack: 2.5
+  unitAttack: 3
   unitSpeed: 0
   unitAttackRange: 7.5
   unitAttackRate: 1.1
@@ -24,14 +24,9 @@ MonoBehaviour:
   unitSize: {x: 1.75, y: 2.5, z: 1.75}
   isUnitEnemy: 0
   unitTag: AllyTower
-  bulletTag: AllyBullet
   targetTags:
   - EnemyTroop
-  oncomingTags: {fileID: 0}
-  oncomingBulletTag: EnemyBullet
-  oncomingTroopTag: EnemyTroop
-  oncomingAssassinTag: EnemyAssassin
-  oncomingTowerTag: EnemyTower
-  oncomingBaseTag: EnemyBase
+  sharedTags: {fileID: 11400000, guid: fef36fcd149f1b74d9614a1e3e09f962, type: 2}
   unitCost: 50
-  unitBehaviour: 5
+  unitType: 1
+  unitBehaviour: 1

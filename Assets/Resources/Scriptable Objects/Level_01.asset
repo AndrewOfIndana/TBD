@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b4ec079c7d918a468e4559501702bd3, type: 3}
+  m_Name: Level_01
+  m_EditorClassIdentifier: 
+  levelID: 1
+  levelName: Level 1
+  availbleUnits: {fileID: 11400000, guid: 47406490dfae22442ae466b48bf97a33, type: 2}
+  unitLimit: 8
+  cardLimit: 8
+  enemyUnits: {fileID: 11400000, guid: 1a6b99c4294362241ad6b8a23252f9ac, type: 2}
+  enemySpawnRate: 3

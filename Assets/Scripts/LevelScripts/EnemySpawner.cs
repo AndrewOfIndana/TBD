@@ -1,66 +1,74 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class EnemySpawner : MonoBehaviour, IUnitController
 {
     /*  
         Name: EnemySpawner.cs
-        Description: This script spawns the enemies that will continually assault the player's home base. The enemies will spawn randomly from an array of enemies.
+        Description: This script spawns enemies and sets the stats of the enemy
 
     */
-    ObjectPool objectPool; //Reference to the object pool
+    /*[Header("Static References")]*/
+    LevelManager levelManager;
+    LevelUI levelUI;
+    ObjectPool objectPool;
 
-    public Image healthBar; //Reference to the health bar image of the troop
+    [Header("Health Variables")]
     public float health = 1000;
-    private float maxHealth;
+    [HideInInspector] public float maxHealth;
 
-    public float spawnRate; //The spawn rate of the enemies
-    public StatsList unitsLists;
-    private Stats[] typesOfEnemies; //The types of enemies available
+    [Header("Spawn References")]
+    public float spawnRate; 
+    public StatsList unitsLists; //A StatsList that is retrieved from the LevelManager
+    // [HideInInspector] public StatsList unitsLists; //A StatsList that is retrieved from the LevelManager
+    private Stats[] typesOfEnemies; //An array of stats retrieved from unitsLists
 
     /*---      SETUP FUNCTIONS     ---*/
-    /*-  Starts on the first frame -*/
+    /*-  Start is called before the first frame update -*/
     private void Start()
     {
-        objectPool = ObjectPool.objectPoolInstance; ///Set objectPool to the objectPool instance 
-        typesOfEnemies = unitsLists.statsLists;
+        typesOfEnemies = unitsLists.statsLists; //Retrieves unitsLists.statsLists and sets it to typesOfEnemies 
+
+        /* Gets the static instances and stores them in the Static References */
+        levelManager = LevelManager.levelManagerInstance;
+        levelUI = LevelUI.levelUIinstance;
+        objectPool = ObjectPool.objectPoolInstance;
+
         maxHealth = health;
     }
+    /*-  StartGame is called when the game has started -*/
     public void StartGame()
     {
-        StartCoroutine(SpawnEnemy(spawnRate)); //Calls SpawnEnemy IEnumerator at spawnRate
+        StartCoroutine(SpawnEnemy(spawnRate));
     }
 
     /*---      FUNCTIONS     ---*/
     /*-  Repeatedly spawns Enemy takes a float for the time -*/
     private IEnumerator SpawnEnemy(float rate)
     {
-        yield return new WaitForSeconds(rate); //Waits for rate
-        GameObject enemyObj = objectPool.SpawnFromPool("Enemy", transform.position, Quaternion.identity); //Spawn an enemy from the pool
-        TroopController enemy = enemyObj.GetComponent<TroopController>(); //Gets the EnemyTroopController component from the spawned enemyObj
+        yield return new WaitForSeconds(rate); 
+        GameObject enemyObj = objectPool.SpawnFromPool("Enemy", transform.position, Quaternion.identity);
+        TroopController enemy = enemyObj.GetComponent<TroopController>();
         
         //if this enemy exist
         if(enemy != null)
         {
             enemy.SetUnit(typesOfEnemies[Random.Range(0, typesOfEnemies.Length)]); //Sets enemy type and stats based on random number generator
         }
-
-        StartCoroutine(SpawnEnemy(rate)); //Recalls SpawnEnemy IEnumerator at spawnRate
+        StartCoroutine(SpawnEnemy(rate)); 
     }
-
-     /*-  Handles taking damage takes a float that is the oncoming damage value -*/
+    /*-  Handles taking damage takes a float that is the oncoming damage value -*/
     public void TakeDamage(float damage)
     {
-        health -= damage; //Subtracts from health with damage
-        healthBar.fillAmount = health/maxHealth; //Resets healthBar by dividing health by maxHealth
+        health -= damage; 
+        levelUI.UpdateUI(); //Updates UI in the levelUI
 
         //if health is less than or equal to 0
         if(health <= 0)
         {
+            levelManager.ChangeState(GameStates.WIN); //Sets GameStates to WIN in the levelManager
             this.gameObject.SetActive(false); //deactivate the troop
-            Debug.Log("Enemies Wins");
         }
     }
 }

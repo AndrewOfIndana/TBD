@@ -6,42 +6,43 @@ public class Bullet : MonoBehaviour
 {
     /*  
         Name: Bullet.cs
-        Description: This script controls bullets spawned by towers, and units
+        Description: This script controls bullets spawned by towers and the speed of the bullet
 
     */
 
-    public float speed = 70f; //Store the speed of the bullet
-    [HideInInspector] public float bulletAttack; //Stores the attack value of the bullet
-    private Transform target; //Private reference to the target's transform
+    public float speed;
+    [HideInInspector] public float bulletAttack;
+    private Transform target;
 
     /*---      SETUP FUNCTIONS     ---*/
-    /*-  Sets target to the tower's enemyDetected as well as the attack value -*/
+    /*-  Sets target to the tower's enemyDetected as well as bullet's attack value -*/
     public void Seek(Transform targ, float atk)
     {
-        target = targ; //Sets target to targ
-        bulletAttack = atk; //Sets bulletAttack to the unit's atk
+        target = targ;
+        bulletAttack = atk; 
     }
 
     /*---      UPDATE FUNCTIONS     ---*/
-    /*-  Is called every frame -*/
-    void Update()
+    /*-  Update is called once per frame -*/
+    private void Update()
     {
         //if target doesn't exist
         if(target == null)
         {
-            DestroyBullet(); //Calls DestroyBullet
+            DestroyBullet();
             return; //Exits if statement
         }
 
-        Vector3 dir = target.position - transform.position; //Gets direction from target's and this object's position and stores it in a Vector3
-        float distanceThisFrame = speed * Time.deltaTime; //The amount of distance covered by the speed times the time
-        transform.Translate(dir.normalized * distanceThisFrame, Space.World); //Moves the bullet towards the enemy
+        Vector3 dir = target.position - transform.position;
+        float distanceThisFrame = speed * Time.deltaTime; 
+        transform.Translate(dir.normalized * distanceThisFrame, Space.World); 
         Invoke("DestroyBullet", .5f); //Destroys bullet after half a second
     }
+    
     /*---      FUNCTIONS     ---*/
     /*-  Destroys the bullet -*/
     public void DestroyBullet()
     {
-        this.gameObject.SetActive(false); //Disables the bullet
+        this.gameObject.SetActive(false); 
     }
 }

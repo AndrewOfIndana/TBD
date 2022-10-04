@@ -6,23 +6,23 @@ public class Billboard : MonoBehaviour
 {
     /*  
         Name: Billboard.cs
-        Description: This script forces GameObjects to face the camera
+        Description: This script causes 2D sprites to face the camera
 
-    */
-    private Transform cam; //Private transform reference to a current camera
+    */    
+    private Transform cam;
 
     /*---      SETUP FUNCTIONS     ---*/
-    /*-  Starts on the first frame -*/
+    /*-  Start is called before the first frame update -*/
     private void Start() 
     {
-        cam = Camera.main.transform; //Sets cam as the main camera's transform
+        cam = Camera.main.transform;
     }
 
     /*---      UPDATE FUNCTIONS     ---*/
-    /*-  Is called every frame late -*/
-    void LateUpdate() 
+    /*-  LateUpdate is called once per frame after Update -*/
+    private void LateUpdate() 
     {
-        transform.LookAt(transform.position + cam.forward); //Faces GameObjects towards the camera
+        transform.LookAt(transform.position + cam.forward);
     }
 }
 

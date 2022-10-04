@@ -6,35 +6,27 @@ public class Tile : MonoBehaviour
 {
     /*  
         Name: Tile.cs
-        Description: This script checks if a mouse is on a tile, allows the player to create a tower on top of said tile, and checks if the tile is used or not
+        Description: This script holds a static list of transforms of each tile
 
     */
-    public Vector3 positionOffset; //Stores the offset of an spawned GameObject tower
-    private PlayerController playerController;
+    public static List<Transform> tiles = new List<Transform>(); //A static list of transform
 
-    void Start()
+    /*---      SETUP FUNCTIONS     ---*/
+    /*-  OnEnable is called when the object becomes enabled -*/
+    private void OnEnable()
     {
-        playerController = PlayerController.playerControllerInstance;
+        tiles.Add(this.gameObject.transform); //Adds this transform to tiles
     }
 
     /*---      FUNCTIONS     ---*/
-    /*-  Checks if a mouse is on screen -*/
-    void OnMouseDown()
+    /*-  Returns the lists of transform -*/
+    public static List<Transform> GetTiles()
     {
-        // if(Input.GetMouseButtonDown(1))
-        // {
-            if(playerController.CheckManaCost(playerController.towerToPlace.unitCost))
-            {
-                GameObject playerTowerObj = ObjectPool.objectPoolInstance.SpawnFromPool("AllyTower", transform.position + positionOffset, Quaternion.identity); //Spawn an player tower from the pool
-                TowerController playerTower = playerTowerObj.GetComponent<TowerController>(); //Gets the PlayerTowerController component from the spawned playerTowerObj
-
-                //if this playerTower exist
-                if(playerTower != null)
-                {
-                    playerTower.SetUnit(playerController.GetTowerToPlace()); //Sets player tower type and stats using playerControllerInstance.GetTowerToPlace()
-                    playerTower.firingPoint.transform.position = playerTower.firingPoint.transform.position + positionOffset; //Offsets playerTower's firingPoint's position
-                }
-            }
-        // }
+        return tiles;
+    }
+    /*-  OnDisable is called when the object becomes disabled -*/
+    private void OnDisable()
+    {
+        tiles.Remove(this.gameObject.transform); //Removes this transform to tiles
     }
 }

@@ -7,40 +7,41 @@ public class PlayerAvatar : MonoBehaviour, IUnitController
 {
     /*  
         Name: PlayerAvatar.cs
-        Description: This script controls the player avatar
+        Description: This script controls the player avatar and the counts as a unit
         
     */
-    public Image healthBar; //Reference to the health bar image of the troop
-    private Rigidbody playerRb; //Reference to a rigidbody
+    /*[Header("Static Variables")]*/
+    List<Transform> availableTiles;
 
-    /*-  UnitStats Values -*/
-    public Stats stat; //Stores the Stats of the troop
-    [HideInInspector] public float attack; //Store the attack of the troop
-    [HideInInspector] public float health; //Store the health of the troop
-    [HideInInspector] public float attackRate; //Store the attack rate of the troop
-    [HideInInspector] public float attackRange; //Store the attack range of the troop
+    [Header("GameObject References")]
+    public Image healthBar;
+    private Rigidbody playerRb; 
 
-    /*-  Script References -*/
+    [Header("Stats Variables")]
+    public Stats stat; 
+    [HideInInspector] public float attack; 
+    [HideInInspector] public float health; 
+    [HideInInspector] public float speed;
+    [HideInInspector] public float attackRate; 
+    [HideInInspector] public float attackRange;
+
+    [Header("Script References")]
+    public Transform closestTilt;
     private IUnitController targetEngaged; //Private reference to the enemy troop the troop is engaged with
-
-    [Header("Movement Variables")]
-    [HideInInspector] public float speed; //Store the speed of the troop
-    private Vector3 velocity; //Stores the velocity of the player
+    private Vector3 velocity;
 
     /*---      SETUP FUNCTIONS     ---*/
-    /*-  Starts on the first frame -*/
+    /*-  Start is called before the first frame update -*/
     private void Start()
     {
-        playerRb = this.GetComponent<Rigidbody>(); //Gets the rigidbody component
-        attack = stat.unitAttack;
-        health = stat.unitHealth;
-        speed = stat.unitSpeed;
-        attackRate = stat.unitAttackRate;
-        attackRange = stat.unitAttackRange;
-        StartCoroutine(RegenerateHealth(1f)); //Calls RegenerateMana IEnumerator at 1 second
+        playerRb = this.GetComponent<Rigidbody>();
+        availableTiles = Tile.GetTiles(); //Gets the list of transform from Tile
+        closestTilt = availableTiles[0];
     }
+    /*-  OnEnable is called when the object becomes enabled -*/
     private void OnEnable()
     {
+        /* Gets the Stats from stats and store them in Stats Variables */
         attack = stat.unitAttack;
         health = stat.unitHealth;
         speed = stat.unitSpeed;
@@ -50,52 +51,70 @@ public class PlayerAvatar : MonoBehaviour, IUnitController
     }
 
     /*---      UPDATE FUNCTIONS     ---*/
-    /*-  Is called every frame -*/
+    /*-  Update is called once per frame -*/
     private void Update()
     {
-        velocity.x = Input.GetAxis("Horizontal"); //Set velocity x from the input horizontal axis
-        velocity.z = Input.GetAxis("Vertical"); //Set velocity z from the input vertical axis
+        /* Movement Code */
+        velocity.x = Input.GetAxis("Horizontal");
+        velocity.z = Input.GetAxis("Vertical"); 
+        playerRb.MovePosition(playerRb.position + velocity * speed * Time.deltaTime);
 
-        playerRb.MovePosition(playerRb.position + velocity * speed * Time.deltaTime); //Moves player
-
-
+        /* Combat Code */
+        //if the player clicks the left mouse button
         if(Input.GetMouseButtonDown(0))
         { 
             RaycastHit hit; 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
 
+            //Fires a raycast at where the player clicks the mouse
             if (Physics.Raycast(ray, out hit, attackRange))
             {
+                //If what the player hit is the same as the player's stat.targetTags[0 ,1 and 2]
                 if(hit.transform.gameObject.tag == stat.targetTags[0] || hit.transform.gameObject.tag == stat.targetTags[1] || hit.transform.gameObject.tag == stat.targetTags[2])
                 {
-                    targetEngaged = hit.transform.gameObject.GetComponent<IUnitController>(); //Gets the TroopController component and stores it in targetEngaged
-                    targetEngaged.TakeDamage(attack);
+                    targetEngaged = hit.transform.gameObject.GetComponent<IUnitController>(); 
+                    targetEngaged.TakeDamage(attack); //Transfer the players's attack to the  targetEngaged script's TakeDamage function
                 }
             }
         }
     }
-    /*-  Handles taking damage takes a float that is the oncoming damage value -*/
-    public void TakeDamage(float damage)
-    {
-        health -= damage; //Subtracts from health with damage
-        healthBar.fillAmount = health/stat.unitHealth; //Resets healthBar by dividing health by maxHealth
 
-        //if health is less than or equal to 0
-        if(health <= 0)
-        {
-            this.gameObject.SetActive(false); //deactivate the troop
-        }
-    }
+    /*---      FUNCTIONS     ---*/
+    /*-  Repeatedly regenerates health, takes a float for the time -*/
     private IEnumerator RegenerateHealth(float time)
     {
-        yield return new WaitForSeconds(time); //Waits for time
+        yield return new WaitForSeconds(time);
+
+        /* Checks if the player is close to a tile and sets closestTilt to closets tile */
+        for(int i = 0; i < availableTiles.Count; i++)
+        {
+            //If he player is near an availableTiles
+            if(Vector3.Distance(availableTiles[i].position, this.transform.position) < 2f)
+            {
+                closestTilt = availableTiles[i];
+            }
+        }
+
+        /* Health regeneration */
 
         //if the mana plus manaRegen is less than 100
         if((health + 1) <= stat.unitHealth)
         {
-            health += 1; //Adds manaRegen to mana
+            health += 1;
         }
-        healthBar.fillAmount = health/stat.unitHealth; //Resets healthBar by dividing health by maxHealth
-        StartCoroutine(RegenerateHealth(1f)); //Recalls RegenerateMana IEnumerator at 1 second
+        healthBar.fillAmount = health/stat.unitHealth; //Resets healthBar
+        StartCoroutine(RegenerateHealth(1f));
+    }
+    /*-  Handles taking damage takes a float that is the oncoming damage value -*/
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        healthBar.fillAmount = health/stat.unitHealth; //Resets healthBar
+
+        //if health is less than or equal to 0
+        if(health <= 0)
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 }
