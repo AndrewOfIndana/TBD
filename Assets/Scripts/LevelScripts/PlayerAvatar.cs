@@ -15,18 +15,18 @@ public class PlayerAvatar : MonoBehaviour, IUnitController
 
     [Header("GameObject References")]
     public Image healthBar;
-    private Rigidbody playerRb; 
+    private Rigidbody playerRb;
 
     [Header("Stats Variables")]
-    public Stats stat; 
-    [HideInInspector] public float attack; 
-    [HideInInspector] public float health; 
+    public Stats stat;
+    [HideInInspector] public float attack;
+    [HideInInspector] public float health;
     [HideInInspector] public float speed;
-    [HideInInspector] public float attackRate; 
+    [HideInInspector] public float attackRate;
     [HideInInspector] public float attackRange;
 
     [Header("Script References")]
-    public Transform closestTilt;
+    public Transform closestTile;
     private IUnitController targetEngaged; //Private reference to the enemy troop the troop is engaged with
     private Vector3 velocity;
 
@@ -36,7 +36,7 @@ public class PlayerAvatar : MonoBehaviour, IUnitController
     {
         playerRb = this.GetComponent<Rigidbody>();
         availableTiles = Tile.GetTiles(); //Gets the list of transform from Tile
-        closestTilt = availableTiles[0];
+        closestTile = availableTiles[0]; //Sets closestTile to the first availableTiles list item
     }
     /*-  OnEnable is called when the object becomes enabled -*/
     private void OnEnable()
@@ -56,23 +56,23 @@ public class PlayerAvatar : MonoBehaviour, IUnitController
     {
         /* Movement Code */
         velocity.x = Input.GetAxis("Horizontal");
-        velocity.z = Input.GetAxis("Vertical"); 
+        velocity.z = Input.GetAxis("Vertical");
         playerRb.MovePosition(playerRb.position + velocity * speed * Time.deltaTime);
 
         /* Combat Code */
         //if the player clicks the left mouse button
-        if(Input.GetMouseButtonDown(0))
-        { 
-            RaycastHit hit; 
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             //Fires a raycast at where the player clicks the mouse
             if (Physics.Raycast(ray, out hit, attackRange))
             {
                 //If what the player hit is the same as the player's stat.targetTags[0 ,1 and 2]
-                if(hit.transform.gameObject.tag == stat.targetTags[0] || hit.transform.gameObject.tag == stat.targetTags[1] || hit.transform.gameObject.tag == stat.targetTags[2])
+                if (hit.transform.gameObject.tag == stat.targetTags[0] || hit.transform.gameObject.tag == stat.targetTags[1] || hit.transform.gameObject.tag == stat.targetTags[2])
                 {
-                    targetEngaged = hit.transform.gameObject.GetComponent<IUnitController>(); 
+                    targetEngaged = hit.transform.gameObject.GetComponent<IUnitController>();
                     targetEngaged.TakeDamage(attack); //Transfer the players's attack to the  targetEngaged script's TakeDamage function
                 }
             }
@@ -86,33 +86,33 @@ public class PlayerAvatar : MonoBehaviour, IUnitController
         yield return new WaitForSeconds(time);
 
         /* Checks if the player is close to a tile and sets closestTilt to closets tile */
-        for(int i = 0; i < availableTiles.Count; i++)
+        for (int i = 0; i < availableTiles.Count; i++)
         {
             //If he player is near an availableTiles
-            if(Vector3.Distance(availableTiles[i].position, this.transform.position) < 2f)
+            if (Vector3.Distance(availableTiles[i].position, this.transform.position) < 2.5f)
             {
-                closestTilt = availableTiles[i];
+                closestTile = availableTiles[i];
             }
         }
 
         /* Health regeneration */
 
         //if the mana plus manaRegen is less than 100
-        if((health + 1) <= stat.unitHealth)
+        if ((health + 1) <= stat.unitHealth)
         {
             health += 1;
         }
-        healthBar.fillAmount = health/stat.unitHealth; //Resets healthBar
+        healthBar.fillAmount = health / stat.unitHealth; //Resets healthBar
         StartCoroutine(RegenerateHealth(1f));
     }
     /*-  Handles taking damage takes a float that is the oncoming damage value -*/
     public void TakeDamage(float damage)
     {
         health -= damage;
-        healthBar.fillAmount = health/stat.unitHealth; //Resets healthBar
+        healthBar.fillAmount = health / stat.unitHealth; //Resets healthBar
 
         //if health is less than or equal to 0
-        if(health <= 0)
+        if (health <= 0)
         {
             this.gameObject.SetActive(false);
         }

@@ -49,7 +49,7 @@ public class TroopMovement : MonoBehaviour
             transform.Translate(dir.normalized * troopController.speed * Time.deltaTime, Space.World);
 
             //If the troop has reached a waypoint calculate a new waypoint
-            if (Vector3.Distance(transform.position, path.position) <= .25f)
+            if (Vector3.Distance(transform.position, path.position) <= 1f)
             {
                 GetNextWaypoint();
             }
@@ -58,7 +58,6 @@ public class TroopMovement : MonoBehaviour
         {
             /* MOVES TROOP TO OPPONENT */
 
-            //if this position and targetDetected's position is greater 2
             if(Vector3.Distance(transform.position, troopController.targetDetected.position) >= 2f)
             {
                 Vector3 dir = troopController.targetDetected.position - transform.position; 

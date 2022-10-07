@@ -64,6 +64,7 @@ public class TroopController : MonoBehaviour, IUnitController
         if(stat.unitBehaviour != Behaviour.KAMIKAZE)
         {
             Targeting();
+            Engaging();
             StartCoroutine(UpdateTarget(1f)); //Recalls Aiming IEnumerator at attackRate
         }
     }
@@ -97,10 +98,10 @@ public class TroopController : MonoBehaviour, IUnitController
             targetDetected = nearestTarget;
 
             //if the unit's behaviour isn't RANGED
-            if(stat.unitBehaviour == Behaviour.RANGED)
+            if(stat.unitBehaviour == Behaviour.RANGED && targetEngaged == null)
             {
                 targetEngaged = targetDetected.gameObject.GetComponent<IUnitController>(); 
-                StartCoroutine(Combat(attackRate * Random.Range(.75f, 1.25f))); //Calls Combat IEnumerator at attackRate * random
+                StartCoroutine(Combat(attackRate, 1.5f, 2f)); //Calls Combat IEnumerator at attackRate * random
             }
         }
         else
@@ -109,6 +110,19 @@ public class TroopController : MonoBehaviour, IUnitController
             targetEngaged = null;
         }
     }
+    private void Engaging()
+    {
+        //if this position and targetDetected's position is greater 2
+        if(targetDetected != null)
+        {
+            if(Vector3.Distance(transform.position, targetDetected.position) <= 2f && stat.unitBehaviour != Behaviour.RANGED && targetEngaged == null)
+            {
+                targetEngaged = targetDetected.gameObject.GetComponent<IUnitController>(); 
+                StartCoroutine(Combat(attackRate, 1, 1.5f)); //Calls Combat IEnumerator at attackRate * random
+            }
+        }
+    }
+
     /*-  When a GameObject collides with another GameObject, Unity calls OnTriggerEnter. -*/
     private void OnTriggerEnter(Collider other)
     {
@@ -119,26 +133,23 @@ public class TroopController : MonoBehaviour, IUnitController
             TakeDamage(bullet.bulletAttack); //Transfer bulletAttack to the this script's TakeDamage function
             bullet.DestroyBullet();
         }
-        foreach(string tag in stat.sharedTags.oncomingTags)
-        {
-            //if the troop collides with something from their target tags
-            if(other.gameObject.CompareTag(tag))
-            {
-                targetEngaged = other.gameObject.GetComponent<IUnitController>();
-                StartCoroutine(Combat(attackRate * Random.Range(1, 1.5f))); //Calls Combat IEnumerator at attackRate * random
-            }
-        }
     }
     /*-  Controls Combat between units for troops -*/
-    private IEnumerator Combat(float rate)
+    private IEnumerator Combat(float rate, float minAtkTime, float maxAtkTime)
     {
-        yield return new WaitForSeconds(rate);
+        float randomRate = rate * Random.Range(minAtkTime, maxAtkTime);
+        yield return new WaitForSeconds(randomRate);
 
         //if targetEngaged does exist
-        if(targetEngaged != null)
+        if(targetEngaged != null && targetDetected.gameObject.activeSelf)
         {
             targetEngaged.TakeDamage(this.attack); //Transfer the enemy's troop's attack to the this script's TakeDamage function
-            StartCoroutine(Combat(attackRate * Random.Range(1, 1.5f))); //Recalls Combat IEnumerator at attackRate * random
+            StartCoroutine(Combat(rate, minAtkTime, maxAtkTime)); //Recalls Combat IEnumerator at attackRate * random
+        }
+        else
+        {
+            targetDetected = null;
+            targetEngaged = null;
         }
     }
     /*-  Handles taking damage takes a float that is the oncoming damage value -*/
@@ -150,6 +161,8 @@ public class TroopController : MonoBehaviour, IUnitController
         //if health is less than or equal to 0
         if(health <= 0)
         {
+            targetDetected = null;
+            targetEngaged = null;
             this.gameObject.SetActive(false); 
         }
     }

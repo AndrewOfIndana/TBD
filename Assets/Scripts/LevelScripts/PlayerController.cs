@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Controller References")]
     public PlayerSpawner playerSpawner;
-    private PlayerGrabber playerGrabber;
+    private PlayerTowerDeployer playerTowerDeployer;
 
     [Header("UnitsList Variables")]
     public StatsList unitsLists;
@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     /*-  Awake is called when the script is being loaded -*/
     private void Awake()
     {
-        playerGrabber = this.GetComponent<PlayerGrabber>();
+        playerTowerDeployer = this.GetComponent<PlayerTowerDeployer>();
     }
     /*-  Start is called before the first frame update -*/
     private void Start()
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     public void StartGame()
     {
         StartCoroutine(RegenerateMana(1f)); //Calls RegenerateMana IEnumerator at 1 second
-        levelUI.UpdateUI(); 
+        levelUI.UpdateUI();
     }
 
     /*---      FUNCTIONS     ---*/
@@ -50,18 +50,18 @@ public class PlayerController : MonoBehaviour
     public void SpawnUnit(int index)
     {
         //if the mana minus the unitCost isn't less than or equal to 0
-        if(CheckManaCost(units[index].unitCost))
+        if (CheckManaCost(units[index].unitCost))
         {
             //if the buttons are deploying troop 
-            if(units[index].unitType == UnitType.TROOP)
+            if (units[index].unitType == UnitType.TROOP)
             {
                 SpendMana(units[index].unitCost);
                 playerSpawner.SpawnTroop(units[index]); //Calls the spawnTroop function in the playerTroopSpawner script
             }
-            else if(units[index].unitType == UnitType.TOWER) //if the buttons are deploying tower 
+            else if (units[index].unitType == UnitType.TOWER) //if the buttons are deploying tower 
             {
                 SpendMana(units[index].unitCost);
-                playerGrabber.SetSelectedTower(units[index]); //Calls the SetSelectedTower function in the PlayerGrabber script
+                playerTowerDeployer.SetSelectedTower(units[index]); //Calls the SetSelectedTower function in the PlayerTowerDeployer script
             }
         }
     }
@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(time);
 
         //if the mana plus manaRegen is less than 100
-        if((mana + manaRegen) <= 100)
+        if ((mana + manaRegen) <= 100)
         {
             mana += manaRegen;
         }
@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
     public bool CheckManaCost(float cost)
     {
         ///if the mana - the cost is greater than 0
-        if((mana - cost) >= 0)
+        if ((mana - cost) >= 0)
         {
             return true;
         }

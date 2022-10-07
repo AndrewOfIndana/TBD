@@ -108,8 +108,8 @@ GameObject:
   - component: {fileID: 4374202085250568021}
   - component: {fileID: 4374202085250568023}
   - component: {fileID: 4374202085250567978}
-  - component: {fileID: 4374202085250568025}
-  - component: {fileID: 8693746298892168508}
+  - component: {fileID: 8100138734977655985}
+  - component: {fileID: 8150645917563803787}
   - component: {fileID: 6039887343698419176}
   - component: {fileID: 2704798118925150968}
   m_Layer: 6
@@ -165,7 +165,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 2, z: 1.5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4374202085250568025
+--- !u!114 &8100138734977655985
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -187,7 +187,7 @@ MonoBehaviour:
   attackRate: 0
   attackRange: 0
   targetDetected: {fileID: 0}
---- !u!114 &8693746298892168508
+--- !u!114 &8150645917563803787
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
