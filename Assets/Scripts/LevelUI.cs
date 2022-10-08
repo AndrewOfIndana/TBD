@@ -17,13 +17,26 @@ public class LevelUI : MonoBehaviour
     public PlayerSpawner playerSpawner;
     public PlayerController playerController;
     public EnemySpawner enemySpawner;
+    private LevelManager levelManager;
 
-    [Header("UI References")]
+    [Header("Script References")]
     public GameObject[] gameScreens;
+
+    [Header("SetupUI References")]
+    public Button[] selectUnitButtons;
+    public TextMeshProUGUI levelNameTxt;
+    public TextMeshProUGUI levelUnitCount;
+
+    [Header("GameUI References")]
+    public Button[] unitButtons;
     public Image playerHealthBar;
     public Image enemyHealthBar;
-    public TextMeshProUGUI manaTxt; 
-    public Button[] unitButtons;
+    public TextMeshProUGUI manaTxt;
+
+    [Header("KNOB")]
+    public Image knoEnraged;
+    public GameObject tick;
+    float timeE;
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
@@ -35,6 +48,7 @@ public class LevelUI : MonoBehaviour
             return; //exit if statement
         }
         levelUIinstance = this;
+        levelManager = this.gameObject.GetComponent<LevelManager>();
     }
     /*-  Start is called before the first frame update -*/
     private void Start()
@@ -42,8 +56,13 @@ public class LevelUI : MonoBehaviour
         /* Adds listeners for each buttons the player has */
         for(int i = 0; i < unitButtons.Length; i++)
         {
-            AddListeners(unitButtons[i], i); 
+            AddListeners(unitButtons[i], i);
+            AddListeners(selectUnitButtons[i], i);
         }
+        
+        HideUI(selectUnitButtons, levelManager.levelPlayerUnits.Count);
+        UpdateSetUpUI();
+        // knoEnraged.fillAmount = LevelManager.levelManagerInstance.HordeEnragedTime/(LevelManager.levelManagerInstance.HordeTime);
     }
 
     /*---      FUNCTIONS     ---*/
@@ -52,11 +71,36 @@ public class LevelUI : MonoBehaviour
     {
         btn.onClick.AddListener(() => { OnButtonClick(index); }); //Adds a listeners a button
     }
+    public void HideUI(Button[] buttonsList, int listSize)
+    {
+        for(int i = buttonsList.Length - 1; i >= listSize; i--)
+        {
+            buttonsList[i].gameObject.SetActive(false);
+        }
+    }
+
+    ///ADD TURN OFF CERTAIN BUTTONS
+
+
+
     /*-  Checks if a button is clicked, uses an index to indicate which button -*/
     private void OnButtonClick(int index)
     {
-        playerController.SpawnUnit(index); //Sends index to playerController
+        if(levelManager.gameState == GameStates.SETUP)
+        {
+            levelManager.AddOrRemoveUnit(index);
+        }
+        if(levelManager.gameState == GameStates.PLAYING)
+        {
+            playerController.SpawnUnit(index); //Sends index to playerController
+        }
     }
+    private void UpdateSetUpUI()
+    {
+        levelNameTxt.text = "Level " + levelManager.levelNum + " - " + levelManager.levelName;
+        levelUnitCount.text = "Pick " + levelManager.levelUnitLimit + " units";
+    }
+
     /*-  Updates the Game UI -*/
     public void UpdateUI()
     {
@@ -73,5 +117,16 @@ public class LevelUI : MonoBehaviour
             gameScreens[i].SetActive(false);
         }
         gameScreens[index].SetActive(true);
+    }
+
+    // private void Update()
+    // {
+        // tick.transform.Rotate(Vector3.forward, (Time.deltaTime * (360f/(LevelManager.levelManagerInstance.HordeCalmTime + LevelManager.levelManagerInstance.HordeEnragedTime))));
+        // timeE += Time.deltaTime;
+        // Debug.Log(timeE);
+    // }
+    public void SetKnobs()
+    {
+        Debug.Log("CKICK");
     }
 }

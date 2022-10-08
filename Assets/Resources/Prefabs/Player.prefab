@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.39215687}
+  m_Color: {r: 0.54901963, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.67058825, g: 0.6313726, b: 0.7764706, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -267,7 +267,6 @@ GameObject:
   - component: {fileID: 7037220480807331757}
   - component: {fileID: 7037220480807331792}
   - component: {fileID: 7037220480807331793}
-  - component: {fileID: -3280512316852286127}
   - component: {fileID: 595206621860369269}
   m_Layer: 3
   m_Name: Player
@@ -338,22 +337,10 @@ MonoBehaviour:
   stat: {fileID: 11400000, guid: 1eec6fa06b189da4093e28b2ffe09a55, type: 2}
   attack: 0
   health: 0
+  speed: 0
   attackRate: 0
   attackRange: 0
-  speed: 0
---- !u!65 &-3280512316852286127
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7037220480807331756}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
+  closestTile: {fileID: 0}
 --- !u!114 &595206621860369269
 MonoBehaviour:
   m_ObjectHideFlags: 0

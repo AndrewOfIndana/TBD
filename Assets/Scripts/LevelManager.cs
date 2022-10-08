@@ -4,6 +4,7 @@ using UnityEngine;
 using Cinemachine;
 
 public enum GameStates {SETUP, PLAYING, WIN, LOSE} //The different game states the level could be in
+public enum HordeState {CALM, ENRAGED}
 
 public class LevelManager : MonoBehaviour
 {
@@ -16,8 +17,17 @@ public class LevelManager : MonoBehaviour
 
     [Header("Setup References")]
     public Level level;
-    public StatsList playerCatalogue;
-    public StatsList enemyCatalogue;
+    public StatsList levelPlayerUnitsList;
+    public int levelUnitLimit;
+    public StatsList levelEnemyUnits;
+    public float levelEnemyRate;
+    [HideInInspector] public int levelNum;
+    [HideInInspector] public string levelName;
+
+    [HideInInspector] public List<Stats> levelPlayerUnits = new List<Stats>(); //Array of units
+    public List<Stats> playerUnits = new List<Stats>(); //Array of units
+    public int playerUnitCount = 0;
+    public bool isReady = false;
 
     [Header("Controller References")]
     public PlayerController playerController;
@@ -32,10 +42,15 @@ public class LevelManager : MonoBehaviour
     [Header("Script References")]
     public CinemachineVirtualCamera topdownCamera; 
     public CinemachineVirtualCamera playerCamera;
-    private GameStates gameState = GameStates.SETUP;
+    [HideInInspector] public GameStates gameState = GameStates.SETUP;
     public float respawnTime = 10f;
     private bool hasPlayerRespawned = true;
 
+    // public float HordeCalmTime = 120f;
+    // public float HordeEnragedTime = 60f;
+    // public float HordeTime;
+
+#region (MonoBehaviour)
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
     private void Awake()
@@ -46,15 +61,17 @@ public class LevelManager : MonoBehaviour
             return; //exit if statement
         }
         levelManagerInstance = this;
-
         levelUI = this.gameObject.GetComponent<LevelUI>();
+        SetLevel();
+        // HordeTime = HordeCalmTime + HordeEnragedTime;
     }
+    
     /*-  Start is called before the first frame update -*/
     private void Start()
     {
         /* Sets game to setup */
         gameState = GameStates.SETUP;
-        levelUI.UpdateScreen(0); 
+        levelUI.UpdateScreen(0);
         SwitchCameras(1, 0);
     }
 
@@ -62,17 +79,7 @@ public class LevelManager : MonoBehaviour
     /*-  Update is called once per frame -*/
     private void Update()
     {
-        /* Starts game */
-
-        //CHANGE THIS LATER, if the player hits space and the gameState is at SETUP
-        if(Input.GetKeyDown("space") && gameState == GameStates.SETUP)
-        {
-            ChangeState(GameStates.PLAYING);
-            return; //exits if
-        }
-
         /* Checks if the player is dead */
-
         //if the player avatar exists
         if(playerAvatar != null)
         {
@@ -122,6 +129,53 @@ public class LevelManager : MonoBehaviour
         topdownCamera.Priority = cam1;
         playerCamera.Priority = cam2;
     }
+#endregion
+
+    /*---/--      SETUP MANAGEMENT     --/---*/
+    /*-  Starts Game  -*/
+    private void SetLevel()
+    {
+        if(level != null)
+        {
+            levelPlayerUnitsList = level.availbleUnits;
+            levelUnitLimit = level.unitLimit;
+            levelEnemyUnits = level.enemyUnits;
+            levelEnemyRate = level.enemySpawnRate;
+            levelNum = level.levelID;
+            levelName = level.levelName;
+
+            levelPlayerUnits = levelPlayerUnitsList.statsLists;
+        }
+    }
+    public void AddOrRemoveUnit(int index)
+    {
+        if(playerUnits.Contains(levelPlayerUnits[index]))
+        {
+            playerUnitCount--;
+            playerUnits.Remove(levelPlayerUnits[index]);
+        }
+        else if(!playerUnits.Contains(levelPlayerUnits[index]) && playerUnitCount < levelUnitLimit)
+        {
+            playerUnitCount++;
+            playerUnits.Add(levelPlayerUnits[index]);
+        }
+        
+        if(playerUnitCount >= levelUnitLimit)
+        {
+            isReady = true;
+        }
+        else if(playerUnitCount < levelUnitLimit)
+        {
+            isReady = false;
+        }
+    }
+    /*-  Starts Game  -*/
+    public void StartGame()
+    {
+        ChangeState(GameStates.PLAYING);
+    }
+
+    /*---/--      PLAYER AVATAR MANAGEMENT     --/---*/
     /*-  Spawns the player avatar  -*/
     private void SpawnPlayer()
     {

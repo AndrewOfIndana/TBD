@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("UnitsList Variables")]
     public StatsList unitsLists;
-    private Stats[] units; //The types of unit the player has access to
+    private List<Stats> units = new List<Stats>(); //The types of unit the player has access to
 
     [Header("PlayerController Variables")]
     public float mana = 100;

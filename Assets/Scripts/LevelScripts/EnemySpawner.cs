@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour, IUnitController
+public class EnemySpawner : MonoBehaviour, Idamageable
 {
     /*  
         Name: EnemySpawner.cs
@@ -22,7 +22,7 @@ public class EnemySpawner : MonoBehaviour, IUnitController
     public float spawnRate; 
     public StatsList unitsLists; //A StatsList that is retrieved from the LevelManager
     // [HideInInspector] public StatsList unitsLists; //A StatsList that is retrieved from the LevelManager
-    private Stats[] typesOfEnemies; //An array of stats retrieved from unitsLists
+    private List<Stats> typesOfEnemies = new List<Stats>(); //An array of stats retrieved from unitsLists
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Start is called before the first frame update -*/
@@ -54,7 +54,8 @@ public class EnemySpawner : MonoBehaviour, IUnitController
         //if this enemy exist
         if(enemy != null)
         {
-            enemy.SetUnit(typesOfEnemies[Random.Range(0, typesOfEnemies.Length)]); //Sets enemy type and stats based on random number generator
+            enemy.SetUnit(typesOfEnemies[Random.Range(0, typesOfEnemies.Count)]); //Sets enemy type and stats based on random number generator
+            enemy.StartController(); //Sets enemy type and stats based on random number generator
         }
         StartCoroutine(SpawnEnemy(rate)); 
     }

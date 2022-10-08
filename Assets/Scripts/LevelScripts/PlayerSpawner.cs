@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSpawner : MonoBehaviour, IUnitController
+public class PlayerSpawner : MonoBehaviour, Idamageable
 {
     /*  
         Name: PlayerSpawner.cs
@@ -41,6 +41,7 @@ public class PlayerSpawner : MonoBehaviour, IUnitController
         if(ally != null)
         {
             ally.SetUnit(unitToSpawn); //Sets ally type and stats using the unitToSpawn Stats
+            ally.StartController(); //Sets enemy type and stats based on random number generator
         }
     }
     /*-  Handles taking damage takes a float that is the oncoming damage value -*/

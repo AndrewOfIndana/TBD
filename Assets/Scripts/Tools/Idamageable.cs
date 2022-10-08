@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IUnitController
+public interface Idamageable
 {
     /*  
-        Name: IUnitController.cs
-        Description: An interface that adds the abstracts function TakeDamage, which allows any object to get damaged
+        Name: Idamageable.cs
+        Description: An interface that allows any object to get damaged
 
     */
     /*---      FUNCTIONS     ---*/

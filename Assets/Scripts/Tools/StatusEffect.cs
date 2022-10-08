@@ -13,8 +13,11 @@ public class StatusEffect : ScriptableObject
 
     */    
 
+    public string effectName; //The name of the effect
     public float effectIncrease; //The amount of stat increases for this effect  
+    public float effectLifetime; //The amount of time it would take for the effect to clear
     public BuffedStats effectedStat; //The stat that will be buffed
+    public GameObject effectParticles; //Optional prefab of effect particles
 
     /*---      FUNCTIONS     ---*/
     /*-  Gets the multiplicate bonus by checking if the buffedStat is the effectedStat -*/

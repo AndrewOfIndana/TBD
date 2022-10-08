@@ -11,5 +11,5 @@ public class StatsList : ScriptableObject
 
     */    
 
-    public Stats[] statsLists; //Array of units
+    public List<Stats> statsLists = new List<Stats>(); //Array of units
 }

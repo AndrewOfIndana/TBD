@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TroopController : MonoBehaviour, IUnitController
+public class TroopController : MonoBehaviour, Idamageable
 {
     /*  
         Name: TroopController.cs
@@ -13,7 +13,7 @@ public class TroopController : MonoBehaviour, IUnitController
     [Header("GameObject References")]
     public Image healthBar; 
     public SpriteRenderer thisSprite; 
-    public BoxCollider thisCollider; 
+    public BoxCollider thisCollider;
 
     /*[Header("Stats Variables")]*/
     [HideInInspector] public Stats stat;
@@ -23,16 +23,18 @@ public class TroopController : MonoBehaviour, IUnitController
     [HideInInspector] public float attackRate;
     [HideInInspector] public float attackRange;
 
-    /*[Header("Script References")]*/
+    [Header("Script References")]
     private TroopMovement troopMovement;
+    private UnitStatusManager statusManager;
     [HideInInspector] public Transform targetDetected; //What the unit detects
-    private IUnitController targetEngaged; //What the unit is fighting
+    private Idamageable targetEngaged; //What the unit is fighting
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
     private void Awake()
     {
         troopMovement = this.GetComponent<TroopMovement>();
+        statusManager = this.GetComponent<UnitStatusManager>();
     }
     /*-  Sets the units stats when the object has spawned from pool using the newStats Stats variables -*/
     public void SetUnit(Stats newStats)
@@ -46,6 +48,9 @@ public class TroopController : MonoBehaviour, IUnitController
         thisSprite.sprite = newStats.unitSprite;
         thisCollider.size =  newStats.unitSize;
         healthBar.fillAmount = health/newStats.unitHealth;
+    }
+    public void StartController()
+    {
         troopMovement.StartMovement(); //Starts the troop's Movement
     }
     /*-  OnEnable is called when the object becomes enabled -*/
@@ -53,7 +58,6 @@ public class TroopController : MonoBehaviour, IUnitController
     {
         StartCoroutine(UpdateTarget(1f)); //Calls UpdateTarget IEnumerator at 1 second
     }
-
     /*---      FUNCTIONS     ---*/
     /*-  Repeatedly updates a target, takes a float for the time -*/
     private IEnumerator UpdateTarget(float time)
@@ -61,12 +65,9 @@ public class TroopController : MonoBehaviour, IUnitController
         yield return new WaitForSeconds(time);
 
         //if the unit's behaviour isn't KAMIKAZE
-        if(stat.unitBehaviour != Behaviour.KAMIKAZE)
-        {
-            Targeting();
-            Engaging();
-            StartCoroutine(UpdateTarget(1f)); //Recalls Aiming IEnumerator at attackRate
-        }
+        Targeting();
+        Engaging();
+        StartCoroutine(UpdateTarget(1f)); //Recalls Aiming IEnumerator at attackRate
     }
     /*-  Controls targeting -*/
     private void Targeting()
@@ -100,7 +101,7 @@ public class TroopController : MonoBehaviour, IUnitController
             //if the unit's behaviour isn't RANGED
             if(stat.unitBehaviour == Behaviour.RANGED && targetEngaged == null)
             {
-                targetEngaged = targetDetected.gameObject.GetComponent<IUnitController>(); 
+                targetEngaged = targetDetected.gameObject.GetComponent<Idamageable>(); 
                 StartCoroutine(Combat(attackRate, 1.5f, 2f)); //Calls Combat IEnumerator at attackRate * random
             }
         }
@@ -117,12 +118,11 @@ public class TroopController : MonoBehaviour, IUnitController
         {
             if(Vector3.Distance(transform.position, targetDetected.position) <= 2f && stat.unitBehaviour != Behaviour.RANGED && targetEngaged == null)
             {
-                targetEngaged = targetDetected.gameObject.GetComponent<IUnitController>(); 
+                targetEngaged = targetDetected.gameObject.GetComponent<Idamageable>(); 
                 StartCoroutine(Combat(attackRate, 1, 1.5f)); //Calls Combat IEnumerator at attackRate * random
             }
         }
     }
-
     /*-  When a GameObject collides with another GameObject, Unity calls OnTriggerEnter. -*/
     private void OnTriggerEnter(Collider other)
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerAvatar : MonoBehaviour, IUnitController
+public class PlayerAvatar : MonoBehaviour, Idamageable
 {
     /*  
         Name: PlayerAvatar.cs
@@ -27,7 +27,7 @@ public class PlayerAvatar : MonoBehaviour, IUnitController
 
     [Header("Script References")]
     public Transform closestTile;
-    private IUnitController targetEngaged; //Private reference to the enemy troop the troop is engaged with
+    private Idamageable targetEngaged; //Private reference to the enemy troop the troop is engaged with
     private Vector3 velocity;
 
     /*---      SETUP FUNCTIONS     ---*/
@@ -72,7 +72,7 @@ public class PlayerAvatar : MonoBehaviour, IUnitController
                 //If what the player hit is the same as the player's stat.targetTags[0 ,1 and 2]
                 if (hit.transform.gameObject.tag == stat.targetTags[0] || hit.transform.gameObject.tag == stat.targetTags[1] || hit.transform.gameObject.tag == stat.targetTags[2])
                 {
-                    targetEngaged = hit.transform.gameObject.GetComponent<IUnitController>();
+                    targetEngaged = hit.transform.gameObject.GetComponent<Idamageable>();
                     targetEngaged.TakeDamage(attack); //Transfer the players's attack to the  targetEngaged script's TakeDamage function
                 }
             }

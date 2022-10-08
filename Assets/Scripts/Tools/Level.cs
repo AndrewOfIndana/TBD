@@ -17,9 +17,8 @@ public class Level : ScriptableObject
 
     [Header("Player Variables")]
     public StatsList availbleUnits; //The available units the player can choose from
-    public int unitLimit; //the limit of units the player can choose
     //public cards availableCards;  //The available cards the player can choose from
-    public int cardLimit; //the limit of cards the player can choose
+    public int unitLimit; //the limit of units the player can choose
 
     [Header("Enemy Variables")]
     public StatsList enemyUnits; //the units the enemy has for this level

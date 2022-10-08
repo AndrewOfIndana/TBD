@@ -10,14 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a165803013d5344e9dbfd7f988f6bed, type: 3}
-  m_Name: 02_TestPlayerCatalog
+  m_Name: a2_TestPlayerCatalog
   m_EditorClassIdentifier: 
   statsLists:
   - {fileID: 11400000, guid: d96ed1fbe02ecf64d98de50f21270113, type: 2}
   - {fileID: 11400000, guid: f61d596fb81a1dc449e3bc94aa1504d7, type: 2}
   - {fileID: 11400000, guid: b8eab3ce1822f9043be67af540b35a8e, type: 2}
-  - {fileID: 11400000, guid: 86f09363960a72940a20762770cb7f2d, type: 2}
-  - {fileID: 11400000, guid: 6709d745ffcd33448ac092ced8945f21, type: 2}
-  - {fileID: 11400000, guid: 72f135f37747a5645b0cf16e737b33f2, type: 2}
   - {fileID: 11400000, guid: dee9fc35905998f4fa34f1bd035f25be, type: 2}
   - {fileID: 11400000, guid: 278f6014f5934e24c89ea4ae2ca7a973, type: 2}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TowerController : MonoBehaviour, IUnitController
+public class TowerController : MonoBehaviour, Idamageable
 {
     /*  
         Name: TowerController.cs
