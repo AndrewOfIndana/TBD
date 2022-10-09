@@ -18,24 +18,24 @@ public class EnemySpawner : MonoBehaviour, Idamageable
     public float health = 1000;
     [HideInInspector] public float maxHealth;
 
-    [Header("Spawn References")]
-    public float spawnRate; 
-    public StatsList unitsLists; //A StatsList that is retrieved from the LevelManager
-    // [HideInInspector] public StatsList unitsLists; //A StatsList that is retrieved from the LevelManager
-    private List<Stats> typesOfEnemies = new List<Stats>(); //An array of stats retrieved from unitsLists
+    /*[Header("Script Variables")]*/
+    private float spawnRate; 
+    private List<Stats> typesOfEnemies = new List<Stats>();
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Start is called before the first frame update -*/
     private void Start()
     {
-        typesOfEnemies = unitsLists.statsLists; //Retrieves unitsLists.statsLists and sets it to typesOfEnemies 
-
         /* Gets the static instances and stores them in the Static References */
         levelManager = LevelManager.levelManagerInstance;
         levelUI = LevelUI.levelUIinstance;
         objectPool = ObjectPool.objectPoolInstance;
 
         maxHealth = health;
+
+        /* Gets and sets variables form the level manager */
+        typesOfEnemies = levelManager.levelEnemyUnits;
+        spawnRate = levelManager.levelEnemyRate;
     }
     /*-  StartGame is called when the game has started -*/
     public void StartGame()

@@ -31,5 +31,6 @@ MonoBehaviour:
   - EnemyBase
   sharedTags: {fileID: 11400000, guid: fef36fcd149f1b74d9614a1e3e09f962, type: 2}
   unitCost: 15
+  unitThumbnail: {fileID: 21300000, guid: 1c3477bebac8d904e93bd21c337800f1, type: 3}
   unitType: 0
   unitBehaviour: 1

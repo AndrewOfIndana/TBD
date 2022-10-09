@@ -28,5 +28,6 @@ MonoBehaviour:
   - EnemyTroop
   sharedTags: {fileID: 11400000, guid: fef36fcd149f1b74d9614a1e3e09f962, type: 2}
   unitCost: 50
+  unitThumbnail: {fileID: 21300000, guid: 548e972bdec00a14282b24e3fbea1de8, type: 3}
   unitType: 1
   unitBehaviour: 1

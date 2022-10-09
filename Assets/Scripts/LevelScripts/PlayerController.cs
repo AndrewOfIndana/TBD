@@ -11,19 +11,17 @@ public class PlayerController : MonoBehaviour
 
     */
     /*[Header("Static Variables")]*/
+    LevelManager levelManager;
     LevelUI levelUI;
 
     [Header("Controller References")]
     public PlayerSpawner playerSpawner;
     private PlayerTowerDeployer playerTowerDeployer;
 
-    [Header("UnitsList Variables")]
-    public StatsList unitsLists;
-    private List<Stats> units = new List<Stats>(); //The types of unit the player has access to
-
     [Header("PlayerController Variables")]
     public float mana = 100;
     public float manaRegen = 2;
+    private List<Stats> units = new List<Stats>(); 
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
@@ -35,8 +33,11 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         /* Gets the static instances and stores them in the Static References */
+        levelManager = LevelManager.levelManagerInstance;
         levelUI = LevelUI.levelUIinstance;
-        units = unitsLists.statsLists;
+
+        /* Gets and sets variables form the level manager */
+        units = levelManager.playerUnits;
     }
     /*-  StartGame is called when the game has started -*/
     public void StartGame()

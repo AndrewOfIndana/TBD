@@ -38,6 +38,7 @@ public class Stats : ScriptableObject
 
     [Header("Other Variables")]
     public float unitCost; //Cost of the unit
+    public Sprite unitThumbnail; //Thumbnail of the unit
     public UnitType unitType; //Type of the unit
     public Behaviour unitBehaviour; //The behavior of the unit
 }

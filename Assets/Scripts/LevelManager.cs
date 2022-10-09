@@ -4,7 +4,7 @@ using UnityEngine;
 using Cinemachine;
 
 public enum GameStates {SETUP, PLAYING, WIN, LOSE} //The different game states the level could be in
-public enum HordeState {CALM, ENRAGED}
+public enum HordeState {CALM, ENRAGED} 
 
 public class LevelManager : MonoBehaviour
 {
@@ -17,17 +17,18 @@ public class LevelManager : MonoBehaviour
 
     [Header("Setup References")]
     public Level level;
+    /* Allows for levels to be made without the level scriptable object */
     public StatsList levelPlayerUnitsList;
+    public StatsList levelEnemyUnitsList;
     public int levelUnitLimit;
-    public StatsList levelEnemyUnits;
     public float levelEnemyRate;
     [HideInInspector] public int levelNum;
     [HideInInspector] public string levelName;
-
-    [HideInInspector] public List<Stats> levelPlayerUnits = new List<Stats>(); //Array of units
-    public List<Stats> playerUnits = new List<Stats>(); //Array of units
-    public int playerUnitCount = 0;
-    public bool isReady = false;
+    /* Setup Variables that actually matter */
+    [HideInInspector] public List<Stats> levelPlayerUnits = new List<Stats>(); //List of units that the player has to choose
+    [HideInInspector] public List<Stats> playerUnits = new List<Stats>(); //List of units that the player has chosen
+    [HideInInspector] public int playerUnitCount = 0;
+    [HideInInspector] public List<Stats> levelEnemyUnits = new List<Stats>();
 
     [Header("Controller References")]
     public PlayerController playerController;
@@ -50,7 +51,6 @@ public class LevelManager : MonoBehaviour
     // public float HordeEnragedTime = 60f;
     // public float HordeTime;
 
-#region (MonoBehaviour)
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
     private void Awake()
@@ -62,10 +62,9 @@ public class LevelManager : MonoBehaviour
         }
         levelManagerInstance = this;
         levelUI = this.gameObject.GetComponent<LevelUI>();
-        SetLevel();
+        SetLevel(); //Retrieves values from level package if it exist
         // HordeTime = HordeCalmTime + HordeEnragedTime;
     }
-    
     /*-  Start is called before the first frame update -*/
     private void Start()
     {
@@ -94,6 +93,7 @@ public class LevelManager : MonoBehaviour
     }
 
     /*---      FUNCTIONS     ---*/
+    /*--    GAME STATE MANAGEMENT   --*/
     /*-  Changes the game state based on what has happened in game, takes GameState -*/
     public void ChangeState(GameStates newState)
     {
@@ -129,44 +129,51 @@ public class LevelManager : MonoBehaviour
         topdownCamera.Priority = cam1;
         playerCamera.Priority = cam2;
     }
-#endregion
-
-    /*---/--      SETUP MANAGEMENT     --/---*/
-    /*-  Starts Game  -*/
+    /*--    SETUP MANAGEMENT   --*/
+    /*-  Retrives values from level package and sets variables if they exist  -*/
     private void SetLevel()
     {
+        //If level exists
         if(level != null)
         {
-            levelPlayerUnitsList = level.availbleUnits;
+            levelPlayerUnits = level.availbleUnits.statsLists;
             levelUnitLimit = level.unitLimit;
-            levelEnemyUnits = level.enemyUnits;
+            levelEnemyUnits = level.enemyUnits.statsLists;
             levelEnemyRate = level.enemySpawnRate;
             levelNum = level.levelID;
             levelName = level.levelName;
-
+        }
+        else if(level == null)
+        {
             levelPlayerUnits = levelPlayerUnitsList.statsLists;
+            levelEnemyUnits = levelEnemyUnitsList.statsLists;
         }
     }
+    /*-  Adds or removes unit in the playerUnits list and checks if the player is ready or not  -*/
     public void AddOrRemoveUnit(int index)
     {
+        //If playerUnits contains this unit
         if(playerUnits.Contains(levelPlayerUnits[index]))
         {
             playerUnitCount--;
             playerUnits.Remove(levelPlayerUnits[index]);
+            levelUI.UpdateSetUpUI(); //Updates the UI list of units
         }
-        else if(!playerUnits.Contains(levelPlayerUnits[index]) && playerUnitCount < levelUnitLimit)
+        else if(!playerUnits.Contains(levelPlayerUnits[index]) && playerUnitCount < levelUnitLimit) //If playerUnits doesn't contains this unit and playerUnitCount is less than the levelUnitLimit
         {
             playerUnitCount++;
             playerUnits.Add(levelPlayerUnits[index]);
+            levelUI.UpdateSetUpUI();  //Updates the UI list of units
         }
         
+        //if playerUnitCount is greater than or equal to levelUnitLimit
         if(playerUnitCount >= levelUnitLimit)
         {
-            isReady = true;
+            levelUI.startGameButton.SetActive(true); //Sets startGameButton active
         }
-        else if(playerUnitCount < levelUnitLimit)
+        else if(playerUnitCount < levelUnitLimit) //if playerUnitCount is less than levelUnitLimit
         {
-            isReady = false;
+            levelUI.startGameButton.SetActive(false); //Sets startGameButton inactive
         }
     }
     /*-  Starts Game  -*/
@@ -174,7 +181,6 @@ public class LevelManager : MonoBehaviour
     {
         ChangeState(GameStates.PLAYING);
     }
-
     /*---/--      PLAYER AVATAR MANAGEMENT     --/---*/
     /*-  Spawns the player avatar  -*/
     private void SpawnPlayer()

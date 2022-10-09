@@ -29,5 +29,6 @@ MonoBehaviour:
   - AllyAssassin
   sharedTags: {fileID: 11400000, guid: fef36fcd149f1b74d9614a1e3e09f962, type: 2}
   unitCost: 25
+  unitThumbnail: {fileID: 21300000, guid: a943e30cf28c04b4db45a367cd6f9722, type: 3}
   unitType: 0
   unitBehaviour: 4

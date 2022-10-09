@@ -23,20 +23,20 @@ public class LevelUI : MonoBehaviour
     public GameObject[] gameScreens;
 
     [Header("SetupUI References")]
-    public Button[] selectUnitButtons;
+    public Image[] selectUnitIcons;
+    public Image[] chosenUnitIcons;
     public TextMeshProUGUI levelNameTxt;
     public TextMeshProUGUI levelUnitCount;
+    public GameObject startGameButton;
 
     [Header("GameUI References")]
-    public Button[] unitButtons;
+    public Image[] unitIcons;
     public Image playerHealthBar;
     public Image enemyHealthBar;
     public TextMeshProUGUI manaTxt;
 
-    [Header("KNOB")]
-    public Image knoEnraged;
-    public GameObject tick;
-    float timeE;
+    public Image EnragedCycle;
+    public GameObject arrow;
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
@@ -52,17 +52,19 @@ public class LevelUI : MonoBehaviour
     }
     /*-  Start is called before the first frame update -*/
     private void Start()
-    {
+    {        
         /* Adds listeners for each buttons the player has */
-        for(int i = 0; i < unitButtons.Length; i++)
+        for(int i = 0; i < selectUnitIcons.Length; i++)
         {
-            AddListeners(unitButtons[i], i);
-            AddListeners(selectUnitButtons[i], i);
+            AddListeners(selectUnitIcons[i].GetComponent<Button>(), i);
+            AddListeners(unitIcons[i].GetComponent<Button>(), i);
         }
-        
-        HideUI(selectUnitButtons, levelManager.levelPlayerUnits.Count);
-        UpdateSetUpUI();
-        // knoEnraged.fillAmount = LevelManager.levelManagerInstance.HordeEnragedTime/(LevelManager.levelManagerInstance.HordeTime);
+
+        HideUI(selectUnitIcons, levelManager.levelPlayerUnits.Count); //Hides the unused buttons for select units
+        HideUI(unitIcons, levelManager.levelUnitLimit);  //Hides the unused buttons for units
+        UpdateSetUpText(); //Changes text for the setup UI text like the title or unit limit
+        UpdateSetUpUI(); //Updates the thumbnails of the sprites
+        startGameButton.SetActive(false);
     }
 
     /*---      FUNCTIONS     ---*/
@@ -71,18 +73,6 @@ public class LevelUI : MonoBehaviour
     {
         btn.onClick.AddListener(() => { OnButtonClick(index); }); //Adds a listeners a button
     }
-    public void HideUI(Button[] buttonsList, int listSize)
-    {
-        for(int i = buttonsList.Length - 1; i >= listSize; i--)
-        {
-            buttonsList[i].gameObject.SetActive(false);
-        }
-    }
-
-    ///ADD TURN OFF CERTAIN BUTTONS
-
-
-
     /*-  Checks if a button is clicked, uses an index to indicate which button -*/
     private void OnButtonClick(int index)
     {
@@ -95,12 +85,49 @@ public class LevelUI : MonoBehaviour
             playerController.SpawnUnit(index); //Sends index to playerController
         }
     }
-    private void UpdateSetUpUI()
+    /*-  Hides unused buttons or images by setting the images inactive in reverse order, takes a Image[] for the array of images affected, and a int for the listSize   -*/
+    public void HideUI(Image[] icons, int listSize)
+    {
+        for(int i = icons.Length - 1; i >= listSize; i--)
+        {
+            icons[i].gameObject.SetActive(false);
+        }
+    }
+    /*-  Updates the setup texts and even the unit select thumbnails, should only be called once   -*/
+    private void UpdateSetUpText()
     {
         levelNameTxt.text = "Level " + levelManager.levelNum + " - " + levelManager.levelName;
         levelUnitCount.text = "Pick " + levelManager.levelUnitLimit + " units";
-    }
 
+        //Updates the select unit buttons sprites
+        for(int i = 0; i < levelManager.levelPlayerUnits.Count; i++)
+        {
+            selectUnitIcons[i].sprite = levelManager.levelPlayerUnits[i].unitThumbnail;
+        }
+    }
+    /*-  Updates the sprites of chosen units when a player selects a unit in the setup screen, also does the same for the player's game sprites   -*/
+    public void UpdateSetUpUI()
+    {
+        //Updates the chosen unit buttons sprites
+        for(int i = 0; i < chosenUnitIcons.Length; i++)
+        {
+            //if i is less than levelManager's playerUnitCount
+            if(i < levelManager.playerUnitCount)
+            {
+                chosenUnitIcons[i].gameObject.SetActive(true);
+                chosenUnitIcons[i].sprite = levelManager.playerUnits[i].unitThumbnail;
+            }
+            else
+            {
+                chosenUnitIcons[i].gameObject.SetActive(false);
+            }
+        }
+        //Updates the unit buttons sprites
+        for(int k = 0; k < levelManager.playerUnits.Count; k++)
+        {
+            unitIcons[k].sprite = levelManager.playerUnits[k].unitThumbnail;
+        }
+    }
     /*-  Updates the Game UI -*/
     public void UpdateUI()
     {
@@ -125,8 +152,8 @@ public class LevelUI : MonoBehaviour
         // timeE += Time.deltaTime;
         // Debug.Log(timeE);
     // }
-    public void SetKnobs()
-    {
-        Debug.Log("CKICK");
-    }
+    // public void SetKnobs()
+    // {
+    //     Debug.Log("CKICK");
+    // }
 }
