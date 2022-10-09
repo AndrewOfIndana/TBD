@@ -21,6 +21,8 @@ public class LevelUI : MonoBehaviour
 
     [Header("Script References")]
     public GameObject[] gameScreens;
+    public GameObject Cards;
+    public GameObject Units;
 
     [Header("SetupUI References")]
     public Image[] selectUnitIcons;
@@ -33,6 +35,7 @@ public class LevelUI : MonoBehaviour
     public Image[] unitIcons;
     public Image playerHealthBar;
     public Image enemyHealthBar;
+    public Image manaBar;
     public TextMeshProUGUI manaTxt;
 
     public Image EnragedCycle;
@@ -65,6 +68,7 @@ public class LevelUI : MonoBehaviour
         UpdateSetUpText(); //Changes text for the setup UI text like the title or unit limit
         UpdateSetUpUI(); //Updates the thumbnails of the sprites
         startGameButton.SetActive(false);
+        UpdatePlayerDeath(true);
     }
 
     /*---      FUNCTIONS     ---*/
@@ -133,7 +137,14 @@ public class LevelUI : MonoBehaviour
     {
         playerHealthBar.fillAmount = playerSpawner.health/playerSpawner.maxHealth;
         enemyHealthBar.fillAmount = enemySpawner.health/enemySpawner.maxHealth;
+        manaBar.fillAmount = playerController.mana/100f;
         manaTxt.text = "Mana: " + playerController.mana; 
+    }
+    /*-  Turns off hud when the player dies or not -*/
+    public void UpdatePlayerDeath(bool isDead)
+    {
+        Cards.SetActive(isDead);
+        Units.SetActive(isDead);
     }
     /*-  Updates the Swaps the screen, takes an index for chosen screen -*/
     public void UpdateScreen(int index)

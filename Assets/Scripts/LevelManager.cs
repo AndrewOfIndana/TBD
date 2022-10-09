@@ -193,11 +193,13 @@ public class LevelManager : MonoBehaviour
     private IEnumerator RespawnPlayer(float waitTime)
     {
         SwitchCameras(1, 0);
+        levelUI.UpdatePlayerDeath(false);
         yield return new WaitForSeconds(waitTime); //Waits for rate
         playerAvatar.gameObject.SetActive(true);
         playerAvatar.transform.position = playerSpawner.transform.position;
         SwitchCameras(0, 1);
         levelUI.UpdateUI();
+        levelUI.UpdatePlayerDeath(true);
         hasPlayerRespawned = true;
     }
 }
