@@ -12,5 +12,5 @@ public interface Ieffectable
     /*---      FUNCTIONS     ---*/
     /*-  Handles taking damage takes a float that is the oncoming damage value -*/
     void ApplyEffect(StatusEffect effect);
-    void RemoveEffect(int index);
+    IEnumerator RemoveEffect(StatusEffect effect, int index, float time);
 }

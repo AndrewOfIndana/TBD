@@ -11,6 +11,7 @@ public class TroopMovement : MonoBehaviour
     */
     /*[Header("Script References")]*/
     private TroopController troopController;
+    private TroopBehaviour troopBehaviour;
     private Transform path;
     private int wavePointIndex; //Keeps track of which waypoint the troop is at
 
@@ -19,6 +20,7 @@ public class TroopMovement : MonoBehaviour
     private void Awake()
     {
         troopController = this.GetComponent<TroopController>();
+        troopBehaviour = this.GetComponent<TroopBehaviour>();
     }
     /*-  Sets the troops first waypoint depending on if the unit is an enemy -*/
     public void StartMovement()
@@ -35,13 +37,13 @@ public class TroopMovement : MonoBehaviour
             path = WayPoints.points[(WayPoints.points.Length - 1)]; //Sets the path transform to the last wayPoint 
         }
     }
-
+    
     /*---      UPDATE FUNCTIONS     ---*/
     /*-  Update is called once per frame -*/
     private void Update()
     {
         //if targetDetected doesn't exist and this unit's behaviour isn't DEFEND
-        if(troopController.targetDetected == null && troopController.stat.unitBehaviour != Behaviour.DEFEND)
+        if(troopBehaviour.targetDetected == null && troopController.stat.unitBehaviour != Behaviour.DEFEND)
         {
             /* MOVES TROOP TO WAYPOINT */
 
@@ -54,13 +56,13 @@ public class TroopMovement : MonoBehaviour
                 GetNextWaypoint();
             }
         }
-        else if(troopController.targetDetected != null && troopController.stat.unitBehaviour != Behaviour.RANGED) //if targetDetected does exist and this unit's behaviour isn't RANGED
+        else if(troopBehaviour.targetDetected != null && troopController.stat.unitBehaviour != Behaviour.RANGED) //if targetDetected does exist and this unit's behaviour isn't RANGED
         {
             /* MOVES TROOP TO OPPONENT */
 
-            if(Vector3.Distance(transform.position, troopController.targetDetected.position) >= 2f)
+            if(Vector3.Distance(transform.position, troopBehaviour.targetDetected.position) >= 2f)
             {
-                Vector3 dir = troopController.targetDetected.position - transform.position; 
+                Vector3 dir = troopBehaviour.targetDetected.position - transform.position; 
                 transform.Translate(dir.normalized * troopController.speed * Time.deltaTime, Space.World);
             }
         }

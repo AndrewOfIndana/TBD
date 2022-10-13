@@ -131,6 +131,7 @@ public class LevelUI : MonoBehaviour
         {
             unitIcons[k].sprite = levelManager.playerUnits[k].unitThumbnail;
         }
+        // EnragedCycle.fillAmount = playerSpawner.health/playerSpawner.maxHealth;
     }
     /*-  Updates the Game UI -*/
     public void UpdateUI()
@@ -159,9 +160,9 @@ public class LevelUI : MonoBehaviour
 
     // private void Update()
     // {
-        // tick.transform.Rotate(Vector3.forward, (Time.deltaTime * (360f/(LevelManager.levelManagerInstance.HordeCalmTime + LevelManager.levelManagerInstance.HordeEnragedTime))));
-        // timeE += Time.deltaTime;
-        // Debug.Log(timeE);
+    //     tick.transform.Rotate(Vector3.forward, (Time.deltaTime * (360f/(LevelManager.levelManagerInstance.HordeCalmTime + LevelManager.levelManagerInstance.HordeEnragedTime))));
+    //     timeE += Time.deltaTime;
+    //     Debug.Log(timeE);
     // }
     // public void SetKnobs()
     // {

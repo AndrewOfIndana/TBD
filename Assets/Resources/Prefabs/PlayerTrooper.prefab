@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 5071380696696660348}
   - component: {fileID: 5071380696696660225}
   - component: {fileID: 5071380696696660338}
+  - component: {fileID: 4551315482782599040}
   - component: {fileID: 2456645891109658213}
   - component: {fileID: -4056264432099994969}
   m_Layer: 8
@@ -334,6 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b37804f14a767f348b7cc24b08ee4243, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statusEffects: []
   healthBar: {fileID: 2463070660628049926}
   thisSprite: {fileID: 5071380697287960542}
   thisCollider: {fileID: 5071380696696660225}
@@ -343,6 +345,18 @@ MonoBehaviour:
   speed: 0
   attackRate: 0
   attackRange: 0
+--- !u!114 &4551315482782599040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5071380696696660349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7df6890e723cfc34ab8ecb71e0734ab8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   targetDetected: {fileID: 0}
 --- !u!114 &2456645891109658213
 MonoBehaviour:

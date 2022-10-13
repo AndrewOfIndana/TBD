@@ -2,14 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
-public class TroopController : MonoBehaviour, Idamageable
+public class TroopController : MonoBehaviour, Ieffectable
 {
     /*  
         Name: TroopController.cs
-        Description: This script controls the troops and how they move and react to other unit
+        Description: This script contains and handles the variables used for the both the behaviour and movement of a troop unit 
 
     */
+    [Header("Script References")]
+    public List<StatusEffect> statusEffects = new List<StatusEffect>();
+    private TroopBehaviour troopBehaviour;
+    private TroopMovement troopMovement;
+
     [Header("GameObject References")]
     public Image healthBar; 
     public SpriteRenderer thisSprite; 
@@ -17,24 +23,18 @@ public class TroopController : MonoBehaviour, Idamageable
 
     /*[Header("Stats Variables")]*/
     [HideInInspector] public Stats stat;
-    [HideInInspector] public float attack;
-    [HideInInspector] public float health; 
-    [HideInInspector] public float speed;
-    [HideInInspector] public float attackRate;
-    [HideInInspector] public float attackRange;
-
-    [Header("Script References")]
-    private TroopMovement troopMovement;
-    private UnitStatusManager statusManager;
-    [HideInInspector] public Transform targetDetected; //What the unit detects
-    private Idamageable targetEngaged; //What the unit is fighting
+    public float attack;
+    public float health; 
+    public float speed;
+    public float attackRate;
+    public float attackRange;
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
     private void Awake()
     {
         troopMovement = this.GetComponent<TroopMovement>();
-        statusManager = this.GetComponent<UnitStatusManager>();
+        troopBehaviour = this.GetComponent<TroopBehaviour>();
     }
     /*-  Sets the units stats when the object has spawned from pool using the newStats Stats variables -*/
     public void SetUnit(Stats newStats)
@@ -49,121 +49,54 @@ public class TroopController : MonoBehaviour, Idamageable
         thisCollider.size =  newStats.unitSize;
         healthBar.fillAmount = health/newStats.unitHealth;
     }
+    /*-  Starts the unit's behaviour and movement -*/
     public void StartController()
     {
+        troopBehaviour.StartBehaviour(); //Starts the troop's Behaviour
         troopMovement.StartMovement(); //Starts the troop's Movement
     }
-    /*-  OnEnable is called when the object becomes enabled -*/
-    private void OnEnable()
-    {
-        StartCoroutine(UpdateTarget(1f)); //Calls UpdateTarget IEnumerator at 1 second
-    }
+
     /*---      FUNCTIONS     ---*/
-    /*-  Repeatedly updates a target, takes a float for the time -*/
-    private IEnumerator UpdateTarget(float time)
+    public void ApplyEffect(StatusEffect appliedEffect)
     {
-        yield return new WaitForSeconds(time);
+        statusEffects.Add(appliedEffect);
 
-        //if the unit's behaviour isn't KAMIKAZE
-        Targeting();
-        Engaging();
-        StartCoroutine(UpdateTarget(1f)); //Recalls Aiming IEnumerator at attackRate
-    }
-    /*-  Controls targeting -*/
-    private void Targeting()
-    {
-        float shortestDistance = Mathf.Infinity;
-        Transform nearestTarget = null;
-        
-        foreach(Unit unit in Unit.GetUnitList())
+        if(statusEffects.Count != statusEffects.Distinct().Count())
         {
-            for(int i = 0; i < stat.targetTags.Length; i++)
-            {
-                //If the unit's tag is the target tag
-                if(unit.gameObject.tag == stat.targetTags[i])
-                {
-                    float distanceToTarget = Vector3.Distance(transform.position, unit.transform.position); //calculates the distance to that enemy
-
-                    //if the distanceToTarget is lesser than shortestDistance
-                    if(distanceToTarget < shortestDistance)
-                    {
-                        shortestDistance = distanceToTarget;
-                        nearestTarget = unit.transform;
-                    }
-                }
-            }
-        }
-        //if the nearestTarget does exist and shortestDistance is less than or equal to the tower's range
-        if(nearestTarget != null && shortestDistance <= attackRange)
-        {
-            targetDetected = nearestTarget;
-
-            //if the unit's behaviour isn't RANGED
-            if(stat.unitBehaviour == Behaviour.RANGED && targetEngaged == null)
-            {
-                targetEngaged = targetDetected.gameObject.GetComponent<Idamageable>(); 
-                StartCoroutine(Combat(attackRate, 1.5f, 2f)); //Calls Combat IEnumerator at attackRate * random
-            }
+            statusEffects.Remove(appliedEffect);
         }
         else
         {
-            targetDetected = null;
-            targetEngaged = null;
+            int effectIndex = (statusEffects.Count - 1);
+            BuffUnit(effectIndex);
+            StartCoroutine(RemoveEffect(appliedEffect, effectIndex, appliedEffect.effectLifetime)); //Calls UpdateTarget IEnumerator at 1 second
         }
     }
-    private void Engaging()
+    /*-  Buffs the units stats when applying a status effect -*/
+    private void BuffUnit(int effectIndex)
     {
-        //if this position and targetDetected's position is greater 2
-        if(targetDetected != null)
-        {
-            if(Vector3.Distance(transform.position, targetDetected.position) <= 2f && stat.unitBehaviour != Behaviour.RANGED && targetEngaged == null)
-            {
-                targetEngaged = targetDetected.gameObject.GetComponent<Idamageable>(); 
-                StartCoroutine(Combat(attackRate, 1, 1.5f)); //Calls Combat IEnumerator at attackRate * random
-            }
-        }
+        attack = GetBuffedStat(attack, stat.unitAttack, effectIndex, BuffedStats.attack);
+        health = GetBuffedStat(health, health, effectIndex, BuffedStats.health);
+        speed = GetBuffedStat(speed, stat.unitSpeed, effectIndex, BuffedStats.speed);
+        attackRate = GetBuffedStat(attackRate, stat.unitAttackRate, effectIndex, BuffedStats.attackRate);
+        attackRange = GetBuffedStat(attackRange, stat.unitAttackRange, effectIndex, BuffedStats.attackRange);
     }
-    /*-  When a GameObject collides with another GameObject, Unity calls OnTriggerEnter. -*/
-    private void OnTriggerEnter(Collider other)
+    private float GetBuffedStat(float buffedStat, float baseStat, int effectIndex, BuffedStats buffedVariable)
     {
-        //if the troop collides with an opposing bullet
-        if (other.gameObject.CompareTag(stat.sharedTags.oncomingBulletTag))
+        if(statusEffects.ElementAtOrDefault(effectIndex) != null)
         {
-            Bullet bullet = other.gameObject.GetComponent<Bullet>(); 
-            TakeDamage(bullet.bulletAttack); //Transfer bulletAttack to the this script's TakeDamage function
-            bullet.DestroyBullet();
+            return buffedStat * statusEffects[effectIndex].GetStatusBonus(buffedVariable);
         }
+        else if(statusEffects.ElementAtOrDefault(effectIndex) == null)
+        {
+            return baseStat;
+        }
+        return baseStat;
     }
-    /*-  Controls Combat between units for troops -*/
-    private IEnumerator Combat(float rate, float minAtkTime, float maxAtkTime)
+    public IEnumerator RemoveEffect(StatusEffect decayedEffect, int effectIndex, float lifeTime)
     {
-        float randomRate = rate * Random.Range(minAtkTime, maxAtkTime);
-        yield return new WaitForSeconds(randomRate);
-
-        //if targetEngaged does exist
-        if(targetEngaged != null && targetDetected.gameObject.activeSelf)
-        {
-            targetEngaged.TakeDamage(this.attack); //Transfer the enemy's troop's attack to the this script's TakeDamage function
-            StartCoroutine(Combat(rate, minAtkTime, maxAtkTime)); //Recalls Combat IEnumerator at attackRate * random
-        }
-        else
-        {
-            targetDetected = null;
-            targetEngaged = null;
-        }
-    }
-    /*-  Handles taking damage takes a float that is the oncoming damage value -*/
-    public void TakeDamage(float damage)
-    {
-        health -= damage;
-        healthBar.fillAmount = health/stat.unitHealth; //Resets healthBar
-
-        //if health is less than or equal to 0
-        if(health <= 0)
-        {
-            targetDetected = null;
-            targetEngaged = null;
-            this.gameObject.SetActive(false); 
-        }
+        yield return new WaitForSeconds(lifeTime);
+        statusEffects.Remove(decayedEffect);
+        BuffUnit(effectIndex);
     }
 }

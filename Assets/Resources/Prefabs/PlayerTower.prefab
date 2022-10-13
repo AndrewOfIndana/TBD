@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 7228203084460922586}
   - component: {fileID: 7228203084460922535}
   - component: {fileID: -8070600105745491596}
+  - component: {fileID: 6856441814214657840}
   - component: {fileID: 8168381976753623955}
   m_Layer: 8
   m_Name: PlayerTower
@@ -264,6 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e9d5f25b84734e4f9895b6f4e51fc5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statusEffects: []
   healthBar: {fileID: 8304596086112738460}
   thisSprite: {fileID: 7228203084907974776}
   thisCollider: {fileID: 7228203084460922535}
@@ -273,6 +275,18 @@ MonoBehaviour:
   speed: 0
   attackRate: 0
   attackRange: 0
+--- !u!114 &6856441814214657840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7228203084460922587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be5f86ac170705e428b40eeb0b80c9c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   firingPoint: {fileID: 876552242}
 --- !u!114 &8168381976753623955
 MonoBehaviour:

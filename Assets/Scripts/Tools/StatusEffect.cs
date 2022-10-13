@@ -21,16 +21,15 @@ public class StatusEffect : ScriptableObject
 
     /*---      FUNCTIONS     ---*/
     /*-  Gets the multiplicate bonus by checking if the buffedStat is the effectedStat -*/
-    public float GetStatusBonus(BuffedStats buffedStat)
+    public float GetStatusBonus(BuffedStats buffedVariable)
     {
-        if(effectedStat == buffedStat)
+        if(effectedStat == buffedVariable)
         {
             float bonus = effectIncrease;
             return bonus;
         }
         else
         {
-            Debug.Log("shit didn't apply");
             return 1f;
         }
     }

@@ -40,6 +40,7 @@ public class PlayerTowerDeployer : MonoBehaviour
         if (allyTower != null)
         {
             allyTower.SetUnit(unitToSpawn);
+            allyTower.StartController();
         }
 
         /* Deploys tower */

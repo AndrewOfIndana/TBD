@@ -113,6 +113,7 @@ GameObject:
   - component: {fileID: 2124282917778928633}
   - component: {fileID: 2124282917778928516}
   - component: {fileID: 2938866095992955101}
+  - component: {fileID: 3799173535770681269}
   - component: {fileID: 1249751990809900958}
   m_Layer: 6
   m_Name: EnemyTower
@@ -180,6 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e9d5f25b84734e4f9895b6f4e51fc5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statusEffects: []
   healthBar: {fileID: 723564703209552319}
   thisSprite: {fileID: 2124282918260651355}
   thisCollider: {fileID: 2124282917778928516}
@@ -189,6 +191,18 @@ MonoBehaviour:
   speed: 0
   attackRate: 0
   attackRange: 0
+--- !u!114 &3799173535770681269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124282917778928632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be5f86ac170705e428b40eeb0b80c9c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   firingPoint: {fileID: 8733962264299078929}
 --- !u!114 &1249751990809900958
 MonoBehaviour:
