@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelID: 1
   levelName: Windhelm
-  availbleUnits: {fileID: 11400000, guid: 47406490dfae22442ae466b48bf97a33, type: 2}
+  availbleUnits: {fileID: 11400000, guid: 6b9cae0d154f59842801c8ebdfc7ae3c, type: 2}
   unitLimit: 3
-  enemyUnits: {fileID: 11400000, guid: 1a6b99c4294362241ad6b8a23252f9ac, type: 2}
-  enemySpawnRate: 3
+  enemyUnits: {fileID: 11400000, guid: 6eed544803b048d4298df94ab916973f, type: 2}
+  enemySpawnRate: 5

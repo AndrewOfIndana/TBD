@@ -77,11 +77,13 @@ public class TowerBehaviour : MonoBehaviour, Idamageable
         //if the nearestTarget does exist and shortestDistance is less than or equal to the tower's range
         if(nearestTarget != null && shortestDistance <= towerController.attackRange)
         {
-            targetDetected = nearestTarget; 
+            targetDetected = nearestTarget;
+            towerController.animator.SetBool("aAttacking", true);
         }
         else
         {
             targetDetected = null;
+            towerController.animator.SetBool("aAttacking", false);
         }
     }
     /*-  Controls shooting -*/

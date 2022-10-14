@@ -10,16 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a165803013d5344e9dbfd7f988f6bed, type: 3}
-  m_Name: e1_TestEnemyCatalog 1
+  m_Name: eList02
   m_EditorClassIdentifier: 
   statsLists:
+  - {fileID: 11400000, guid: 370087030b5ab3d418f21dee38f6b30d, type: 2}
+  - {fileID: 11400000, guid: 6709d745ffcd33448ac092ced8945f21, type: 2}
   - {fileID: 11400000, guid: 59301fc01c45a7f4bb250a61858e2dc4, type: 2}
   - {fileID: 11400000, guid: 59301fc01c45a7f4bb250a61858e2dc4, type: 2}
   - {fileID: 11400000, guid: 59301fc01c45a7f4bb250a61858e2dc4, type: 2}
   - {fileID: 11400000, guid: 59301fc01c45a7f4bb250a61858e2dc4, type: 2}
-  - {fileID: 11400000, guid: 59301fc01c45a7f4bb250a61858e2dc4, type: 2}
-  - {fileID: 11400000, guid: 59301fc01c45a7f4bb250a61858e2dc4, type: 2}
-  - {fileID: 11400000, guid: ca886e802656a1a4aa23c5b6b9d94efe, type: 2}
-  - {fileID: 11400000, guid: ca886e802656a1a4aa23c5b6b9d94efe, type: 2}
-  - {fileID: 11400000, guid: ca886e802656a1a4aa23c5b6b9d94efe, type: 2}
   - {fileID: 11400000, guid: 59301fc01c45a7f4bb250a61858e2dc4, type: 2}

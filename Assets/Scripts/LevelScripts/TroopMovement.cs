@@ -43,10 +43,12 @@ public class TroopMovement : MonoBehaviour
     private void Update()
     {
         //if targetDetected doesn't exist and this unit's behaviour isn't DEFEND
-        if(troopBehaviour.targetDetected == null && troopController.stat.unitBehaviour != Behaviour.DEFEND)
+        if(troopBehaviour.targetDetected == null && troopBehaviour.playerDetected == null)
         {
             /* MOVES TROOP TO WAYPOINT */
-
+            
+            troopController.animator.SetBool("aAttacking", false);
+            troopController.animator.SetBool("aIdle", false);
             Vector3 dir = path.position - transform.position;
             transform.Translate(dir.normalized * troopController.speed * Time.deltaTime, Space.World);
 
@@ -56,14 +58,32 @@ public class TroopMovement : MonoBehaviour
                 GetNextWaypoint();
             }
         }
+        else if(troopController.stat.unitBehaviour == Behaviour.DEFEND && troopBehaviour.playerDetected != null && troopBehaviour.targetDetected == null)
+        {
+            if(Vector3.Distance(transform.position, troopBehaviour.playerDetected.position) >= 2f)
+            {
+                Vector3 dir = troopBehaviour.playerDetected.position - transform.position; 
+                transform.Translate(dir.normalized * troopController.speed * Time.deltaTime, Space.World);
+                troopController.animator.SetBool("aIdle", false);
+
+            }
+            else
+            {
+                troopController.animator.SetBool("aIdle", true);
+            }
+        }
         else if(troopBehaviour.targetDetected != null && troopController.stat.unitBehaviour != Behaviour.RANGED) //if targetDetected does exist and this unit's behaviour isn't RANGED
         {
-            /* MOVES TROOP TO OPPONENT */
+            /* MOVES TROOP TO Player */
 
             if(Vector3.Distance(transform.position, troopBehaviour.targetDetected.position) >= 2f)
             {
                 Vector3 dir = troopBehaviour.targetDetected.position - transform.position; 
                 transform.Translate(dir.normalized * troopController.speed * Time.deltaTime, Space.World);
+            }
+            else if(troopController.stat.unitBehaviour != Behaviour.SUPPORT)
+            {
+                troopController.animator.SetBool("aAttacking", true);
             }
         }
     }

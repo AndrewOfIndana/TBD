@@ -16,6 +16,7 @@ public class TowerController : MonoBehaviour, Ieffectable
     private TowerBehaviour towerBehaviour;
 
     [Header("GameObject References")]
+    public Animator animator;
     public Image healthBar; 
     public SpriteRenderer thisSprite; 
     public BoxCollider thisCollider; 

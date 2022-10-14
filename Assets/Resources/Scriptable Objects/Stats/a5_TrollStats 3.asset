@@ -31,3 +31,4 @@ MonoBehaviour:
   unitThumbnail: {fileID: 21300000, guid: e4f407ab4352b5446b3eb8b0384d90f5, type: 3}
   unitType: 0
   unitBehaviour: 3
+  unitWalkSpeed: 0.5

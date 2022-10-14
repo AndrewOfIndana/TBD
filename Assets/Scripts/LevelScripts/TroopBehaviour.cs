@@ -16,6 +16,10 @@ public class TroopBehaviour : MonoBehaviour, Idamageable
     [HideInInspector] public Transform targetDetected; //What the unit detects
     private Idamageable targetEngaged; //What the unit is fighting
 
+    /*[Header("Golem References")]*/
+    public PlayerAvatar playerAvatar;
+    public Transform playerDetected;
+
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
     private void Awake()
@@ -23,6 +27,11 @@ public class TroopBehaviour : MonoBehaviour, Idamageable
         troopController = this.GetComponent<TroopController>();
         troopMovement = this.GetComponent<TroopMovement>();
     }
+    private void Start()
+    {
+        playerAvatar = LevelManager.levelManagerInstance.playerAvatar;
+    }
+
     /*-  Starts the units targeting behaviour -*/
     public void StartBehaviour()
     {
@@ -62,6 +71,7 @@ public class TroopBehaviour : MonoBehaviour, Idamageable
                 }
             }
         }
+
         //if the nearestTarget does exist and shortestDistance is less than or equal to the tower's range
         if(nearestTarget != null && shortestDistance <= troopController.attackRange)
         {
@@ -70,14 +80,20 @@ public class TroopBehaviour : MonoBehaviour, Idamageable
             //if the unit's behaviour is RANGED
             if(troopController.stat.unitBehaviour == Behaviour.RANGED && targetEngaged == null)
             {
+                troopController.animator.SetBool("aAttacking", true);
                 targetEngaged = targetDetected.gameObject.GetComponent<Idamageable>(); 
                 StartCoroutine(Combat(troopController.attackRate, 1.5f, 2f));
             }
+        }
+        else if(troopController.stat.unitBehaviour == Behaviour.DEFEND && Vector3.Distance(transform.position, playerAvatar.transform.position) <= (troopController.attackRange * 2))
+        {
+            playerDetected = playerAvatar.transform;
         }
         else
         {
             targetDetected = null;
             targetEngaged = null;
+            playerDetected = null;
         }
     }
     /*-  Controls engagement of targets  -*/

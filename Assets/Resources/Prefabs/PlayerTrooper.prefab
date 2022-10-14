@@ -270,6 +270,7 @@ GameObject:
   - component: {fileID: 4551315482782599040}
   - component: {fileID: 2456645891109658213}
   - component: {fileID: -4056264432099994969}
+  - component: {fileID: 6449935337863171828}
   m_Layer: 8
   m_Name: PlayerTrooper
   m_TagString: AllyTroop
@@ -336,6 +337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statusEffects: []
+  animator: {fileID: 9013317435470268703}
   healthBar: {fileID: 2463070660628049926}
   thisSprite: {fileID: 5071380697287960542}
   thisCollider: {fileID: 5071380696696660225}
@@ -382,6 +384,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b0432642b370f74fa6d29bd8230ea0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6449935337863171828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5071380696696660349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae92928f92124f439054f7d136b25eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5071380697287960540
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,7 +406,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5071380697287960543}
   - component: {fileID: 5071380697287960542}
-  - component: {fileID: 285676772853844936}
+  - component: {fileID: 9013317435470268703}
   m_Layer: 8
   m_Name: Sprite
   m_TagString: Untagged
@@ -467,15 +481,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &285676772853844936
-MonoBehaviour:
+--- !u!95 &9013317435470268703
+Animator:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5071380697287960540}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dae92928f92124f439054f7d136b25eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0d391f6a6156f7c438c5a8b33f2147b8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

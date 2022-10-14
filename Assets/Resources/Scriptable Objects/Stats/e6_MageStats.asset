@@ -29,5 +29,7 @@ MonoBehaviour:
   - AllyAssassin
   sharedTags: {fileID: 11400000, guid: d3fc0c1f4507e3841928636ff32a43d0, type: 2}
   unitCost: 0
+  unitThumbnail: {fileID: 0}
   unitType: 0
   unitBehaviour: 4
+  unitWalkSpeed: 1

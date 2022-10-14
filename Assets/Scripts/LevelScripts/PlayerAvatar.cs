@@ -14,6 +14,7 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     List<Transform> availableTiles;
 
     [Header("GameObject References")]
+    public Animator animator;
     public Image healthBar;
     private Rigidbody playerRb;
 
@@ -58,6 +59,7 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
         velocity.x = Input.GetAxis("Horizontal");
         velocity.z = Input.GetAxis("Vertical");
         playerRb.MovePosition(playerRb.position + velocity * speed * Time.deltaTime);
+        animator.SetFloat("aSpeed", Mathf.Abs(velocity.magnitude));
 
         /* Combat Code */
         //if the player clicks the left mouse button
@@ -72,6 +74,7 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
                 //If what the player hit is the same as the player's stat.targetTags[0 ,1 and 2]
                 if (hit.transform.gameObject.tag == stat.targetTags[0] || hit.transform.gameObject.tag == stat.targetTags[1] || hit.transform.gameObject.tag == stat.targetTags[2])
                 {
+                    animator.Play("playerAttack");
                     targetEngaged = hit.transform.gameObject.GetComponent<Idamageable>();
                     targetEngaged.TakeDamage(attack); //Transfer the players's attack to the  targetEngaged script's TakeDamage function
                 }

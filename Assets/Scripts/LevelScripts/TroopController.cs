@@ -17,6 +17,7 @@ public class TroopController : MonoBehaviour, Ieffectable
     private TroopMovement troopMovement;
 
     [Header("GameObject References")]
+    public Animator animator;
     public Image healthBar; 
     public SpriteRenderer thisSprite; 
     public BoxCollider thisCollider;
@@ -52,6 +53,7 @@ public class TroopController : MonoBehaviour, Ieffectable
     /*-  Starts the unit's behaviour and movement -*/
     public void StartController()
     {
+        animator.speed = stat.unitWalkSpeed;
         troopBehaviour.StartBehaviour(); //Starts the troop's Behaviour
         troopMovement.StartMovement(); //Starts the troop's Movement
     }
