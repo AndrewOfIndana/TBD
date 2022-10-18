@@ -17,18 +17,12 @@ public class LevelManager : MonoBehaviour
 
     [Header("Setup References")]
     public Level level;
-    /* Allows for levels to be made without the level scriptable object */
-    public StatsList levelPlayerUnitsList;
-    public StatsList levelEnemyUnitsList;
-    public int levelUnitLimit;
-    public float levelEnemyRate;
-    [HideInInspector] public int levelNum;
-    [HideInInspector] public string levelName;
+    private int levelUnitLimit;
     /* Setup Variables that actually matter */
-    [HideInInspector] public List<Stats> levelPlayerUnits = new List<Stats>(); //List of units that the player has to choose
-    [HideInInspector] public List<Stats> playerUnits = new List<Stats>(); //List of units that the player has chosen
-    [HideInInspector] public int playerUnitCount = 0;
-    [HideInInspector] public List<Stats> levelEnemyUnits = new List<Stats>();
+    private List<Stats> levelPlayerUnits = new List<Stats>(); //List of units that the player has to choose
+    private List<Stats> playerUnits = new List<Stats>(); //List of units that the player has chosen
+    private int playerUnitCount = 0;
+    private List<Stats> levelEnemyUnits = new List<Stats>();
 
     [Header("Controller References")]
     public PlayerController playerController;
@@ -38,19 +32,20 @@ public class LevelManager : MonoBehaviour
 
     [Header("Player Avatar References")]
     public GameObject playerPrefab;
-    [HideInInspector] public PlayerAvatar playerAvatar;
+    private PlayerAvatar playerAvatar;
 
     [Header("Script References")]
     public CinemachineVirtualCamera topdownCamera; 
     public CinemachineVirtualCamera playerCamera;
-    [HideInInspector] public GameStates gameState = GameStates.SETUP;
-    public float respawnTime = 10f;
+    private GameStates gameState = GameStates.SETUP;
+    private float respawnTime = 10f;
     private bool hasPlayerRespawned = true;
 
     // public float HordeCalmTime = 120f;
     // public float HordeEnragedTime = 60f;
     // public float HordeTime;
 
+    #region
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
     private void Awake()
@@ -130,25 +125,6 @@ public class LevelManager : MonoBehaviour
         playerCamera.Priority = cam2;
     }
     /*--    SETUP MANAGEMENT   --*/
-    /*-  Retrives values from level package and sets variables if they exist  -*/
-    private void SetLevel()
-    {
-        //If level exists
-        if(level != null)
-        {
-            levelPlayerUnits = level.availbleUnits.statsLists;
-            levelUnitLimit = level.unitLimit;
-            levelEnemyUnits = level.enemyUnits.statsLists;
-            levelEnemyRate = level.enemySpawnRate;
-            levelNum = level.levelID;
-            levelName = level.levelName;
-        }
-        else if(level == null)
-        {
-            levelPlayerUnits = levelPlayerUnitsList.statsLists;
-            levelEnemyUnits = levelEnemyUnitsList.statsLists;
-        }
-    }
     /*-  Adds or removes unit in the playerUnits list and checks if the player is ready or not  -*/
     public void AddOrRemoveUnit(int index)
     {
@@ -201,5 +177,43 @@ public class LevelManager : MonoBehaviour
         levelUI.UpdateUI();
         levelUI.UpdatePlayerDeath(true);
         hasPlayerRespawned = true;
+    }
+    #endregion
+
+    /*---      SET/GET FUNCTIONS     ---*/
+    /*-  Retrives values from level package and sets variables if they exist  -*/
+    private void SetLevel()
+    {
+        levelPlayerUnits = level.availbleUnits.statsLists;
+        levelUnitLimit = level.unitLimit;
+        levelEnemyUnits = level.enemyUnits.statsLists;
+    }
+    public Level GetLevel()
+    {
+        return level;
+    }
+    public List<Stats> GetLevelPlayerUnits()
+    {
+        return levelPlayerUnits;
+    }
+    public List<Stats> GetEnemyUnits()
+    {
+        return levelEnemyUnits;
+    }
+    public List<Stats> GetPlayerUnits()
+    {
+        return playerUnits;
+    }
+    public int GetPlayerUnitsCount()
+    {
+        return playerUnitCount;
+    }
+    public GameStates GetGameState()
+    {
+        return gameState;
+    }
+    public PlayerAvatar GetPlayerAvatar()
+    {
+        return playerAvatar;
     }
 }

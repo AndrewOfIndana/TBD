@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
-public class TowerController : MonoBehaviour, Ieffectable
+public class TowerController : MonoBehaviour, Ieffectable, Idamageable
 {
     /*  
         Name: TowerController.cs
@@ -22,12 +22,10 @@ public class TowerController : MonoBehaviour, Ieffectable
     public BoxCollider thisCollider; 
 
     /*[Header("Stats Variables")]*/
-    [HideInInspector] public Stats stat;
-    [HideInInspector] public float attack;
-    [HideInInspector] public float health; 
-    [HideInInspector] public float speed;
-    [HideInInspector] public float attackRate;
-    [HideInInspector] public float attackRange;
+    private Stats stat;
+    private float attack;
+    private float health; 
+    private float attackRate;
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
@@ -42,7 +40,6 @@ public class TowerController : MonoBehaviour, Ieffectable
         attack = newStats.unitAttack; 
         health = newStats.unitHealth;
         attackRate = newStats.unitAttackRate;
-        attackRange = newStats.unitAttackRange;
         thisSprite.sprite = newStats.unitSprite;
         thisCollider.size =  newStats.unitSize;
         healthBar.fillAmount = health/newStats.unitHealth;
@@ -52,9 +49,7 @@ public class TowerController : MonoBehaviour, Ieffectable
     {
         attack = attack * statusEffects[index].GetStatusBonus(BuffedStats.attack);
         health = health * statusEffects[index].GetStatusBonus(BuffedStats.health);
-        speed = speed * statusEffects[index].GetStatusBonus(BuffedStats.speed);
         attackRate = attackRate * statusEffects[index].GetStatusBonus(BuffedStats.attackRate);
-        attackRange = attackRange * statusEffects[index].GetStatusBonus(BuffedStats.attackRange);
     }
     /*-  Starts the unit's behaviour and movement -*/
     public void StartController()
@@ -83,9 +78,7 @@ public class TowerController : MonoBehaviour, Ieffectable
     {
         attack = GetBuffedStat(attack, stat.unitAttack, effectIndex, BuffedStats.attack);
         health = GetBuffedStat(health, health, effectIndex, BuffedStats.health);
-        speed = GetBuffedStat(speed, stat.unitSpeed, effectIndex, BuffedStats.speed);
         attackRate = GetBuffedStat(attackRate, stat.unitAttackRate, effectIndex, BuffedStats.attackRate);
-        attackRange = GetBuffedStat(attackRange, stat.unitAttackRange, effectIndex, BuffedStats.attackRange);
     }
     private float GetBuffedStat(float buffedStat, float baseStat, int effectIndex, BuffedStats buffedVariable)
     {
@@ -104,5 +97,32 @@ public class TowerController : MonoBehaviour, Ieffectable
         yield return new WaitForSeconds(lifeTime);
         statusEffects.Remove(decayedEffect);
         BuffUnit(effectIndex);
+    }
+
+    /*-  Handles taking damage takes a float that is the oncoming damage value -*/
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        healthBar.fillAmount = health/stat.unitHealth; //Resets healthBar
+
+        //if health is less than or equal to 0
+        if(health <= 0)
+        {
+            this.gameObject.SetActive(false); 
+        }
+    }
+
+    /*---      SET/GET FUNCTIONS     ---*/
+    public Stats GetStats()
+    {
+        return stat;
+    }
+    public float GetAttack()
+    {
+        return attack;
+    }
+    public float GetAttackRate()
+    {
+        return attackRate;
     }
 }

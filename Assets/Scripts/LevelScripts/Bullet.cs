@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
     */
 
     public float speed;
-    [HideInInspector] public float bulletAttack;
+    private float bulletAttack;
     private Transform target;
 
     /*---      SETUP FUNCTIONS     ---*/
@@ -44,5 +44,11 @@ public class Bullet : MonoBehaviour
     public void DestroyBullet()
     {
         this.gameObject.SetActive(false); 
+    }
+
+    /*---      SET/GET FUNCTIONS     ---*/
+    public float GetAttack()
+    {
+        return bulletAttack;
     }
 }

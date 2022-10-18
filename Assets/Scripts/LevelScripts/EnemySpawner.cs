@@ -16,7 +16,7 @@ public class EnemySpawner : MonoBehaviour, Idamageable
 
     [Header("Health Variables")]
     public float health = 1000;
-    [HideInInspector] public float maxHealth;
+    private float maxHealth;
 
     /*[Header("Script Variables")]*/
     private float spawnRate; 
@@ -34,8 +34,8 @@ public class EnemySpawner : MonoBehaviour, Idamageable
         maxHealth = health;
 
         /* Gets and sets variables form the level manager */
-        typesOfEnemies = levelManager.levelEnemyUnits;
-        spawnRate = levelManager.levelEnemyRate;
+        typesOfEnemies = levelManager.GetEnemyUnits();
+        spawnRate = levelManager.GetLevel().enemySpawnRate;
     }
     /*-  StartGame is called when the game has started -*/
     public void StartGame()
@@ -71,5 +71,15 @@ public class EnemySpawner : MonoBehaviour, Idamageable
             levelManager.ChangeState(GameStates.WIN); //Sets GameStates to WIN in the levelManager
             this.gameObject.SetActive(false); //deactivate the troop
         }
+    }
+
+    /*---      SET/GET FUNCTIONS     ---*/
+    public float GetHealth()
+    {
+        return health;
+    }
+    public float GetMaxHealth()
+    {
+        return maxHealth;
     }
 }

@@ -16,7 +16,7 @@ public class PlayerSpawner : MonoBehaviour, Idamageable
 
     [Header("Health Variables")]
     public float health = 1000;
-    [HideInInspector] public float maxHealth;
+    private float maxHealth;
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Start is called before the first frame update -*/
@@ -56,6 +56,16 @@ public class PlayerSpawner : MonoBehaviour, Idamageable
             levelManager.ChangeState(GameStates.LOSE); //Sets GameStates to LOSE in the levelManager
             this.gameObject.SetActive(false); //deactivate the troop
         }
+    }
+
+    /*---      SET/GET FUNCTIONS     ---*/
+    public float GetHealth()
+    {
+        return health;
+    }
+    public float GetMaxHealth()
+    {
+        return maxHealth;
     }
 }
 

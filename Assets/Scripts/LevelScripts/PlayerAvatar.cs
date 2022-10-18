@@ -20,14 +20,14 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
 
     [Header("Stats Variables")]
     public Stats stat;
-    [HideInInspector] public float attack;
-    [HideInInspector] public float health;
-    [HideInInspector] public float speed;
-    [HideInInspector] public float attackRate;
-    [HideInInspector] public float attackRange;
+    private float attack;
+    private float health;
+    private float speed;
+    private float attackRate;
+    private float attackRange;
 
-    [Header("Script References")]
-    public Transform closestTile;
+    /*[Header("Script References")]*/
+    private Transform closestTile;
     private Idamageable targetEngaged; //Private reference to the enemy troop the troop is engaged with
     private Vector3 velocity;
 
@@ -119,5 +119,11 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
         {
             this.gameObject.SetActive(false);
         }
+    }
+
+    /*---      SET/GET FUNCTIONS     ---*/
+    public Transform GetClosestTile()
+    {
+        return closestTile;
     }
 }

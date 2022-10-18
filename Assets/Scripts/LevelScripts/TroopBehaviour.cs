@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TroopBehaviour : MonoBehaviour, Idamageable
+public class TroopBehaviour : MonoBehaviour
 {
     /*  
         Name: TroopBehaviour.cs
@@ -13,12 +13,12 @@ public class TroopBehaviour : MonoBehaviour, Idamageable
     /*[Header("Script References")]*/
     private TroopController troopController;
     private TroopMovement troopMovement;
-    [HideInInspector] public Transform targetDetected; //What the unit detects
+    private Transform targetDetected; //What the unit detects
     private Idamageable targetEngaged; //What the unit is fighting
 
     /*[Header("Golem References")]*/
-    public PlayerAvatar playerAvatar;
-    public Transform playerDetected;
+    private PlayerAvatar playerAvatar;
+    private Transform playerDetected;
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
@@ -29,7 +29,7 @@ public class TroopBehaviour : MonoBehaviour, Idamageable
     }
     private void Start()
     {
-        playerAvatar = LevelManager.levelManagerInstance.playerAvatar;
+        playerAvatar = LevelManager.levelManagerInstance.GetPlayerAvatar();
     }
 
     /*-  Starts the units targeting behaviour -*/
@@ -55,10 +55,10 @@ public class TroopBehaviour : MonoBehaviour, Idamageable
         
         foreach(Unit unit in Unit.GetUnitList())
         {
-            for(int i = 0; i < troopController.stat.targetTags.Length; i++)
+            for(int i = 0; i < troopController.GetStats().targetTags.Length; i++)
             {
                 //If the unit's tag is the target tag
-                if(unit.gameObject.tag == troopController.stat.targetTags[i])
+                if(unit.gameObject.tag == troopController.GetStats().targetTags[i])
                 {
                     float distanceToTarget = Vector3.Distance(transform.position, unit.transform.position); //calculates the distance to that enemy
 
@@ -73,27 +73,25 @@ public class TroopBehaviour : MonoBehaviour, Idamageable
         }
 
         //if the nearestTarget does exist and shortestDistance is less than or equal to the tower's range
-        if(nearestTarget != null && shortestDistance <= troopController.attackRange)
+        if(nearestTarget != null && shortestDistance <= troopController.GetStats().unitAttackRange)
         {
             targetDetected = nearestTarget;
 
             //if the unit's behaviour is RANGED
-            if(troopController.stat.unitBehaviour == Behaviour.RANGED && targetEngaged == null)
+            if(troopController.GetStats().unitBehaviour == Behaviour.RANGED && targetEngaged == null)
             {
                 troopController.animator.SetBool("aAttacking", true);
                 targetEngaged = targetDetected.gameObject.GetComponent<Idamageable>(); 
-                StartCoroutine(Combat(troopController.attackRate, 1.5f, 2f));
+                StartCoroutine(Combat(troopController.GetAttackRate(), 1.5f, 2f));
             }
         }
-        else if(troopController.stat.unitBehaviour == Behaviour.DEFEND && Vector3.Distance(transform.position, playerAvatar.transform.position) <= (troopController.attackRange * 2))
+        else if(troopController.GetStats().unitBehaviour == Behaviour.DEFEND && Vector3.Distance(transform.position, playerAvatar.transform.position) <= (troopController.GetStats().unitAttackRange * 2))
         {
             playerDetected = playerAvatar.transform;
         }
         else
         {
-            targetDetected = null;
-            targetEngaged = null;
-            playerDetected = null;
+            VoidTargets();
         }
     }
     /*-  Controls engagement of targets  -*/
@@ -103,10 +101,10 @@ public class TroopBehaviour : MonoBehaviour, Idamageable
         if(targetDetected != null)
         {
             //if this position and targetDetected's position is greater 2 and unit's behaviour isn't RANGED and targetEngaged doesn't exist 
-            if(Vector3.Distance(transform.position, targetDetected.position) <= 2f && troopController.stat.unitBehaviour != Behaviour.RANGED && targetEngaged == null)
+            if(Vector3.Distance(transform.position, targetDetected.position) <= 2f && troopController.GetStats().unitBehaviour != Behaviour.RANGED && targetEngaged == null)
             {
                 targetEngaged = targetDetected.gameObject.GetComponent<Idamageable>(); 
-                StartCoroutine(Combat(troopController.attackRate, 1, 1.5f));
+                StartCoroutine(Combat(troopController.GetAttackRate(), 1, 1.5f));
             }
         }
     }
@@ -119,38 +117,45 @@ public class TroopBehaviour : MonoBehaviour, Idamageable
         //if targetEngaged does exist
         if(targetEngaged != null && targetDetected.gameObject.activeSelf)
         {
-            targetEngaged.TakeDamage(troopController.attack); //Transfer the enemy's troop's attack to the this script's TakeDamage function
+            targetEngaged.TakeDamage(troopController.GetAttack()); //Transfer the enemy's troop's attack to the this script's TakeDamage function
             StartCoroutine(Combat(rate, minAtkTime, maxAtkTime)); //Recalls Combat IEnumerator at attackRate * random
         }
         else
         {
-            targetDetected = null;
-            targetEngaged = null;
+            VoidTargets();
         }
     }
     /*-  When a GameObject collides with another GameObject, Unity calls OnTriggerEnter. -*/
     private void OnTriggerEnter(Collider other)
     {
         //if the troop collides with an opposing bullet
-        if (other.gameObject.CompareTag(troopController.stat.sharedTags.oncomingBulletTag))
+        if (other.gameObject.CompareTag(troopController.GetStats().sharedTags.oncomingBulletTag))
         {
             Bullet bullet = other.gameObject.GetComponent<Bullet>(); 
-            TakeDamage(bullet.bulletAttack); //Transfer bulletAttack to the this script's TakeDamage function
+            troopController.TakeDamage(bullet.GetAttack()); //Transfer bulletAttack to the this script's TakeDamage function
             bullet.DestroyBullet();
         }
     }
-    /*-  Handles taking damage takes a float that is the oncoming damage value -*/
-    public void TakeDamage(float damage)
-    {
-        troopController.health -= damage;
-        troopController.healthBar.fillAmount = troopController.health/troopController.stat.unitHealth; //Resets healthBar
 
-        //if health is less than or equal to 0
-        if(troopController.health <= 0)
-        {
-            targetDetected = null;
-            targetEngaged = null;
-            this.gameObject.SetActive(false); 
-        }
+    /*---      SET/GET FUNCTIONS     ---*/
+    public Transform GetTargetDetected()
+    {
+        return targetDetected;
+    }
+    public Idamageable GetTargetEngaged()
+    {
+        return targetEngaged;
+    }
+    public Transform GetPlayerDetected()
+    {
+        return playerDetected;
+    }
+    public void VoidTargets()
+    {
+        targetDetected = null;
+        targetEngaged = null;
+        playerDetected = null;
     }
 }
+
+

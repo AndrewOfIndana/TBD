@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
-public class TroopController : MonoBehaviour, Ieffectable
+public class TroopController : MonoBehaviour, Ieffectable, Idamageable
 {
     /*  
         Name: TroopController.cs
@@ -23,12 +23,11 @@ public class TroopController : MonoBehaviour, Ieffectable
     public BoxCollider thisCollider;
 
     /*[Header("Stats Variables")]*/
-    [HideInInspector] public Stats stat;
-    public float attack;
-    public float health; 
-    public float speed;
-    public float attackRate;
-    public float attackRange;
+    private Stats stat;
+    private float attack;
+    private float health; 
+    private float speed;
+    private float attackRate;
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
@@ -45,10 +44,10 @@ public class TroopController : MonoBehaviour, Ieffectable
         health = newStats.unitHealth;
         speed = newStats.unitSpeed;
         attackRate = newStats.unitAttackRate;
-        attackRange = newStats.unitAttackRange;
         thisSprite.sprite = newStats.unitSprite;
         thisCollider.size =  newStats.unitSize;
         healthBar.fillAmount = health/newStats.unitHealth;
+        this.gameObject.tag = newStats.unitTag;
     }
     /*-  Starts the unit's behaviour and movement -*/
     public void StartController()
@@ -81,7 +80,6 @@ public class TroopController : MonoBehaviour, Ieffectable
         health = GetBuffedStat(health, health, effectIndex, BuffedStats.health);
         speed = GetBuffedStat(speed, stat.unitSpeed, effectIndex, BuffedStats.speed);
         attackRate = GetBuffedStat(attackRate, stat.unitAttackRate, effectIndex, BuffedStats.attackRate);
-        attackRange = GetBuffedStat(attackRange, stat.unitAttackRange, effectIndex, BuffedStats.attackRange);
     }
     private float GetBuffedStat(float buffedStat, float baseStat, int effectIndex, BuffedStats buffedVariable)
     {
@@ -100,5 +98,37 @@ public class TroopController : MonoBehaviour, Ieffectable
         yield return new WaitForSeconds(lifeTime);
         statusEffects.Remove(decayedEffect);
         BuffUnit(effectIndex);
+    }
+
+    /*-  Handles taking damage takes a float that is the oncoming damage value -*/
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        healthBar.fillAmount = health/stat.unitHealth; //Resets healthBar
+
+        //if health is less than or equal to 0
+        if(health <= 0)
+        {
+            troopBehaviour.VoidTargets();
+            this.gameObject.SetActive(false); 
+        }
+    }
+
+    /*---      SET/GET FUNCTIONS     ---*/
+    public Stats GetStats()
+    {
+        return stat;
+    }
+    public float GetAttack()
+    {
+        return attack;
+    }
+    public float GetSpeed()
+    {
+        return speed;
+    }
+    public float GetAttackRate()
+    {
+        return attackRate;
     }
 }

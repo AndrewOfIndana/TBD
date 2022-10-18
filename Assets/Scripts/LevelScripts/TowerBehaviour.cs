@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TowerBehaviour : MonoBehaviour, Idamageable
+public class TowerBehaviour : MonoBehaviour
 {
     /*  
         Name: TowerBehaviour.cs
@@ -33,7 +33,7 @@ public class TowerBehaviour : MonoBehaviour, Idamageable
     /*-  Starts the units targeting behaviour -*/
     public void StartBehaviour()
     {
-        StartCoroutine(UpdateTarget(towerController.attackRate)); //Calls UpdateTarget IEnumerator at attackRate
+        StartCoroutine(UpdateTarget(towerController.GetAttackRate())); //Calls UpdateTarget IEnumerator at attackRate
     }
 
     /*---      FUNCTIONS     ---*/
@@ -48,7 +48,7 @@ public class TowerBehaviour : MonoBehaviour, Idamageable
         {
             Shoot();
         }
-        StartCoroutine(UpdateTarget(towerController.attackRate)); //Recalls Aiming IEnumerator at attackRate
+        StartCoroutine(UpdateTarget(towerController.GetAttackRate())); //Recalls Aiming IEnumerator at attackRate
     }
     /*-  Controls targeting -*/
     private void Targeting()
@@ -58,10 +58,10 @@ public class TowerBehaviour : MonoBehaviour, Idamageable
 
         foreach(Unit unit in Unit.GetUnitList())
         {
-            for(int i = 0; i < towerController.stat.targetTags.Length; i++)
+            for(int i = 0; i < towerController.GetStats().targetTags.Length; i++)
             {
                 //If the unit's tag is the target tag
-                if(unit.gameObject.tag == towerController.stat.targetTags[i])
+                if(unit.gameObject.tag == towerController.GetStats().targetTags[i])
                 {
                     float distanceToTarget = Vector3.Distance(transform.position, unit.transform.position); //calculates the distance to that enemy
 
@@ -75,7 +75,7 @@ public class TowerBehaviour : MonoBehaviour, Idamageable
             }
         }
         //if the nearestTarget does exist and shortestDistance is less than or equal to the tower's range
-        if(nearestTarget != null && shortestDistance <= towerController.attackRange)
+        if(nearestTarget != null && shortestDistance <= towerController.GetStats().unitAttackRange)
         {
             targetDetected = nearestTarget;
             towerController.animator.SetBool("aAttacking", true);
@@ -89,26 +89,13 @@ public class TowerBehaviour : MonoBehaviour, Idamageable
     /*-  Controls shooting -*/
     private void Shoot()
     {
-        GameObject bulletObj = objectPool.SpawnFromPool(towerController.stat.sharedTags.bulletTag, firingPoint.position, firingPoint.rotation);
+        GameObject bulletObj = objectPool.SpawnFromPool(towerController.GetStats().sharedTags.bulletTag, firingPoint.position, firingPoint.rotation);
         Bullet bullet = bulletObj.GetComponent<Bullet>();
 
         //if this bullet exist
         if(bullet != null)
         {
-            bullet.Seek(targetDetected, towerController.attack); //calls the bullet's seek function
+            bullet.Seek(targetDetected, towerController.GetAttack()); //calls the bullet's seek function
         }
     }
-    /*-  Handles taking damage takes a float that is the oncoming damage value -*/
-    public void TakeDamage(float damage)
-    {
-        towerController.health -= damage;
-        towerController.healthBar.fillAmount = towerController.health/towerController.stat.unitHealth; //Resets healthBar
-
-        //if health is less than or equal to 0
-        if(towerController.health <= 0)
-        {
-            this.gameObject.SetActive(false); 
-        }
-    }
-
 }

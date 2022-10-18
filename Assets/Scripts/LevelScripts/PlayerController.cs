@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
         levelUI = LevelUI.levelUIinstance;
 
         /* Gets and sets variables form the level manager */
-        units = levelManager.playerUnits;
+        units = levelManager.GetPlayerUnits();
     }
     /*-  StartGame is called when the game has started -*/
     public void StartGame()
@@ -97,5 +97,11 @@ public class PlayerController : MonoBehaviour
         {
             return false;
         }
+    }
+
+    /*---      SET/GET FUNCTIONS     ---*/
+    public float GetMana()
+    {
+        return mana;
     }
 }

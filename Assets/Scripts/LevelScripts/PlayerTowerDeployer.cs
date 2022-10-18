@@ -44,7 +44,7 @@ public class PlayerTowerDeployer : MonoBehaviour
         }
 
         /* Deploys tower */
-        snappedPosition = levelManager.playerAvatar.closestTile.position;
+        snappedPosition = levelManager.GetPlayerAvatar().GetClosestTile().position;
         snappedPosition.y += yOffset;
         selectedTower.transform.position = snappedPosition;
         selectedTower = null;

@@ -26,12 +26,12 @@ public class TroopMovement : MonoBehaviour
     public void StartMovement()
     {
         //if the troop is an enemy 
-        if(troopController.stat.isUnitEnemy)
+        if(troopController.GetStats().isUnitEnemy)
         {
             wavePointIndex = 0; 
             path = WayPoints.points[0]; //Sets the path transform to the first wayPoint 
         }
-        else if(!troopController.stat.isUnitEnemy) //if the troop isn't an enemy
+        else if(!troopController.GetStats().isUnitEnemy) //if the troop isn't an enemy
         {
             wavePointIndex = WayPoints.points.Length - 1; 
             path = WayPoints.points[(WayPoints.points.Length - 1)]; //Sets the path transform to the last wayPoint 
@@ -43,14 +43,14 @@ public class TroopMovement : MonoBehaviour
     private void Update()
     {
         //if targetDetected doesn't exist and this unit's behaviour isn't DEFEND
-        if(troopBehaviour.targetDetected == null && troopBehaviour.playerDetected == null)
+        if(troopBehaviour.GetTargetDetected() == null && troopBehaviour.GetPlayerDetected() == null)
         {
             /* MOVES TROOP TO WAYPOINT */
             
             troopController.animator.SetBool("aAttacking", false);
             troopController.animator.SetBool("aIdle", false);
             Vector3 dir = path.position - transform.position;
-            transform.Translate(dir.normalized * troopController.speed * Time.deltaTime, Space.World);
+            transform.Translate(dir.normalized * troopController.GetSpeed() * Time.deltaTime, Space.World);
 
             //If the troop has reached a waypoint calculate a new waypoint
             if (Vector3.Distance(transform.position, path.position) <= 1f)
@@ -58,12 +58,12 @@ public class TroopMovement : MonoBehaviour
                 GetNextWaypoint();
             }
         }
-        else if(troopController.stat.unitBehaviour == Behaviour.DEFEND && troopBehaviour.playerDetected != null && troopBehaviour.targetDetected == null)
+        else if(troopController.GetStats().unitBehaviour == Behaviour.DEFEND && troopBehaviour.GetPlayerDetected() != null && troopBehaviour.GetTargetDetected() == null)
         {
-            if(Vector3.Distance(transform.position, troopBehaviour.playerDetected.position) >= 2f)
+            if(Vector3.Distance(transform.position, troopBehaviour.GetPlayerDetected().position) >= 2f)
             {
-                Vector3 dir = troopBehaviour.playerDetected.position - transform.position; 
-                transform.Translate(dir.normalized * troopController.speed * Time.deltaTime, Space.World);
+                Vector3 dir = troopBehaviour.GetPlayerDetected().position - transform.position; 
+                transform.Translate(dir.normalized * troopController.GetSpeed() * Time.deltaTime, Space.World);
                 troopController.animator.SetBool("aIdle", false);
 
             }
@@ -72,16 +72,16 @@ public class TroopMovement : MonoBehaviour
                 troopController.animator.SetBool("aIdle", true);
             }
         }
-        else if(troopBehaviour.targetDetected != null && troopController.stat.unitBehaviour != Behaviour.RANGED) //if targetDetected does exist and this unit's behaviour isn't RANGED
+        else if(troopBehaviour.GetTargetDetected() != null && troopController.GetStats().unitBehaviour != Behaviour.RANGED) //if targetDetected does exist and this unit's behaviour isn't RANGED
         {
             /* MOVES TROOP TO Player */
 
-            if(Vector3.Distance(transform.position, troopBehaviour.targetDetected.position) >= 2f)
+            if(Vector3.Distance(transform.position, troopBehaviour.GetTargetDetected().position) >= 2f)
             {
-                Vector3 dir = troopBehaviour.targetDetected.position - transform.position; 
-                transform.Translate(dir.normalized * troopController.speed * Time.deltaTime, Space.World);
+                Vector3 dir = troopBehaviour.GetTargetDetected().position - transform.position; 
+                transform.Translate(dir.normalized * troopController.GetSpeed() * Time.deltaTime, Space.World);
             }
-            else if(troopController.stat.unitBehaviour != Behaviour.SUPPORT)
+            else if(troopController.GetStats().unitBehaviour != Behaviour.SUPPORT)
             {
                 troopController.animator.SetBool("aAttacking", true);
             }
@@ -93,7 +93,7 @@ public class TroopMovement : MonoBehaviour
     private void GetNextWaypoint()
     {
         //if the troop is an enemy 
-        if(troopController.stat.isUnitEnemy)
+        if(troopController.GetStats().isUnitEnemy)
         {
             //if the troop reaches the last waypoint
             if(wavePointIndex >= WayPoints.points.Length - 1)
@@ -107,7 +107,7 @@ public class TroopMovement : MonoBehaviour
                 path = WayPoints.points[wavePointIndex]; //Sets path to new waypoint
             }
         }
-        else if(!troopController.stat.isUnitEnemy) //if the troop isn't an enemy
+        else if(!troopController.GetStats().isUnitEnemy) //if the troop isn't an enemy
         {
             //if the troop reaches the first waypoint
             if(wavePointIndex <= 0)
