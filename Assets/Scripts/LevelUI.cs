@@ -11,6 +11,8 @@ public class LevelUI : MonoBehaviour
         Description: This script controls all global ui elements as well as updating them
 
     */
+    GameManager gameManager;
+
     public static LevelUI levelUIinstance;
 
     [Header("Controller References")]
@@ -37,8 +39,8 @@ public class LevelUI : MonoBehaviour
     public Image enemyHealthBar;
     public Image manaBar;
     public TextMeshProUGUI manaTxt;
-    public Image EnragedCycle;
-    public GameObject arrow;
+    public Image enragedClockSection;
+    public GameObject enragedClockTick;
 
     /*[Header("Shared Variables")]*/
     private Level level; 
@@ -57,7 +59,8 @@ public class LevelUI : MonoBehaviour
     }
     /*-  Start is called before the first frame update -*/
     private void Start()
-    {        
+    {    
+        gameManager = GameManager.gameInstance;
         level = levelManager.GetLevel();
 
         /* Adds listeners for each buttons the player has */
@@ -84,11 +87,11 @@ public class LevelUI : MonoBehaviour
     /*-  Checks if a button is clicked, uses an index to indicate which button -*/
     private void OnButtonClick(int index)
     {
-        if(levelManager.GetGameState() == GameStates.SETUP)
+        if(gameManager.GetGameState() == GameStates.SETUP)
         {
             levelManager.AddOrRemoveUnit(index);
         }
-        if(levelManager.GetGameState() == GameStates.PLAYING)
+        if(gameManager.GetGameState() == GameStates.PLAYING)
         {
             playerController.SpawnUnit(index); //Sends index to playerController
         }
@@ -101,6 +104,7 @@ public class LevelUI : MonoBehaviour
             icons[i].gameObject.SetActive(false);
         }
     }
+
     /*-  Updates the setup texts and even the unit select thumbnails, should only be called once   -*/
     private void UpdateSetUpText()
     {
@@ -135,7 +139,7 @@ public class LevelUI : MonoBehaviour
         {
             unitIcons[k].sprite = levelManager.GetPlayerUnits()[k].unitThumbnail;
         }
-        // EnragedCycle.fillAmount = playerSpawner.health/playerSpawner.maxHealth;
+        enragedClockSection.fillAmount = level.enemyEnragedTime/level.GetTotalTime();
     }
     /*-  Updates the Game UI -*/
     public void UpdateUI()
@@ -144,6 +148,10 @@ public class LevelUI : MonoBehaviour
         enemyHealthBar.fillAmount = enemySpawner.GetHealth()/enemySpawner.GetMaxHealth();
         manaBar.fillAmount = playerController.GetMana()/100f;
         manaTxt.text = "Mana: " + playerController.GetMana(); 
+    }
+    public void UpdateClock()
+    {
+        enragedClockTick.transform.Rotate(Vector3.forward, 360f/level.GetTotalTime());
     }
     /*-  Turns off hud when the player dies or not -*/
     public void UpdatePlayerDeath(bool isDead)
@@ -162,14 +170,4 @@ public class LevelUI : MonoBehaviour
         gameScreens[index].SetActive(true);
     }
 
-    // private void Update()
-    // {
-    //     tick.transform.Rotate(Vector3.forward, (Time.deltaTime * (360f/(LevelManager.levelManagerInstance.HordeCalmTime + LevelManager.levelManagerInstance.HordeEnragedTime))));
-    //     timeE += Time.deltaTime;
-    //     Debug.Log(timeE);
-    // }
-    // public void SetKnobs()
-    // {
-    //     Debug.Log("CKICK");
-    // }
 }

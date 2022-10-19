@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public enum GameStates {SETUP, PLAYING, WIN, LOSE} //The different game states the level could be in
-public enum HordeState {CALM, ENRAGED} 
+public enum EnragedStates {CALM, ENRAGED} 
 
 public class LevelManager : MonoBehaviour
 {
@@ -13,6 +12,8 @@ public class LevelManager : MonoBehaviour
         Description: This script handles all global variables and states for a scene or level
 
     */
+    GameManager gameManager;
+
     public static LevelManager levelManagerInstance;
 
     [Header("Setup References")]
@@ -37,13 +38,14 @@ public class LevelManager : MonoBehaviour
     [Header("Script References")]
     public CinemachineVirtualCamera topdownCamera; 
     public CinemachineVirtualCamera playerCamera;
-    private GameStates gameState = GameStates.SETUP;
     private float respawnTime = 10f;
     private bool hasPlayerRespawned = true;
 
-    // public float HordeCalmTime = 120f;
-    // public float HordeEnragedTime = 60f;
-    // public float HordeTime;
+    public EnragedStates enragedState = EnragedStates.CALM; 
+    public float clockCalmTime = 120f;
+    public float clockEnragedTime = 60f;
+    public float clockTime = 0;
+    public int enragedCount = 0;
 
     #region
     /*---      SETUP FUNCTIONS     ---*/
@@ -58,13 +60,14 @@ public class LevelManager : MonoBehaviour
         levelManagerInstance = this;
         levelUI = this.gameObject.GetComponent<LevelUI>();
         SetLevel(); //Retrieves values from level package if it exist
-        // HordeTime = HordeCalmTime + HordeEnragedTime;
     }
     /*-  Start is called before the first frame update -*/
     private void Start()
     {
+        gameManager = GameManager.gameInstance;
+
         /* Sets game to setup */
-        gameState = GameStates.SETUP;
+        gameManager.SetGameState(GameStates.SETUP);
         levelUI.UpdateScreen(0);
         SwitchCameras(1, 0);
     }
@@ -78,7 +81,7 @@ public class LevelManager : MonoBehaviour
         if(playerAvatar != null)
         {
             //if the player avatar isn;t active, game state is at playing and the hasPlayerRespawned is true
-            if(playerAvatar.isActiveAndEnabled == false && gameState == GameStates.PLAYING && hasPlayerRespawned == true)
+            if(playerAvatar.isActiveAndEnabled == false && gameManager.GetGameState() == GameStates.PLAYING && hasPlayerRespawned == true)
             {
                 hasPlayerRespawned = false;
                 StartCoroutine(RespawnPlayer(respawnTime));
@@ -90,30 +93,28 @@ public class LevelManager : MonoBehaviour
     /*---      FUNCTIONS     ---*/
     /*--    GAME STATE MANAGEMENT   --*/
     /*-  Changes the game state based on what has happened in game, takes GameState -*/
-    public void ChangeState(GameStates newState)
+    public void ChangeState()
     {
         //if the new state is PLAYING
-        if(newState == GameStates.PLAYING)
+        if(gameManager.GetGameState() == GameStates.PLAYING)
         {
             /* Starts game */
-            gameState = GameStates.PLAYING;
             levelUI.UpdateScreen(1);
             SwitchCameras(0, 1);
             playerController.StartGame();
             enemySpawner.StartGame();
             SpawnPlayer();
+            StartCoroutine(EnragedCycle(1f)); //Recalls RegenerateMana IEnumerator at 1 second
         }
-        else if(newState == GameStates.WIN) //if the new state is WIN
+        else if(gameManager.GetGameState() == GameStates.WIN) //if the new state is WIN
         {
             /* Player WINS */
-            gameState = GameStates.WIN;
             levelUI.UpdateScreen(2);
             SwitchCameras(1, 0);
         }
-        else if(newState == GameStates.LOSE) //if the new state is LOSE
+        else if(gameManager.GetGameState() == GameStates.LOSE) //if the new state is LOSE
         {
             /* Player LOSES */
-            gameState = GameStates.LOSE;
             levelUI.UpdateScreen(3);
             SwitchCameras(1, 0);
         }
@@ -155,7 +156,8 @@ public class LevelManager : MonoBehaviour
     /*-  Starts Game  -*/
     public void StartGame()
     {
-        ChangeState(GameStates.PLAYING);
+        gameManager.SetGameState(GameStates.PLAYING);
+        ChangeState();
     }
     /*---/--      PLAYER AVATAR MANAGEMENT     --/---*/
     /*-  Spawns the player avatar  -*/
@@ -178,6 +180,38 @@ public class LevelManager : MonoBehaviour
         levelUI.UpdatePlayerDeath(true);
         hasPlayerRespawned = true;
     }
+
+    /*--    ENRAGED SYSTEM MANAGEMENT   --*/
+    /*-  Repeatedly regenerates mana, takes a float for the time -*/
+    private IEnumerator EnragedCycle(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        clockTime++;
+        levelUI.UpdateClock();
+
+
+        if(clockTime <= clockCalmTime)
+        {
+            enragedState = EnragedStates.CALM; 
+        }
+        else if(clockTime > clockCalmTime && clockTime <= level.GetTotalTime())
+        {
+            enragedState = EnragedStates.ENRAGED; 
+        }
+        else if(clockTime > level.GetTotalTime())
+        {
+            enragedState = EnragedStates.CALM; 
+            clockTime = 0;
+            enragedCount++;
+        }
+
+        if((gameManager.GetGameState() != GameStates.WIN) || (gameManager.GetGameState() != GameStates.LOSE))
+        {
+            StartCoroutine(EnragedCycle(1f)); //Recalls RegenerateMana IEnumerator at 1 second
+        }
+    }
+
     #endregion
 
     /*---      SET/GET FUNCTIONS     ---*/
@@ -187,6 +221,8 @@ public class LevelManager : MonoBehaviour
         levelPlayerUnits = level.availbleUnits.statsLists;
         levelUnitLimit = level.unitLimit;
         levelEnemyUnits = level.enemyUnits.statsLists;
+        clockCalmTime = level.enemyCalmTime;
+        clockEnragedTime = level.enemyEnragedTime;
     }
     public Level GetLevel()
     {
@@ -207,10 +243,6 @@ public class LevelManager : MonoBehaviour
     public int GetPlayerUnitsCount()
     {
         return playerUnitCount;
-    }
-    public GameStates GetGameState()
-    {
-        return gameState;
     }
     public PlayerAvatar GetPlayerAvatar()
     {

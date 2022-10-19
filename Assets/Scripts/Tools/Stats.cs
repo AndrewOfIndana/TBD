@@ -29,6 +29,7 @@ public class Stats : ScriptableObject
     [Header("Physical Variables")]
     public Sprite unitSprite; //Sprite of the unit
     public Vector3 unitSize; //Size of the BoxCollider of unit
+    public StatsAudio unitsSfx;
 
     [Header("Tag Variables")]
     public bool isUnitEnemy; //is the unit an enemy

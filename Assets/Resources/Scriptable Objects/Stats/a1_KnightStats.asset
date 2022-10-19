@@ -22,6 +22,7 @@ MonoBehaviour:
   unitAttackRate: 1
   unitSprite: {fileID: 21300000, guid: a75df46e6d5da0a439a6eecc3fb55d0e, type: 3}
   unitSize: {x: 1.5, y: 2, z: 1.5}
+  unitsSfx: {fileID: 11400000, guid: d43bdc6bf8b47004eb5c59572032c3d9, type: 2}
   isUnitEnemy: 0
   unitTag: AllyTroop
   targetTags:

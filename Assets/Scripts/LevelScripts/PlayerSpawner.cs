@@ -27,6 +27,7 @@ public class PlayerSpawner : MonoBehaviour, Idamageable
         levelUI = LevelUI.levelUIinstance;
         objectPool = ObjectPool.objectPoolInstance;
 
+        health = levelManager.GetLevel().playerHealth;
         maxHealth = health;
     }
 
@@ -53,7 +54,8 @@ public class PlayerSpawner : MonoBehaviour, Idamageable
         //if health is less than or equal to 0
         if(health <= 0)
         {
-            levelManager.ChangeState(GameStates.LOSE); //Sets GameStates to LOSE in the levelManager
+            GameManager.gameInstance.SetGameState(GameStates.LOSE);
+            levelManager.ChangeState(); //Sets GameStates to LOSE in the levelManager
             this.gameObject.SetActive(false); //deactivate the troop
         }
     }

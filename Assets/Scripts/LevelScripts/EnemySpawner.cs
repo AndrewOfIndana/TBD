@@ -31,6 +31,7 @@ public class EnemySpawner : MonoBehaviour, Idamageable
         levelUI = LevelUI.levelUIinstance;
         objectPool = ObjectPool.objectPoolInstance;
 
+        health = levelManager.GetLevel().enemyHealth;
         maxHealth = health;
 
         /* Gets and sets variables form the level manager */
@@ -68,7 +69,8 @@ public class EnemySpawner : MonoBehaviour, Idamageable
         //if health is less than or equal to 0
         if(health <= 0)
         {
-            levelManager.ChangeState(GameStates.WIN); //Sets GameStates to WIN in the levelManager
+            GameManager.gameInstance.SetGameState(GameStates.WIN);
+            levelManager.ChangeState(); //Sets GameStates to WIN in the levelManager
             this.gameObject.SetActive(false); //deactivate the troop
         }
     }

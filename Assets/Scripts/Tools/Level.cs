@@ -19,9 +19,20 @@ public class Level : ScriptableObject
     public StatsList availbleUnits; //The available units the player can choose from
     //public cards availableCards;  //The available cards the player can choose from
     public int unitLimit; //the limit of units the player can choose
+    public float mana;
+    public float manaRegen;
+    public float playerHealth;
 
     [Header("Enemy Variables")]
     public StatsList enemyUnits; //the units the enemy has for this level
     //public cards enemyCards; //the cards the enemy has for this level
     public float enemySpawnRate; ///the spawn rate of the enemy spawner
+    public float enemyHealth;
+    public float enemyCalmTime;
+    public float enemyEnragedTime;
+
+    public float GetTotalTime()
+    {
+        return enemyCalmTime + enemyEnragedTime;
+    }
 }

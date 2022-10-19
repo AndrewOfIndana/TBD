@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a271d75c2b6fe48aea0044147abe5b, type: 3}
+  m_Name: TrollSound
+  m_EditorClassIdentifier: 
+  statSfx1: {fileID: 8300000, guid: 1e99b656a0d54474d97a795c55762fe2, type: 3}
+  statSfx2: {fileID: 8300000, guid: 58ac60b591da9104d90a0cf32330459c, type: 3}
+  statSfx3: {fileID: 8300000, guid: 84e5b7f420d3c6144b116246eca0b43a, type: 3}

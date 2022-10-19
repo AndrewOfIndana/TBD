@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
         levelUI = LevelUI.levelUIinstance;
 
         /* Gets and sets variables form the level manager */
+        mana = levelManager.GetLevel().mana;
+        manaRegen = levelManager.GetLevel().manaRegen;
         units = levelManager.GetPlayerUnits();
     }
     /*-  StartGame is called when the game has started -*/

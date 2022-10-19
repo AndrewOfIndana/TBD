@@ -21,6 +21,7 @@ public class TroopController : MonoBehaviour, Ieffectable, Idamageable
     public Image healthBar; 
     public SpriteRenderer thisSprite; 
     public BoxCollider thisCollider;
+    private AudioSource audioSource;
 
     /*[Header("Stats Variables")]*/
     private Stats stat;
@@ -35,6 +36,7 @@ public class TroopController : MonoBehaviour, Ieffectable, Idamageable
     {
         troopMovement = this.GetComponent<TroopMovement>();
         troopBehaviour = this.GetComponent<TroopBehaviour>();
+        audioSource = this.GetComponent<AudioSource>();
     }
     /*-  Sets the units stats when the object has spawned from pool using the newStats Stats variables -*/
     public void SetUnit(Stats newStats)
@@ -48,6 +50,7 @@ public class TroopController : MonoBehaviour, Ieffectable, Idamageable
         thisCollider.size =  newStats.unitSize;
         healthBar.fillAmount = health/newStats.unitHealth;
         this.gameObject.tag = newStats.unitTag;
+        audioSource.clip = stat.unitsSfx.statSfx1;
     }
     /*-  Starts the unit's behaviour and movement -*/
     public void StartController()
@@ -55,6 +58,7 @@ public class TroopController : MonoBehaviour, Ieffectable, Idamageable
         animator.speed = stat.unitWalkSpeed;
         troopBehaviour.StartBehaviour(); //Starts the troop's Behaviour
         troopMovement.StartMovement(); //Starts the troop's Movement
+        audioSource.Play();
     }
 
     /*---      FUNCTIONS     ---*/
@@ -112,6 +116,11 @@ public class TroopController : MonoBehaviour, Ieffectable, Idamageable
             troopBehaviour.VoidTargets();
             this.gameObject.SetActive(false); 
         }
+    }
+
+    private void OnDisable()
+    {
+        audioSource.Stop();
     }
 
     /*---      SET/GET FUNCTIONS     ---*/

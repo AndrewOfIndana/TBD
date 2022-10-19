@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 7037220480807331793}
   - component: {fileID: 595206621860369269}
   - component: {fileID: 826833076328513397}
+  - component: {fileID: 5839144936826296171}
   m_Layer: 3
   m_Name: Player
   m_TagString: AllyTroop
@@ -337,12 +338,6 @@ MonoBehaviour:
   animator: {fileID: 9099600117971821011}
   healthBar: {fileID: 2145755683}
   stat: {fileID: 11400000, guid: 1eec6fa06b189da4093e28b2ffe09a55, type: 2}
-  attack: 0
-  health: 0
-  speed: 0
-  attackRate: 0
-  attackRange: 0
-  closestTile: {fileID: 0}
 --- !u!114 &595206621860369269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,6 +362,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dae92928f92124f439054f7d136b25eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!81 &5839144936826296171
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7037220480807331756}
+  m_Enabled: 1
 --- !u!1 &7037220481289707789
 GameObject:
   m_ObjectHideFlags: 0
