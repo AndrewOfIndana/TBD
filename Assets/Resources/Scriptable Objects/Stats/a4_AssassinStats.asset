@@ -23,6 +23,9 @@ MonoBehaviour:
   unitSprite: {fileID: 21300000, guid: c02767181ce18f444967413354920ec2, type: 3}
   unitSize: {x: 1.5, y: 2, z: 1.5}
   unitsSfx: {fileID: 11400000, guid: ddaec99acc241fe49904011dd0eb79ad, type: 2}
+  unitType: 0
+  unitBehaviour: 3
+  unitWalkSpeed: 1.5
   isUnitEnemy: 0
   unitTag: AllyAssassin
   targetTags:
@@ -32,7 +35,4 @@ MonoBehaviour:
   - EnemyBase
   sharedTags: {fileID: 11400000, guid: fef36fcd149f1b74d9614a1e3e09f962, type: 2}
   unitCost: 25
-  unitThumbnail: {fileID: 21300000, guid: d9a18d3bafc3ff9468e66717aca8ccbe, type: 3}
-  unitType: 0
-  unitBehaviour: 3
-  unitWalkSpeed: 1.5
+  unitThumbnail: {fileID: 21300000, guid: a3374a47bebe62f4388696b9905e9192, type: 3}

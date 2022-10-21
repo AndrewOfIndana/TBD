@@ -9,11 +9,14 @@ public class TowerBehaviour : MonoBehaviour
         Description: This script controls the behaviour of a tower and how it reacts to other units and damage
 
     */
-    /*[Header("Static Variables")]*/
+    /*[Header("Static References")]*/
+    GameManager gameManager;
     ObjectPool objectPool; 
 
-    [Header("Script References")]
+    /*[Header("Components")]*/
     private TowerController towerController;
+
+    [Header("Script Settings")]
     public Transform firingPoint; 
     private Transform targetDetected;
 
@@ -27,7 +30,8 @@ public class TowerBehaviour : MonoBehaviour
     private void Start()
     {
         /* Gets the static instances and stores them in the Static References */
-        objectPool = ObjectPool.objectPoolInstance; 
+        gameManager = GameManager.instance;
+        objectPool = ObjectPool.instance; 
     }
 
     /*-  Starts the units targeting behaviour -*/
@@ -41,14 +45,25 @@ public class TowerBehaviour : MonoBehaviour
     private IEnumerator UpdateTarget(float time)
     {
         yield return new WaitForSeconds(time); 
-        Targeting();
-        
-        //if targetDetected does exist
-        if(targetDetected != null)
+
+        //if gameStates is PLAYING
+        if(gameManager.GetGameState() == GameStates.PLAYING)
         {
-            Shoot();
+            Targeting();
+            
+            //if targetDetected does exist
+            if(targetDetected != null)
+            {
+                Shoot();
+            }
         }
-        StartCoroutine(UpdateTarget(towerController.GetAttackRate())); //Recalls Aiming IEnumerator at attackRate
+
+        //if gameStates isn't WIN or LOSE
+        if(!(gameManager.GetGameState() == GameStates.WIN 
+        || gameManager.GetGameState() == GameStates.LOSE))
+        {
+            StartCoroutine(UpdateTarget(towerController.GetAttackRate())); //Recalls Aiming IEnumerator at attackRate
+        }
     }
     /*-  Controls targeting -*/
     private void Targeting()

@@ -9,14 +9,12 @@ public class PlayerTowerDeployer : MonoBehaviour
         Description: This Script controls the dragging and deployment of the player's towers
 
     */
-    /*[Header("Static Variables")]*/
+    /*[Header("Static References")]*/
     LevelManager levelManager;
     ObjectPool objectPool;
 
-    [Header("Script Variables")]
+    [Header("Script Settings")]
     public float yOffset = 1.5f;
-
-    /*[Header("Script References")]*/
     private GameObject selectedTower;
     private Vector3 snappedPosition;
 
@@ -25,8 +23,8 @@ public class PlayerTowerDeployer : MonoBehaviour
     private void Start()
     {
         /* Gets the static instances and stores them in the Static References */
-        levelManager = LevelManager.levelManagerInstance;
-        objectPool = ObjectPool.objectPoolInstance;
+        levelManager = LevelManager.instance;
+        objectPool = ObjectPool.instance;
     }
 
     /*---      FUNCTIONS     ---*/

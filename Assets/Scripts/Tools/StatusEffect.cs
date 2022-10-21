@@ -12,7 +12,7 @@ public class StatusEffect : ScriptableObject
         Description: A ScriptableObject that holds a stats increase and the stat it is buffing
 
     */    
-
+    [Header("Status Effect Variables")]
     public string effectName; //The name of the effect
     public float effectIncrease; //The amount of stat increases for this effect  
     public float effectLifetime; //The amount of time it would take for the effect to clear

@@ -10,11 +10,12 @@ public class PlayerSpawner : MonoBehaviour, Idamageable
 
     */
     /*[Header("Static References")]*/
+    GameManager gameManager;
     LevelManager levelManager;
     LevelUI levelUI;
     ObjectPool objectPool;
 
-    [Header("Health Variables")]
+    [Header("Health Settings")]
     public float health = 1000;
     private float maxHealth;
 
@@ -23,9 +24,10 @@ public class PlayerSpawner : MonoBehaviour, Idamageable
     private void Start()
     {
         /* Gets the static instances and stores them in the Static References */
-        levelManager = LevelManager.levelManagerInstance;
-        levelUI = LevelUI.levelUIinstance;
-        objectPool = ObjectPool.objectPoolInstance;
+        gameManager = GameManager.instance;
+        levelManager = LevelManager.instance;
+        levelUI = LevelUI.instance;
+        objectPool = ObjectPool.instance;
 
         health = levelManager.GetLevel().playerHealth;
         maxHealth = health;
@@ -54,17 +56,19 @@ public class PlayerSpawner : MonoBehaviour, Idamageable
         //if health is less than or equal to 0
         if(health <= 0)
         {
-            GameManager.gameInstance.SetGameState(GameStates.LOSE);
-            levelManager.ChangeState(); //Sets GameStates to LOSE in the levelManager
-            this.gameObject.SetActive(false); //deactivate the troop
+            gameManager.SetGameState(GameStates.LOSE); //Sets GameStates to LOSE
+            levelManager.ChangeState(); //Changes State for level
+            this.gameObject.SetActive(false);
         }
     }
 
     /*---      SET/GET FUNCTIONS     ---*/
+    /*-  Gets health -*/
     public float GetHealth()
     {
         return health;
     }
+    /*-  Gets max health -*/
     public float GetMaxHealth()
     {
         return maxHealth;

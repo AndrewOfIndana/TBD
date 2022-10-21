@@ -3,24 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public enum EnragedStates {CALM, ENRAGED} 
+public enum EnragedStates {CALM, ENRAGED} //The different enraged states the enemy could be in
 
 public class LevelManager : MonoBehaviour
 {
     /*  
         Name: LevelManager.cs
-        Description: This script handles all global variables and states for a scene or level
+        Description: This script handles all variables and states for a level
 
     */
+    /*[Header("Static References")]*/
     GameManager gameManager;
 
-    public static LevelManager levelManagerInstance;
+    public static LevelManager instance;
 
-    [Header("Setup References")]
+    /*[Header("Components")]*/
+    private LevelUI levelUI;
+
+    [Header("Level Settings")]
     public Level level;
     private int levelUnitLimit;
-    /* Setup Variables that actually matter */
-    private List<Stats> levelPlayerUnits = new List<Stats>(); //List of units that the player has to choose
+    private List<Stats> levelPlayerUnits = new List<Stats>();
     private List<Stats> playerUnits = new List<Stats>(); //List of units that the player has chosen
     private int playerUnitCount = 0;
     private List<Stats> levelEnemyUnits = new List<Stats>();
@@ -29,42 +32,58 @@ public class LevelManager : MonoBehaviour
     public PlayerController playerController;
     public PlayerSpawner playerSpawner;
     public EnemySpawner enemySpawner;
-    private LevelUI levelUI;
 
-    [Header("Player Avatar References")]
+    [Header("Player Avatar Settings")]
     public GameObject playerPrefab;
     private PlayerAvatar playerAvatar;
-
-    [Header("Script References")]
-    public CinemachineVirtualCamera topdownCamera; 
-    public CinemachineVirtualCamera playerCamera;
     private float respawnTime = 10f;
     private bool hasPlayerRespawned = true;
 
+    [Header("Enraged Clock Settings")]
     public EnragedStates enragedState = EnragedStates.CALM; 
-    public float clockCalmTime = 120f;
-    public float clockEnragedTime = 60f;
+    private float clockCalmTime;
+    private float clockEnragedTime;
     public float clockTime = 0;
     public int enragedCount = 0;
 
-    #region
+    [Header("Script Settings")]
+    public CinemachineVirtualCamera topdownCamera; 
+    public CinemachineVirtualCamera playerCamera;
+
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
     private void Awake()
     {
-        //if another levelManagerInstance exists 
-        if(levelManagerInstance != null)
-        {
-            return; //exit if statement
-        }
-        levelManagerInstance = this;
+        /* SINGLETON PATTERN */
+        //if the instance does exist and the instance isn't this
+        if (instance != null && instance != this) 
+        { 
+            return;
+        } 
+        else 
+        { 
+            instance = this; 
+        } 
+
+        /*  Gets the components  */
         levelUI = this.gameObject.GetComponent<LevelUI>();
-        SetLevel(); //Retrieves values from level package if it exist
+
+        SetLevel();
+    }
+    /*-  Retrieves values from level package and sets variables  -*/
+    private void SetLevel()
+    {
+        levelPlayerUnits = level.availbleUnits.statsLists;
+        levelUnitLimit = level.unitLimit;
+        levelEnemyUnits = level.enemyUnits.statsLists;
+        clockCalmTime = level.enemyCalmTime;
+        clockEnragedTime = level.enemyEnragedTime;
     }
     /*-  Start is called before the first frame update -*/
     private void Start()
     {
-        gameManager = GameManager.gameInstance;
+        /* Gets the static instances and stores them in the Static References */
+        gameManager = GameManager.instance;
 
         /* Sets game to setup */
         gameManager.SetGameState(GameStates.SETUP);
@@ -76,26 +95,43 @@ public class LevelManager : MonoBehaviour
     /*-  Update is called once per frame -*/
     private void Update()
     {
+        /* Pauses game  */
+
+        //If player press escape
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            //if gameStates is PLAYING
+            if(gameManager.GetGameState() == GameStates.PLAYING)
+            {
+                LevelPaused();
+            }
+            else if(gameManager.GetGameState() == GameStates.PAUSED)             //if gameStates is PAUSED
+            {
+                LevelUnpause();
+            }
+        }
+
         /* Checks if the player is dead */
+        
         //if the player avatar exists
         if(playerAvatar != null)
         {
-            //if the player avatar isn;t active, game state is at playing and the hasPlayerRespawned is true
+            //if the player avatar isn't active, gameState is at playing and  hasPlayerRespawned is true
             if(playerAvatar.isActiveAndEnabled == false && gameManager.GetGameState() == GameStates.PLAYING && hasPlayerRespawned == true)
             {
                 hasPlayerRespawned = false;
-                StartCoroutine(RespawnPlayer(respawnTime));
+                StartCoroutine(RespawnPlayer(respawnTime)); //Begins RespawnPlayer IEnumerator at respawnTime
                 return;
             }
         }
     }
 
     /*---      FUNCTIONS     ---*/
-    /*--    GAME STATE MANAGEMENT   --*/
-    /*-  Changes the game state based on what has happened in game, takes GameState -*/
+    /*--    LEVEL STATE CHANGE MANAGEMENT   --*/
+    /*-  Changes the level based game state based on what has happened in game -*/
     public void ChangeState()
     {
-        //if the new state is PLAYING
+        //if the gameState is PLAYING
         if(gameManager.GetGameState() == GameStates.PLAYING)
         {
             /* Starts game */
@@ -104,18 +140,19 @@ public class LevelManager : MonoBehaviour
             playerController.StartGame();
             enemySpawner.StartGame();
             SpawnPlayer();
-            StartCoroutine(EnragedCycle(1f)); //Recalls RegenerateMana IEnumerator at 1 second
+            StartCoroutine(EnragedCycle(1f)); //Begins EnragedCycle IEnumerator at 1 second
         }
-        else if(gameManager.GetGameState() == GameStates.WIN) //if the new state is WIN
+        else if(gameManager.GetGameState() == GameStates.WIN) //if the gameState is WIN
         {
             /* Player WINS */
-            levelUI.UpdateScreen(2);
+            gameManager.SetLastPlayedLevel();
+            levelUI.UpdateScreen(3);
             SwitchCameras(1, 0);
         }
-        else if(gameManager.GetGameState() == GameStates.LOSE) //if the new state is LOSE
+        else if(gameManager.GetGameState() == GameStates.LOSE) //if the gameState is LOSE
         {
             /* Player LOSES */
-            levelUI.UpdateScreen(3);
+            levelUI.UpdateScreen(4);
             SwitchCameras(1, 0);
         }
     }
@@ -125,6 +162,7 @@ public class LevelManager : MonoBehaviour
         topdownCamera.Priority = cam1;
         playerCamera.Priority = cam2;
     }
+
     /*--    SETUP MANAGEMENT   --*/
     /*-  Adds or removes unit in the playerUnits list and checks if the player is ready or not  -*/
     public void AddOrRemoveUnit(int index)
@@ -153,13 +191,15 @@ public class LevelManager : MonoBehaviour
             levelUI.startGameButton.SetActive(false); //Sets startGameButton inactive
         }
     }
-    /*-  Starts Game  -*/
+    /*-  Starts Game, OnClick  -*/
     public void StartGame()
     {
+        /* Sets game to playing */
         gameManager.SetGameState(GameStates.PLAYING);
         ChangeState();
     }
-    /*---/--      PLAYER AVATAR MANAGEMENT     --/---*/
+
+    /*--    PLAYER AVATAR MANAGEMENT   --*/
     /*-  Spawns the player avatar  -*/
     private void SpawnPlayer()
     {
@@ -173,77 +213,117 @@ public class LevelManager : MonoBehaviour
         SwitchCameras(1, 0);
         levelUI.UpdatePlayerDeath(false);
         yield return new WaitForSeconds(waitTime); //Waits for rate
-        playerAvatar.gameObject.SetActive(true);
-        playerAvatar.transform.position = playerSpawner.transform.position;
-        SwitchCameras(0, 1);
-        levelUI.UpdateUI();
-        levelUI.UpdatePlayerDeath(true);
-        hasPlayerRespawned = true;
+
+        //if gameStates is PLAYING
+        if(gameManager.GetGameState() == GameStates.PLAYING)
+        {
+            playerAvatar.gameObject.SetActive(true);
+            playerAvatar.transform.position = playerSpawner.transform.position;
+            SwitchCameras(0, 1);
+            levelUI.UpdateUI();
+            levelUI.UpdatePlayerDeath(true);
+            hasPlayerRespawned = true;
+        }
     }
 
     /*--    ENRAGED SYSTEM MANAGEMENT   --*/
-    /*-  Repeatedly regenerates mana, takes a float for the time -*/
+    /*-  Repeatedly Updates the Enraged Cycle, takes a float for the time -*/
     private IEnumerator EnragedCycle(float time)
     {
         yield return new WaitForSeconds(time);
 
-        clockTime++;
-        levelUI.UpdateClock();
+        //if gameStates is PLAYING
+        if(gameManager.GetGameState() == GameStates.PLAYING)
+        {
+            clockTime++;
+            levelUI.UpdateClock(); //Updates the UI's Enraged Clock
 
+            //if clockTime is less than or equal clockCalmTime
+            if(clockTime <= clockCalmTime)
+            {
+                /*  Calms Enemies  */
+                enragedState = EnragedStates.CALM; 
+            }
+            else if(clockTime > clockCalmTime && clockTime <= level.GetTotalTime()) //if clockTime is greater than clockCalmTime and clockTime is less than or equal to clockTimeTotal 
+            {
+                /*  Enrages Enemies  */
+                enragedState = EnragedStates.ENRAGED; 
+            }
+            else if(clockTime > level.GetTotalTime()) //if clockTime is greater than clockTimeTotal
+            {
+                /*  Calms Enemies and resets clockTime  */
+                enragedState = EnragedStates.CALM; 
+                clockTime = 0;
+                enragedCount++;
+            }
+        }
 
-        if(clockTime <= clockCalmTime)
+        //if gameStates isn't WiN or LOSE
+        if(!(gameManager.GetGameState() == GameStates.WIN 
+        || gameManager.GetGameState() == GameStates.LOSE))
         {
-            enragedState = EnragedStates.CALM; 
-        }
-        else if(clockTime > clockCalmTime && clockTime <= level.GetTotalTime())
-        {
-            enragedState = EnragedStates.ENRAGED; 
-        }
-        else if(clockTime > level.GetTotalTime())
-        {
-            enragedState = EnragedStates.CALM; 
-            clockTime = 0;
-            enragedCount++;
-        }
-
-        if((gameManager.GetGameState() != GameStates.WIN) || (gameManager.GetGameState() != GameStates.LOSE))
-        {
-            StartCoroutine(EnragedCycle(1f)); //Recalls RegenerateMana IEnumerator at 1 second
+            StartCoroutine(EnragedCycle(1f)); //Recalls EnragedCycle IEnumerator at 1 second
         }
     }
 
-    #endregion
+    /*--    LEVEL BUTTONS MANAGEMENT   --*/
+    /*-  Pauses Game -*/
+    public void LevelPaused()
+    {
+        SwitchCameras(1, 0);
+        levelUI.UpdateScreen(2);
+        gameManager.gameState = GameStates.PAUSED;
+    }
+    /*-  Unpauses Game, OnClick -*/
+    public void LevelUnpause()
+    {
+        SwitchCameras(0, 1);
+        levelUI.UpdateScreen(1);
+        gameManager.gameState = GameStates.PLAYING;
+    }
+    /*-  Calls GameManager RetryLevel, OnClick -*/
+    public void LevelRetry()
+    {
+        gameManager.RetryLevel();
+    }
+    /*-  Calls GameManager QuitLevel, OnClick -*/
+    public void LevelQuit()
+    {
+        gameManager.QuitLevel();
+    }
+    /*-  Calls GameManager NextLevel, OnClick -*/
+    public void LevelComplete()
+    {
+        gameManager.NextLevel();
+    }
 
     /*---      SET/GET FUNCTIONS     ---*/
-    /*-  Retrives values from level package and sets variables if they exist  -*/
-    private void SetLevel()
-    {
-        levelPlayerUnits = level.availbleUnits.statsLists;
-        levelUnitLimit = level.unitLimit;
-        levelEnemyUnits = level.enemyUnits.statsLists;
-        clockCalmTime = level.enemyCalmTime;
-        clockEnragedTime = level.enemyEnragedTime;
-    }
+    /*-  Gets level variables -*/
     public Level GetLevel()
     {
         return level;
     }
+    /*-  Gets levelPlayerUnits -*/
     public List<Stats> GetLevelPlayerUnits()
     {
         return levelPlayerUnits;
     }
+    /*-  Gets levelEnemyUnits -*/
     public List<Stats> GetEnemyUnits()
     {
         return levelEnemyUnits;
     }
+    /*-  Gets playerUnits -*/
     public List<Stats> GetPlayerUnits()
     {
         return playerUnits;
     }
+    /*-  Gets playerUnitCount -*/
     public int GetPlayerUnitsCount()
     {
         return playerUnitCount;
     }
+    /*-  Gets GetPlayerAvatar -*/
     public PlayerAvatar GetPlayerAvatar()
     {
         return playerAvatar;

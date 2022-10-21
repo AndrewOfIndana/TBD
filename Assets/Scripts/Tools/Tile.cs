@@ -9,7 +9,7 @@ public class Tile : MonoBehaviour
         Description: This script holds a static list of transforms of each tile
 
     */
-    public static List<Transform> tiles = new List<Transform>(); //A static list of transform
+    public static List<Transform> tiles = new List<Transform>();
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  OnEnable is called when the object becomes enabled -*/

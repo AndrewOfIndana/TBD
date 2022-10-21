@@ -10,15 +10,16 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
         Description: This script controls the player avatar and the counts as a unit
         
     */
-    /*[Header("Static Variables")]*/
+    /*[Header("Static References")]*/
+    GameManager gameManager;
     List<Transform> availableTiles;
 
-    [Header("GameObject References")]
+    [Header("GameObject Reference")]
     public Animator animator;
     public Image healthBar;
     private Rigidbody playerRb;
 
-    [Header("Stats Variables")]
+    [Header("Stats")]
     public Stats stat;
     private float attack;
     private float health;
@@ -26,17 +27,25 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     private float attackRate;
     private float attackRange;
 
-    /*[Header("Script References")]*/
+    /*[Header("Script Settings")]*/
     private Transform closestTile;
     private Idamageable targetEngaged; //Private reference to the enemy troop the troop is engaged with
     private Vector3 velocity;
 
-    /*---      SETUP FUNCTIONS     ---*/
+     /*---      SETUP FUNCTIONS     ---*/
+    /*-  Awake is called when the script is being loaded -*/
+    private void Awake()
+    {
+        /*  Gets the components  */
+        playerRb = this.GetComponent<Rigidbody>();
+    }
     /*-  Start is called before the first frame update -*/
     private void Start()
     {
-        playerRb = this.GetComponent<Rigidbody>();
+        /* Gets the static instances and stores them in the Static References */
+        gameManager = GameManager.instance;
         availableTiles = Tile.GetTiles(); //Gets the list of transform from Tile
+
         closestTile = availableTiles[0]; //Sets closestTile to the first availableTiles list item
     }
     /*-  OnEnable is called when the object becomes enabled -*/
@@ -55,6 +64,12 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     /*-  Update is called once per frame -*/
     private void Update()
     {
+        //if gameStates is not PLAYING
+        if(gameManager.GetGameState() != GameStates.PLAYING)
+        {
+            return;
+        }
+
         /* Movement Code */
         velocity.x = Input.GetAxis("Horizontal");
         velocity.z = Input.GetAxis("Vertical");
@@ -88,25 +103,35 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     {
         yield return new WaitForSeconds(time);
 
-        /* Checks if the player is close to a tile and sets closestTilt to closets tile */
-        for (int i = 0; i < availableTiles.Count; i++)
+        //if gameStates is PLAYING
+        if(gameManager.GetGameState() == GameStates.PLAYING)
         {
-            //If he player is near an availableTiles
-            if (Vector3.Distance(availableTiles[i].position, this.transform.position) < 2.5f)
+            /* Checks if the player is close to a tile and sets closestTilt to closets tile */
+            for (int i = 0; i < availableTiles.Count; i++)
             {
-                closestTile = availableTiles[i];
+                //If he player is near an availableTiles
+                if (Vector3.Distance(availableTiles[i].position, this.transform.position) < 2.5f)
+                {
+                    closestTile = availableTiles[i];
+                }
             }
+
+            /* Health regeneration */
+
+            //if the mana plus manaRegen is less than 100
+            if ((health + 1) <= stat.unitHealth)
+            {
+                health += 1;
+            }
+            healthBar.fillAmount = health / stat.unitHealth; //Resets healthBar
         }
-
-        /* Health regeneration */
-
-        //if the mana plus manaRegen is less than 100
-        if ((health + 1) <= stat.unitHealth)
+        
+        //if gameStates isn't WIN or LOSE
+        if(!(gameManager.GetGameState() == GameStates.WIN 
+        || gameManager.GetGameState() == GameStates.LOSE))
         {
-            health += 1;
+            StartCoroutine(RegenerateHealth(1f));
         }
-        healthBar.fillAmount = health / stat.unitHealth; //Resets healthBar
-        StartCoroutine(RegenerateHealth(1f));
     }
     /*-  Handles taking damage takes a float that is the oncoming damage value -*/
     public void TakeDamage(float damage)
@@ -122,6 +147,7 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     }
 
     /*---      SET/GET FUNCTIONS     ---*/
+    /*-  Gets closestTile -*/
     public Transform GetClosestTile()
     {
         return closestTile;

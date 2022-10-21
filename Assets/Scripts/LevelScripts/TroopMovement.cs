@@ -9,9 +9,14 @@ public class TroopMovement : MonoBehaviour
         Description: This script controls the troop's movement
 
     */
-    /*[Header("Script References")]*/
+    /*[Header("Static References")]*/
+    GameManager gameManager;
+
+    /*[Header("Components")]*/
     private TroopController troopController;
     private TroopBehaviour troopBehaviour;
+
+    /*[Header("Script Settings")]*/
     private Transform path;
     private int wavePointIndex; //Keeps track of which waypoint the troop is at
 
@@ -21,6 +26,12 @@ public class TroopMovement : MonoBehaviour
     {
         troopController = this.GetComponent<TroopController>();
         troopBehaviour = this.GetComponent<TroopBehaviour>();
+    }
+    /*-  Start is called before the first frame update -*/
+    private void Start()
+    {
+        /* Gets the static instances and stores them in the Static References */
+        gameManager = GameManager.instance;
     }
     /*-  Sets the troops first waypoint depending on if the unit is an enemy -*/
     public void StartMovement()
@@ -42,6 +53,12 @@ public class TroopMovement : MonoBehaviour
     /*-  Update is called once per frame -*/
     private void Update()
     {
+        //if gameStates is not PLAYING
+        if(gameManager.GetGameState() != GameStates.PLAYING)
+        {
+            return;
+        }
+
         //if targetDetected doesn't exist and this unit's behaviour isn't DEFEND
         if(troopBehaviour.GetTargetDetected() == null && troopBehaviour.GetPlayerDetected() == null)
         {

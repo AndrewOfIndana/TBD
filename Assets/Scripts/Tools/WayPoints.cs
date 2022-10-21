@@ -9,7 +9,7 @@ public class WayPoints : MonoBehaviour
         Description: This script holds a static list of transforms of each waypoint, and changes the order of the points by the way they are oriented in the editor
 
     */
-    public static Transform[] points; //A static transform array that can be accessed in any script 
+    public static Transform[] points;
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/

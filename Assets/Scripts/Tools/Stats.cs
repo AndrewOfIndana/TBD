@@ -13,13 +13,12 @@ public class Stats : ScriptableObject
         Description: A ScriptableObject that holds unit specific variables for each troop and tower
     
     */
-
     [Header("Information")]
     public int unitID; //The ID number of the unit
     public string unitName; //Name of the unit
     public string unitDescription; //Description of the unit
 
-    [Header("Stat Variables")]
+    [Header("Stats")]
     public float unitHealth; //Health of the unit
     public float unitAttack; //Attack of the unit
     public float unitSpeed; //Speed of the unit
@@ -29,7 +28,10 @@ public class Stats : ScriptableObject
     [Header("Physical Variables")]
     public Sprite unitSprite; //Sprite of the unit
     public Vector3 unitSize; //Size of the BoxCollider of unit
-    public StatsAudio unitsSfx;
+    public StatsAudio unitsSfx; //Stores the audio of the a unit
+    public UnitType unitType; //Type of the unit
+    public Behaviour unitBehaviour; //The behavior of the unit
+    public float unitWalkSpeed; //The animation speed of the unit
 
     [Header("Tag Variables")]
     public bool isUnitEnemy; //is the unit an enemy
@@ -37,10 +39,7 @@ public class Stats : ScriptableObject
     public string[] targetTags; //Tags of what the unit should face
     public StatsTags sharedTags; //Tags of what the units share with other units of the same faction
 
-    [Header("Other Variables")]
+    [Header("Setup Variables")]
     public float unitCost; //Cost of the unit
     public Sprite unitThumbnail; //Thumbnail of the unit
-    public UnitType unitType; //Type of the unit
-    public Behaviour unitBehaviour; //The behavior of the unit
-    public float unitWalkSpeed;
 }

@@ -9,14 +9,16 @@ public class TroopBehaviour : MonoBehaviour
         Description: This script controls the behaviour of a troop and how it reacts to other units and damage
 
     */
+    /*[Header("Static References")]*/
+    GameManager gameManager;
 
-    /*[Header("Script References")]*/
+    /*[Header("Components")]*/
     private TroopController troopController;
     private TroopMovement troopMovement;
+
+    /*[Header("Script Settings")]*/
     private Transform targetDetected; //What the unit detects
     private Idamageable targetEngaged; //What the unit is fighting
-
-    /*[Header("Golem References")]*/
     private PlayerAvatar playerAvatar;
     private Transform playerDetected;
 
@@ -29,23 +31,35 @@ public class TroopBehaviour : MonoBehaviour
     }
     private void Start()
     {
-        playerAvatar = LevelManager.levelManagerInstance.GetPlayerAvatar();
+        /* Gets the static instances and stores them in the Static References */
+        gameManager = GameManager.instance;
+        playerAvatar = LevelManager.instance.GetPlayerAvatar();
     }
-
     /*-  Starts the units targeting behaviour -*/
     public void StartBehaviour()
     {
         StartCoroutine(UpdateTarget(1f)); //Calls UpdateTarget IEnumerator at 1 second
     }
 
-   /*---      FUNCTIONS     ---*/
+    /*---      FUNCTIONS     ---*/
     /*-  Repeatedly updates a target, takes a float for the time -*/
     private IEnumerator UpdateTarget(float time)
     {
         yield return new WaitForSeconds(time);
-        Targeting();
-        Engaging();
-        StartCoroutine(UpdateTarget(1f)); //Recalls Aiming IEnumerator at attackRate
+
+        //if gameStates is PLAYING
+        if(gameManager.GetGameState() == GameStates.PLAYING)
+        {
+            Targeting();
+            Engaging();
+        }
+
+        //if gameStates isn't WIN or LOSE
+        if(!(gameManager.GetGameState() == GameStates.WIN 
+        || gameManager.GetGameState() == GameStates.LOSE))
+        {
+            StartCoroutine(UpdateTarget(1f)); //Recalls Aiming IEnumerator at attackRate
+        }
     }
     /*-  Controls targeting -*/
     private void Targeting()
@@ -138,18 +152,22 @@ public class TroopBehaviour : MonoBehaviour
     }
 
     /*---      SET/GET FUNCTIONS     ---*/
+    /*-  Gets targetDetected  -*/
     public Transform GetTargetDetected()
     {
         return targetDetected;
     }
+    /*-  Gets targetEngaged  -*/
     public Idamageable GetTargetEngaged()
     {
         return targetEngaged;
     }
+    /*-  Gets playerDetected  -*/
     public Transform GetPlayerDetected()
     {
         return playerDetected;
     }
+    /*-  Sets all target to null  -*/
     public void VoidTargets()
     {
         targetDetected = null;

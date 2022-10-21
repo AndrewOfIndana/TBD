@@ -9,7 +9,7 @@ public class Unit : MonoBehaviour
         Description: This script holds a static list of Units
 
     */
-    public static List<Unit> unitList = new List<Unit>(); //A static list of Units
+    public static List<Unit> unitList = new List<Unit>();
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  OnEnable is called when the object becomes enabled -*/

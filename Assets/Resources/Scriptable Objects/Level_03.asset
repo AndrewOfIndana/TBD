@@ -16,7 +16,7 @@ MonoBehaviour:
   levelName: Approach
   availbleUnits: {fileID: 11400000, guid: f87a1a2dadc6aef4390047f572f3c89c, type: 2}
   unitLimit: 4
-  mana: 900
+  mana: 90
   manaRegen: 3
   playerHealth: 500
   enemyUnits: {fileID: 11400000, guid: b9d18b24dc79d2543a5ba1e2e41ef9ce, type: 2}

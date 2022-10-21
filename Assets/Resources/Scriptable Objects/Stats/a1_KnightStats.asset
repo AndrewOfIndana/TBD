@@ -23,6 +23,9 @@ MonoBehaviour:
   unitSprite: {fileID: 21300000, guid: a75df46e6d5da0a439a6eecc3fb55d0e, type: 3}
   unitSize: {x: 1.5, y: 2, z: 1.5}
   unitsSfx: {fileID: 11400000, guid: d43bdc6bf8b47004eb5c59572032c3d9, type: 2}
+  unitType: 0
+  unitBehaviour: 0
+  unitWalkSpeed: 1
   isUnitEnemy: 0
   unitTag: AllyTroop
   targetTags:
@@ -32,7 +35,4 @@ MonoBehaviour:
   - EnemyBase
   sharedTags: {fileID: 11400000, guid: fef36fcd149f1b74d9614a1e3e09f962, type: 2}
   unitCost: 20
-  unitThumbnail: {fileID: 21300000, guid: 953ad8d96415e9241be898600ff6753f, type: 3}
-  unitType: 0
-  unitBehaviour: 0
-  unitWalkSpeed: 1
+  unitThumbnail: {fileID: 21300000, guid: 1e78ef125c14d6c4d9657f9bc7df5736, type: 3}

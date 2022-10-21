@@ -11,17 +11,17 @@ public class TowerController : MonoBehaviour, Ieffectable, Idamageable
         Description: This script contains and handles the variables used for the behaviour of a tower unit
         
     */
-    [Header("Script References")]
-    public List<StatusEffect> statusEffects = new List<StatusEffect>();
+    /*[Header("Components")]*/
     private TowerBehaviour towerBehaviour;
 
-    [Header("GameObject References")]
+    [Header("GameObject Reference")]
     public Animator animator;
     public Image healthBar; 
     public SpriteRenderer thisSprite; 
     public BoxCollider thisCollider; 
 
-    /*[Header("Stats Variables")]*/
+    [Header("Stats")]
+    public List<StatusEffect> statusEffects = new List<StatusEffect>();
     private Stats stat;
     private float attack;
     private float health; 
@@ -58,6 +58,7 @@ public class TowerController : MonoBehaviour, Ieffectable, Idamageable
     }
 
     /*---      FUNCTIONS     ---*/
+    /*-  Handles taking a status effect takes StatusEffect for the applied effect -*/
     public void ApplyEffect(StatusEffect appliedEffect)
     {
         statusEffects.Add(appliedEffect);
@@ -80,6 +81,7 @@ public class TowerController : MonoBehaviour, Ieffectable, Idamageable
         health = GetBuffedStat(health, health, effectIndex, BuffedStats.health);
         attackRate = GetBuffedStat(attackRate, stat.unitAttackRate, effectIndex, BuffedStats.attackRate);
     }
+    /*-  Applies the bonus to a unit's stat -*/
     private float GetBuffedStat(float buffedStat, float baseStat, int effectIndex, BuffedStats buffedVariable)
     {
         if(statusEffects.ElementAtOrDefault(effectIndex) != null)
@@ -92,13 +94,13 @@ public class TowerController : MonoBehaviour, Ieffectable, Idamageable
         }
         return baseStat;
     }
+    /*-  Handles removing a status effect takes StatusEffect for the removed effect, the index of the removed effect, and a float for the time time -*/
     public IEnumerator RemoveEffect(StatusEffect decayedEffect, int effectIndex, float lifeTime)
     {
         yield return new WaitForSeconds(lifeTime);
         statusEffects.Remove(decayedEffect);
         BuffUnit(effectIndex);
     }
-
     /*-  Handles taking damage takes a float that is the oncoming damage value -*/
     public void TakeDamage(float damage)
     {
@@ -113,14 +115,17 @@ public class TowerController : MonoBehaviour, Ieffectable, Idamageable
     }
 
     /*---      SET/GET FUNCTIONS     ---*/
+    /*-  Get Stats -*/
     public Stats GetStats()
     {
         return stat;
     }
+    /*-  Get attack -*/
     public float GetAttack()
     {
         return attack;
     }
+    /*-  Get attack rate -*/
     public float GetAttackRate()
     {
         return attackRate;

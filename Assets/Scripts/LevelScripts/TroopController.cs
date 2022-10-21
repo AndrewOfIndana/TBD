@@ -11,8 +11,7 @@ public class TroopController : MonoBehaviour, Ieffectable, Idamageable
         Description: This script contains and handles the variables used for the both the behaviour and movement of a troop unit 
 
     */
-    [Header("Script References")]
-    public List<StatusEffect> statusEffects = new List<StatusEffect>();
+    /*[Header("Components")]*/
     private TroopBehaviour troopBehaviour;
     private TroopMovement troopMovement;
 
@@ -23,7 +22,8 @@ public class TroopController : MonoBehaviour, Ieffectable, Idamageable
     public BoxCollider thisCollider;
     private AudioSource audioSource;
 
-    /*[Header("Stats Variables")]*/
+    [Header("Stats")]
+    public List<StatusEffect> statusEffects = new List<StatusEffect>();
     private Stats stat;
     private float attack;
     private float health; 
@@ -62,6 +62,7 @@ public class TroopController : MonoBehaviour, Ieffectable, Idamageable
     }
 
     /*---      FUNCTIONS     ---*/
+    /*-  Handles taking a status effect takes StatusEffect for the applied effect -*/
     public void ApplyEffect(StatusEffect appliedEffect)
     {
         statusEffects.Add(appliedEffect);
@@ -85,6 +86,7 @@ public class TroopController : MonoBehaviour, Ieffectable, Idamageable
         speed = GetBuffedStat(speed, stat.unitSpeed, effectIndex, BuffedStats.speed);
         attackRate = GetBuffedStat(attackRate, stat.unitAttackRate, effectIndex, BuffedStats.attackRate);
     }
+    /*-  Applies the bonus to a unit's stat -*/
     private float GetBuffedStat(float buffedStat, float baseStat, int effectIndex, BuffedStats buffedVariable)
     {
         if(statusEffects.ElementAtOrDefault(effectIndex) != null)
@@ -97,13 +99,13 @@ public class TroopController : MonoBehaviour, Ieffectable, Idamageable
         }
         return baseStat;
     }
+    /*-  Handles removing a status effect takes StatusEffect for the removed effect, the index of the removed effect, and a float for the time time -*/
     public IEnumerator RemoveEffect(StatusEffect decayedEffect, int effectIndex, float lifeTime)
     {
         yield return new WaitForSeconds(lifeTime);
         statusEffects.Remove(decayedEffect);
         BuffUnit(effectIndex);
     }
-
     /*-  Handles taking damage takes a float that is the oncoming damage value -*/
     public void TakeDamage(float damage)
     {
@@ -117,25 +119,29 @@ public class TroopController : MonoBehaviour, Ieffectable, Idamageable
             this.gameObject.SetActive(false); 
         }
     }
-
+    /*-  OnDisable is called when the object becomes disabled -*/
     private void OnDisable()
     {
         audioSource.Stop();
     }
 
     /*---      SET/GET FUNCTIONS     ---*/
+    /*-  Get Stats -*/
     public Stats GetStats()
     {
         return stat;
     }
+    /*-  Get attack -*/
     public float GetAttack()
     {
         return attack;
     }
+    /*-  Get speed -*/
     public float GetSpeed()
     {
         return speed;
     }
+    /*-  Get attack rate -*/
     public float GetAttackRate()
     {
         return attackRate;

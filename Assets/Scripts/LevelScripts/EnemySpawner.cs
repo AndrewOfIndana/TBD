@@ -10,15 +10,16 @@ public class EnemySpawner : MonoBehaviour, Idamageable
 
     */
     /*[Header("Static References")]*/
+    GameManager gameManager;
     LevelManager levelManager;
     LevelUI levelUI;
     ObjectPool objectPool;
 
-    [Header("Health Variables")]
+    [Header("Health Settings")]
     public float health = 1000;
     private float maxHealth;
 
-    /*[Header("Script Variables")]*/
+    /*[Header("Script Settings")]*/
     private float spawnRate; 
     private List<Stats> typesOfEnemies = new List<Stats>();
 
@@ -27,9 +28,10 @@ public class EnemySpawner : MonoBehaviour, Idamageable
     private void Start()
     {
         /* Gets the static instances and stores them in the Static References */
-        levelManager = LevelManager.levelManagerInstance;
-        levelUI = LevelUI.levelUIinstance;
-        objectPool = ObjectPool.objectPoolInstance;
+        gameManager = GameManager.instance;
+        levelManager = LevelManager.instance;
+        levelUI = LevelUI.instance;
+        objectPool = ObjectPool.instance;
 
         health = levelManager.GetLevel().enemyHealth;
         maxHealth = health;
@@ -49,16 +51,27 @@ public class EnemySpawner : MonoBehaviour, Idamageable
     private IEnumerator SpawnEnemy(float rate)
     {
         yield return new WaitForSeconds(rate); 
-        GameObject enemyObj = objectPool.SpawnFromPool("Enemy", transform.position, Quaternion.identity);
-        TroopController enemy = enemyObj.GetComponent<TroopController>();
-        
-        //if this enemy exist
-        if(enemy != null)
+
+        //if gameStates is PLAYING
+        if(gameManager.GetGameState() == GameStates.PLAYING)
         {
-            enemy.SetUnit(typesOfEnemies[Random.Range(0, typesOfEnemies.Count)]); //Sets enemy type and stats based on random number generator
-            enemy.StartController(); //Sets enemy type and stats based on random number generator
+            GameObject enemyObj = objectPool.SpawnFromPool("Enemy", transform.position, Quaternion.identity);
+            TroopController enemy = enemyObj.GetComponent<TroopController>();
+            
+            //if this enemy exist
+            if(enemy != null)
+            {
+                enemy.SetUnit(typesOfEnemies[Random.Range(0, typesOfEnemies.Count)]); //Sets enemy type and stats based on random number generator
+                enemy.StartController(); //Sets enemy type and stats based on random number generator
+            }
         }
-        StartCoroutine(SpawnEnemy(rate)); 
+
+        //if gameStates isn't WIN or LOSE
+        if(!(gameManager.GetGameState() == GameStates.WIN 
+        || gameManager.GetGameState() == GameStates.LOSE))
+        {
+            StartCoroutine(SpawnEnemy(rate)); 
+        }
     }
     /*-  Handles taking damage takes a float that is the oncoming damage value -*/
     public void TakeDamage(float damage)
@@ -69,17 +82,19 @@ public class EnemySpawner : MonoBehaviour, Idamageable
         //if health is less than or equal to 0
         if(health <= 0)
         {
-            GameManager.gameInstance.SetGameState(GameStates.WIN);
-            levelManager.ChangeState(); //Sets GameStates to WIN in the levelManager
-            this.gameObject.SetActive(false); //deactivate the troop
+            gameManager.SetGameState(GameStates.WIN); //Sets GameStates to WIN
+            levelManager.ChangeState(); //Changes State for level
+            this.gameObject.SetActive(false); 
         }
     }
 
     /*---      SET/GET FUNCTIONS     ---*/
+    /*-  Gets health -*/
     public float GetHealth()
     {
         return health;
     }
+    /*-  Gets max health -*/
     public float GetMaxHealth()
     {
         return maxHealth;
