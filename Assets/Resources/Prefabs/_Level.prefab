@@ -5567,6 +5567,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 7037220480807331756, guid: 3766a3decefa70b46999ff18930951f6,
     type: 3}
   enragedState: 0
+  enragedStatus: {fileID: 11400000, guid: 947c88df1935d484e82c60e9e143db6d, type: 2}
   clockTime: 0
   enragedCount: 0
   topdownCamera: {fileID: 5416375462946984946}

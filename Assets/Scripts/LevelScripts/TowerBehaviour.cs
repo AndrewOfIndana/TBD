@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class TowerBehaviour : MonoBehaviour
 {
@@ -68,24 +69,21 @@ public class TowerBehaviour : MonoBehaviour
     /*-  Controls targeting -*/
     private void Targeting()
     {
-        float shortestDistance = Mathf.Infinity; 
+        float shortestDistance = Mathf.Infinity;
         Transform nearestTarget = null;
-
+        
         foreach(Unit unit in Unit.GetUnitList())
         {
-            for(int i = 0; i < towerController.GetStats().targetTags.Length; i++)
+            //If the unit's tag is the target tag
+            if(towerController.GetStats().targetTags.Any(x => x.Contains(unit.gameObject.tag)))
             {
-                //If the unit's tag is the target tag
-                if(unit.gameObject.tag == towerController.GetStats().targetTags[i])
-                {
-                    float distanceToTarget = Vector3.Distance(transform.position, unit.transform.position); //calculates the distance to that enemy
+                float distanceToTarget = Vector3.Distance(transform.position, unit.transform.position); //calculates the distance to that enemy
 
-                    //if the distanceToTarget is lesser than shortestDistance
-                    if(distanceToTarget < shortestDistance)
-                    {
-                        shortestDistance = distanceToTarget; 
-                        nearestTarget = unit.transform;
-                    }
+                //if the distanceToTarget is lesser than shortestDistance
+                if(distanceToTarget < shortestDistance)
+                {
+                    shortestDistance = distanceToTarget;
+                    nearestTarget = unit.transform;
                 }
             }
         }

@@ -10,6 +10,7 @@ public class Unit : MonoBehaviour
 
     */
     public static List<Unit> unitList = new List<Unit>();
+    public bool isEnemy;
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  OnEnable is called when the object becomes enabled -*/
@@ -28,5 +29,9 @@ public class Unit : MonoBehaviour
     private void OnDisable()
     {
         unitList.Remove(this); //Removes this unit to unitList
+    }
+    public bool IsEnemy()
+    {
+        return isEnemy;
     }
 }

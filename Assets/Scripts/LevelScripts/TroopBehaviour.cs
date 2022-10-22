@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class TroopBehaviour : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class TroopBehaviour : MonoBehaviour
         troopController = this.GetComponent<TroopController>();
         troopMovement = this.GetComponent<TroopMovement>();
     }
+    /*-  Start is called before the first frame update -*/
     private void Start()
     {
         /* Gets the static instances and stores them in the Static References */
@@ -69,19 +71,16 @@ public class TroopBehaviour : MonoBehaviour
         
         foreach(Unit unit in Unit.GetUnitList())
         {
-            for(int i = 0; i < troopController.GetStats().targetTags.Length; i++)
+            //If the unit's tag is the target tag
+            if(troopController.GetStats().targetTags.Any(x => x.Contains(unit.gameObject.tag)))
             {
-                //If the unit's tag is the target tag
-                if(unit.gameObject.tag == troopController.GetStats().targetTags[i])
-                {
-                    float distanceToTarget = Vector3.Distance(transform.position, unit.transform.position); //calculates the distance to that enemy
+                float distanceToTarget = Vector3.Distance(transform.position, unit.transform.position); //calculates the distance to that enemy
 
-                    //if the distanceToTarget is lesser than shortestDistance
-                    if(distanceToTarget < shortestDistance)
-                    {
-                        shortestDistance = distanceToTarget;
-                        nearestTarget = unit.transform;
-                    }
+                //if the distanceToTarget is lesser than shortestDistance
+                if(distanceToTarget < shortestDistance)
+                {
+                    shortestDistance = distanceToTarget;
+                    nearestTarget = unit.transform;
                 }
             }
         }
@@ -128,8 +127,13 @@ public class TroopBehaviour : MonoBehaviour
         float randomRate = rate * Random.Range(minAtkTime, maxAtkTime);
         yield return new WaitForSeconds(randomRate);
 
+        if(gameManager.gameState == GameStates.WIN || gameManager.gameState == GameStates.LOSE)
+        {
+            this.gameObject.SetActive(false);
+        }
+
         //if targetEngaged does exist
-        if(targetEngaged != null && targetDetected.gameObject.activeSelf)
+        if(targetEngaged != null && targetDetected.gameObject.activeSelf && !(gameManager.gameState == GameStates.WIN || gameManager.gameState == GameStates.LOSE))
         {
             targetEngaged.TakeDamage(troopController.GetAttack()); //Transfer the enemy's troop's attack to the this script's TakeDamage function
             StartCoroutine(Combat(rate, minAtkTime, maxAtkTime)); //Recalls Combat IEnumerator at attackRate * random

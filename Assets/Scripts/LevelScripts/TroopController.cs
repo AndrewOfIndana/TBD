@@ -4,31 +4,40 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
-public class TroopController : MonoBehaviour, Ieffectable, Idamageable
+public class TroopController : MonoBehaviour, Idamageable, Ieffectable
 {
     /*  
         Name: TroopController.cs
         Description: This script contains and handles the variables used for the both the behaviour and movement of a troop unit 
 
     */
+    /*[Header("Static References")]*/
+    LevelManager levelManager;
+
     /*[Header("Components")]*/
     private TroopBehaviour troopBehaviour;
     private TroopMovement troopMovement;
 
     [Header("GameObject References")]
     public Animator animator;
-    public Image healthBar; 
     public SpriteRenderer thisSprite; 
     public BoxCollider thisCollider;
     private AudioSource audioSource;
 
-    [Header("Stats")]
-    public List<StatusEffect> statusEffects = new List<StatusEffect>();
+    [Header("UI References")]
+    public Image healthBar; 
+    public GameObject[] statusUI;
+    private Color healthColor;
+    private Color buffedHpColor = Color.yellow;
+    private Color enragedColor = new Color(1f, 0.16f, 0.14f);
+
+    /*[Header("Stats")]*/
     private Stats stat;
     private float attack;
     private float health; 
     private float speed;
     private float attackRate;
+    private List<StatusEffect> statusEffects = new List<StatusEffect>();
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
@@ -37,6 +46,13 @@ public class TroopController : MonoBehaviour, Ieffectable, Idamageable
         troopMovement = this.GetComponent<TroopMovement>();
         troopBehaviour = this.GetComponent<TroopBehaviour>();
         audioSource = this.GetComponent<AudioSource>();
+        healthColor = healthBar.color;
+    }
+    /*-  Start is called before the first frame update -*/
+    private void Start()
+    {
+        /* Gets the static instances and stores them in the Static References */
+        levelManager = LevelManager.instance;
     }
     /*-  Sets the units stats when the object has spawned from pool using the newStats Stats variables -*/
     public void SetUnit(Stats newStats)
@@ -49,12 +65,16 @@ public class TroopController : MonoBehaviour, Ieffectable, Idamageable
         thisSprite.sprite = newStats.unitSprite;
         thisCollider.size =  newStats.unitSize;
         healthBar.fillAmount = health/newStats.unitHealth;
-        this.gameObject.tag = newStats.unitTag;
         audioSource.clip = stat.unitsSfx.statSfx1;
+        this.gameObject.tag = newStats.unitTag;
     }
     /*-  Starts the unit's behaviour and movement -*/
     public void StartController()
     {
+        for(int i = 0; i < statusUI.Length; i++)
+        {
+            statusUI[i].SetActive(false);
+        }
         animator.speed = stat.unitWalkSpeed;
         troopBehaviour.StartBehaviour(); //Starts the troop's Behaviour
         troopMovement.StartMovement(); //Starts the troop's Movement
@@ -62,55 +82,96 @@ public class TroopController : MonoBehaviour, Ieffectable, Idamageable
     }
 
     /*---      FUNCTIONS     ---*/
-    /*-  Handles taking a status effect takes StatusEffect for the applied effect -*/
+    /*-  Handles applying a status effect for a unit takes a StatusEffect for the applied effect -*/
     public void ApplyEffect(StatusEffect appliedEffect)
     {
-        statusEffects.Add(appliedEffect);
-
-        if(statusEffects.Count != statusEffects.Distinct().Count())
+        if(!statusEffects.Contains(appliedEffect))
         {
-            statusEffects.Remove(appliedEffect);
-        }
-        else
-        {
-            int effectIndex = (statusEffects.Count - 1);
-            BuffUnit(effectIndex);
-            StartCoroutine(RemoveEffect(appliedEffect, effectIndex, appliedEffect.effectLifetime)); //Calls UpdateTarget IEnumerator at 1 second
+            statusEffects.Add(appliedEffect);
+            statusUI[appliedEffect.effectId].SetActive(true);
+            BuffUnit();
         }
     }
     /*-  Buffs the units stats when applying a status effect -*/
-    private void BuffUnit(int effectIndex)
+    private void BuffUnit()
     {
-        attack = GetBuffedStat(attack, stat.unitAttack, effectIndex, BuffedStats.attack);
-        health = GetBuffedStat(health, health, effectIndex, BuffedStats.health);
-        speed = GetBuffedStat(speed, stat.unitSpeed, effectIndex, BuffedStats.speed);
-        attackRate = GetBuffedStat(attackRate, stat.unitAttackRate, effectIndex, BuffedStats.attackRate);
-    }
-    /*-  Applies the bonus to a unit's stat -*/
-    private float GetBuffedStat(float buffedStat, float baseStat, int effectIndex, BuffedStats buffedVariable)
-    {
-        if(statusEffects.ElementAtOrDefault(effectIndex) != null)
+        float newAttack = stat.unitAttack;
+        float newHealth = health > stat.unitHealth ? newHealth = stat.unitHealth: newHealth = health;
+        float newSpeed = stat.unitSpeed;
+        float newAttackRate = stat.unitAttackRate;
+
+        for(int i = 0; i < statusEffects.Count; i++)
         {
-            return buffedStat * statusEffects[effectIndex].GetStatusBonus(buffedVariable);
+            for(int k = 0; k < statusEffects[i].effects.Count; k++)
+            {
+                newAttack = newAttack * statusEffects[i].effects[k].GetStatusBonus(BuffedStats.attack);
+                newHealth = newHealth * statusEffects[i].effects[k].GetStatusBonus(BuffedStats.health);
+                newSpeed = newSpeed * statusEffects[i].effects[k].GetStatusBonus(BuffedStats.speed);
+                newAttackRate = newAttackRate * statusEffects[i].effects[k].GetStatusBonus(BuffedStats.attackRate);
+            }
         }
-        else if(statusEffects.ElementAtOrDefault(effectIndex) == null)
+
+        if(newHealth > stat.unitHealth && levelManager.GetIsEnraged())
         {
-            return baseStat;
+            healthBar.color = enragedColor;
         }
-        return baseStat;
+        else if(newHealth > stat.unitHealth && !levelManager.GetIsEnraged())
+        {
+            healthBar.color = buffedHpColor;
+        }
+        else
+        {
+            healthBar.color = healthColor;
+        }
+
+        attack = newAttack;
+        health = newHealth;
+        speed = newSpeed;
+        attackRate = newAttackRate;
     }
-    /*-  Handles removing a status effect takes StatusEffect for the removed effect, the index of the removed effect, and a float for the time time -*/
-    public IEnumerator RemoveEffect(StatusEffect decayedEffect, int effectIndex, float lifeTime)
+    /*-  Calls DecayEffect when called from another script -*/
+    public void StartDecayEffect(StatusEffect decayingEffect, float lifeTime)
     {
-        yield return new WaitForSeconds(lifeTime);
-        statusEffects.Remove(decayedEffect);
-        BuffUnit(effectIndex);
+        StartCoroutine(DecayEffect(decayingEffect, lifeTime));
+    }
+    /*-  Handles the lifetime of a status effect, takes the StatusEffect that is decaying and float for the life time -*/
+    public IEnumerator DecayEffect(StatusEffect decayingEffect, float lifeTime)
+    {
+        if(statusEffects.Contains(decayingEffect))
+        {
+            yield return new WaitForSeconds(lifeTime);
+            RemoveEffect(decayingEffect);
+        }
+    }
+    /*-  Handles removing a status effect from a unit takes the StatusEffect that will be removed  -*/
+    public void RemoveEffect(StatusEffect removedEffect)
+    {
+        if(statusEffects.Contains(removedEffect))
+        {
+            statusUI[removedEffect.effectId].SetActive(false);
+            statusEffects.Remove(removedEffect);
+            BuffUnit();
+        }
     }
     /*-  Handles taking damage takes a float that is the oncoming damage value -*/
     public void TakeDamage(float damage)
     {
         health -= damage;
-        healthBar.fillAmount = health/stat.unitHealth; //Resets healthBar
+
+        if(health > stat.unitHealth && levelManager.GetIsEnraged())
+        {
+            healthBar.color = enragedColor;
+        }
+        else if(health > stat.unitHealth && !levelManager.GetIsEnraged())
+        {
+            healthBar.color = buffedHpColor;
+        }
+        else
+        {
+            healthBar.color = healthColor;
+            healthBar.fillAmount = health/stat.unitHealth; //Resets healthBar
+        }
+
 
         //if health is less than or equal to 0
         if(health <= 0)
@@ -122,6 +183,7 @@ public class TroopController : MonoBehaviour, Ieffectable, Idamageable
     /*-  OnDisable is called when the object becomes disabled -*/
     private void OnDisable()
     {
+        statusEffects.Clear();
         audioSource.Stop();
     }
 

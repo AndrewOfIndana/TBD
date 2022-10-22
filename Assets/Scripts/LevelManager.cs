@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public enum EnragedStates {CALM, ENRAGED} //The different enraged states the enemy could be in
-
 public class LevelManager : MonoBehaviour
 {
     /*  
@@ -40,10 +38,11 @@ public class LevelManager : MonoBehaviour
     private bool hasPlayerRespawned = true;
 
     [Header("Enraged Clock Settings")]
-    public EnragedStates enragedState = EnragedStates.CALM; 
+    public StatusEffect enragedStatus;
+    private bool isEnraged; 
     private float clockCalmTime;
     private float clockEnragedTime;
-    public float clockTime = 0;
+    private float clockTime = 0;
     public int enragedCount = 0;
 
     [Header("Script Settings")]
@@ -242,17 +241,19 @@ public class LevelManager : MonoBehaviour
             if(clockTime <= clockCalmTime)
             {
                 /*  Calms Enemies  */
-                enragedState = EnragedStates.CALM; 
+                isEnraged = false; 
             }
             else if(clockTime > clockCalmTime && clockTime <= level.GetTotalTime()) //if clockTime is greater than clockCalmTime and clockTime is less than or equal to clockTimeTotal 
             {
                 /*  Enrages Enemies  */
-                enragedState = EnragedStates.ENRAGED; 
+                isEnraged = true;
+                GlobalStatusEffect();
             }
             else if(clockTime > level.GetTotalTime()) //if clockTime is greater than clockTimeTotal
             {
                 /*  Calms Enemies and resets clockTime  */
-                enragedState = EnragedStates.CALM; 
+                isEnraged = false; 
+                GlobalStatusEffect();
                 clockTime = 0;
                 enragedCount++;
             }
@@ -263,6 +264,25 @@ public class LevelManager : MonoBehaviour
         || gameManager.GetGameState() == GameStates.LOSE))
         {
             StartCoroutine(EnragedCycle(1f)); //Recalls EnragedCycle IEnumerator at 1 second
+        }
+    }
+    private void GlobalStatusEffect()
+    {
+        foreach(Unit unit in Unit.GetUnitList())
+        {            
+            if(unit.IsEnemy() && unit.GetComponent<Ieffectable>() != null)
+            {
+                Ieffectable enemy = unit.GetComponent<Ieffectable>();
+
+                if(isEnraged)
+                {
+                    enemy.ApplyEffect(enragedStatus);
+                }
+                else if(!isEnraged)
+                {
+                    enemy.RemoveEffect(enragedStatus);
+                }
+            }
         }
     }
 
@@ -323,9 +343,19 @@ public class LevelManager : MonoBehaviour
     {
         return playerUnitCount;
     }
-    /*-  Gets GetPlayerAvatar -*/
+    /*-  Gets PlayerAvatar -*/
     public PlayerAvatar GetPlayerAvatar()
     {
         return playerAvatar;
+    }
+    /*-  Gets enragedStatus -*/
+    public StatusEffect GetEnragedStatus()
+    {
+        return enragedStatus;
+    }
+    /*-  Gets IsEnraged -*/
+    public bool GetIsEnraged()
+    {
+        return isEnraged;
     }
 }
