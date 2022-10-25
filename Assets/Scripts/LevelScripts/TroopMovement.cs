@@ -19,6 +19,8 @@ public class TroopMovement : MonoBehaviour
     /*[Header("Script Settings")]*/
     private Transform path;
     private int wavePointIndex; //Keeps track of which waypoint the troop is at
+    private bool hasReachedEnd = false;
+    private Vector3 dir;
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
@@ -41,11 +43,13 @@ public class TroopMovement : MonoBehaviour
         {
             wavePointIndex = 0; 
             path = WayPoints.points[0]; //Sets the path transform to the first wayPoint 
+            hasReachedEnd = false;
         }
         else if(!troopController.GetStats().isUnitEnemy) //if the troop isn't an enemy
         {
             wavePointIndex = WayPoints.points.Length - 1; 
             path = WayPoints.points[(WayPoints.points.Length - 1)]; //Sets the path transform to the last wayPoint 
+            hasReachedEnd = false;
         }
     }
     
@@ -54,19 +58,18 @@ public class TroopMovement : MonoBehaviour
     private void Update()
     {
         //if gameStates is not PLAYING
-        if(gameManager.GetGameState() != GameStates.PLAYING)
+        if(!gameManager.CheckIfPlaying())
         {
             return;
         }
 
-        //if targetDetected doesn't exist and this unit's behaviour isn't DEFEND
-        if(troopBehaviour.GetTargetDetected() == null && troopBehaviour.GetPlayerDetected() == null)
+        //if targetDetected doesn't exist, playerDetected doesn't exist, and hasReachedEnd is false
+        if(troopBehaviour.GetTargetDetected() == null && troopBehaviour.GetPlayerDetected() == null && !hasReachedEnd)
         {
             /* MOVES TROOP TO WAYPOINT */
-            
-            troopController.animator.SetBool("aAttacking", false);
+
             troopController.animator.SetBool("aIdle", false);
-            Vector3 dir = path.position - transform.position;
+            dir = path.position - transform.position;
             transform.Translate(dir.normalized * troopController.GetSpeed() * Time.deltaTime, Space.World);
 
             //If the troop has reached a waypoint calculate a new waypoint
@@ -75,32 +78,35 @@ public class TroopMovement : MonoBehaviour
                 GetNextWaypoint();
             }
         }
+        //if the unit's behaviour is defend, playerDetected dose exist, and targetDetected doesn't exist
         else if(troopController.GetStats().unitBehaviour == Behaviour.DEFEND && troopBehaviour.GetPlayerDetected() != null && troopBehaviour.GetTargetDetected() == null)
         {
+            /* MOVES TROOP FOLLOWING TROOP TO PLAYER */
+
+            //if this position and playerDetected's position is greater 2
             if(Vector3.Distance(transform.position, troopBehaviour.GetPlayerDetected().position) >= 2f)
             {
-                Vector3 dir = troopBehaviour.GetPlayerDetected().position - transform.position; 
+                dir = troopBehaviour.GetPlayerDetected().position - transform.position; 
                 transform.Translate(dir.normalized * troopController.GetSpeed() * Time.deltaTime, Space.World);
                 troopController.animator.SetBool("aIdle", false);
 
             }
             else
             {
+                /* STOPS TROOP */
+
                 troopController.animator.SetBool("aIdle", true);
             }
         }
         else if(troopBehaviour.GetTargetDetected() != null && troopController.GetStats().unitBehaviour != Behaviour.RANGED) //if targetDetected does exist and this unit's behaviour isn't RANGED
         {
-            /* MOVES TROOP TO Player */
+            /* MOVES TROOP TO OPPONENT */
 
+            //if this position and targetDetected's position is greater 2
             if(Vector3.Distance(transform.position, troopBehaviour.GetTargetDetected().position) >= 2f)
             {
-                Vector3 dir = troopBehaviour.GetTargetDetected().position - transform.position; 
+                dir = troopBehaviour.GetTargetDetected().position - transform.position; 
                 transform.Translate(dir.normalized * troopController.GetSpeed() * Time.deltaTime, Space.World);
-            }
-            else if(troopController.GetStats().unitBehaviour != Behaviour.SUPPORT)
-            {
-                troopController.animator.SetBool("aAttacking", true);
             }
         }
     }
@@ -115,7 +121,7 @@ public class TroopMovement : MonoBehaviour
             //if the troop reaches the last waypoint
             if(wavePointIndex >= WayPoints.points.Length - 1)
             {
-                this.gameObject.SetActive(false);
+                hasReachedEnd = true;
                 return;
             }
             else
@@ -129,7 +135,7 @@ public class TroopMovement : MonoBehaviour
             //if the troop reaches the first waypoint
             if(wavePointIndex <= 0)
             {
-                this.gameObject.SetActive(false);
+                hasReachedEnd = true;
                 return;
             }
             else
@@ -139,5 +145,4 @@ public class TroopMovement : MonoBehaviour
             }
         }
     }
-
 }

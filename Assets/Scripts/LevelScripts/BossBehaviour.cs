@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class TroopBehaviour : MonoBehaviour
+public class BossBehaviour : MonoBehaviour
 {
     /*  
-        Name: TroopBehaviour.cs
-        Description: This script controls the behaviour of a troop and how it reacts to other units
+        Name: BossBehaviour.cs
+        Description: This script controls the behaviour of a boss and how it reacts to other units and damage
 
     */
     /*[Header("Static References")]*/
     GameManager gameManager;
 
     /*[Header("Components")]*/
-    private TroopController troopController;
-    private TroopMovement troopMovement;
+    private BossController bossController;
+    private BossMovement bossMovement;
 
     /*[Header("Script Settings")]*/
     private PlayerAvatar playerAvatar;
@@ -27,8 +27,8 @@ public class TroopBehaviour : MonoBehaviour
     /*-  Awake is called when the script is being loaded -*/
     private void Awake()
     {
-        troopController = this.GetComponent<TroopController>();
-        troopMovement = this.GetComponent<TroopMovement>();
+        bossController = this.GetComponent<BossController>();
+        bossMovement = this.GetComponent<BossMovement>();
     }
     /*-  Start is called before the first frame update -*/
     private void Start()
@@ -76,7 +76,7 @@ public class TroopBehaviour : MonoBehaviour
         foreach(Unit unit in Unit.GetUnitList())
         {
             //If the unit's target tags contain the other units's tag
-            if(troopController.GetStats().targetTags.Any(x => x.Contains(unit.gameObject.tag)))
+            if(bossController.GetStats().targetTags.Any(x => x.Contains(unit.gameObject.tag)))
             {
                 float distanceToTarget = Vector3.Distance(transform.position, unit.transform.position); //calculates the distance to that enemy
 
@@ -88,25 +88,15 @@ public class TroopBehaviour : MonoBehaviour
                 }
             }
         }
-
-        //if the nearestTarget does exist and shortestDistance is less than or equal to the units's attackRange
-        if(nearestTarget != null && shortestDistance <= troopController.GetStats().unitAttackRange)
+        //if the unit's behaviour is defend, and this position and playerAvatar's position is greater than the units's attackRange * 2 
+        if(bossController.GetStats().unitBehaviour == Behaviour.DEFEND && Vector3.Distance(transform.position, playerAvatar.transform.position) <= (bossController.GetStats().unitAttackRange * 2))
+        {
+            playerDetected = playerAvatar.transform;
+        }
+        //if the nearestTarget does exist, shortestDistance is less than or equal to the units's attackRange and playerDetected doesn't exist
+        else if(nearestTarget != null && shortestDistance <= bossController.GetStats().unitAttackRange && playerDetected == null)
         {
             targetDetected = nearestTarget;
-
-            //if the unit's behaviour is RANGED and targetEngaged doesn't exist
-            if(troopController.GetStats().unitBehaviour == Behaviour.RANGED && targetEngaged == null)
-            {
-                /* STARTS COMBAT FOR RANGED */
-                targetEngaged = targetDetected.gameObject.GetComponent<Idamageable>(); 
-                StartCoroutine(Combat(troopController.GetAttackRate()));
-            }
-        }
-        //if the unit's behaviour is defend, and this position and playerAvatar's position is greater than the units's attackRange * 2 
-        else if(troopController.GetStats().unitBehaviour == Behaviour.DEFEND && Vector3.Distance(transform.position, playerAvatar.transform.position) <= (troopController.GetStats().unitAttackRange * 2))
-        {
-            /* SETS playerDetected for friendly golems */
-            playerDetected = playerAvatar.transform;
         }
         else
         {
@@ -116,29 +106,35 @@ public class TroopBehaviour : MonoBehaviour
     /*-  Controls engagement of targets  -*/
     private void Engaging()
     {
+        //if playerDetected does exist
+        if(playerDetected != null)
+        {
+            //Override targetDetected if player is nearby
+            targetDetected = playerDetected;
+        }
 
         //if targetDetected does exist
         if(targetDetected != null)
         {
-            //if this position and targetDetected's position is greater 2 and unit's behaviour isn't RANGED and targetEngaged doesn't exist 
-            if(Vector3.Distance(transform.position, targetDetected.position) <= 2.5f && troopController.GetStats().unitBehaviour != Behaviour.RANGED && targetEngaged == null)
+            //if this position and targetDetected's position is greater 3.5 and targetEngaged doesn't exist 
+            if(Vector3.Distance(transform.position, targetDetected.position) <= 3.5f && targetEngaged == null)
             {
-                /* STARTS COMBAT FOR EVERYONE ELSE */
+                /* STARTS COMBAT FOR RANGED */
                 targetEngaged = targetDetected.gameObject.GetComponent<Idamageable>(); 
-                StartCoroutine(Combat(troopController.GetAttackRate()));
+                StartCoroutine(Combat(bossController.GetAttackRate()));
             }
         }
     }
-    /*-  Controls Combat between units for troops, takes float for an attack rate -*/
+    /*-  Controls Combat between units for bosses, takes float for an attack rate -*/
     private IEnumerator Combat(float atkRate)
     {
-        troopController.animator.SetBool("aAttacking", true);
+        bossController.animator.SetBool("aAttacking", true);
         yield return new WaitForSeconds(atkRate);
 
         //if targetEngaged does exists
         if(targetEngaged != null)
         {
-            targetEngaged.TakeDamage((troopController.GetAttack() * Random.Range(0.75f, 1.25f))); //Transfer the enemy's troop's attack to the this script's TakeDamage function
+            targetEngaged.TakeDamage((bossController.GetAttack() * Random.Range(0.75f, 1.25f))); //Transfer the enemy's troop's attack to the this script's TakeDamage function
         }
 
         //ADD AOE ATTACK
@@ -148,16 +144,21 @@ public class TroopBehaviour : MonoBehaviour
     /*-  When a GameObject collides with another GameObject, Unity calls OnTriggerEnter. -*/
     private void OnTriggerEnter(Collider other)
     {
-        //if the troop collides with an opposing bullet
-        if (other.gameObject.CompareTag(troopController.GetStats().sharedTags.oncomingBulletTag))
+        //if the boss collides with an opposing bullet
+        if (other.gameObject.CompareTag(bossController.GetStats().sharedTags.oncomingBulletTag))
         {
             Bullet bullet = other.gameObject.GetComponent<Bullet>(); 
-            troopController.TakeDamage(bullet.GetAttack()); //Transfer bulletAttack to the this script's TakeDamage function
+            bossController.TakeDamage(bullet.GetAttack()); //Transfer bulletAttack to the this script's TakeDamage function
             bullet.DestroyBullet();
         }
     }
 
     /*---      SET/GET FUNCTIONS     ---*/
+    /*-  Gets targetDetected  -*/
+    public Transform GetPlayerAvatar()
+    {
+        return playerAvatar.transform;
+    }
     /*-  Gets targetDetected  -*/
     public Transform GetTargetDetected()
     {
@@ -179,8 +180,6 @@ public class TroopBehaviour : MonoBehaviour
         targetDetected = null;
         targetEngaged = null;
         playerDetected = null;
-        troopController.animator.SetBool("aAttacking", false);
+        bossController.animator.SetBool("aAttacking", false);
     }
 }
-
-

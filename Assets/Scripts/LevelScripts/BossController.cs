@@ -1,22 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using System.Linq;
 
-public class TroopController : MonoBehaviour, Idamageable, Ieffectable
+public class BossController : MonoBehaviour, Idamageable, Ieffectable
 {
     /*  
-        Name: TroopController.cs
-        Description: This script contains and handles the variables used for the both the behaviour and movement of a troop unit 
+        Name: BossController.cs
+        Description: This script contains and handles the variables used for the both the behaviour and movement of a boss 
 
     */
     /*[Header("Static References")]*/
-    LevelManager levelManager;
+    BossManager bossManager;
 
     /*[Header("Components")]*/
-    private TroopBehaviour troopBehaviour;
-    private TroopMovement troopMovement;
+    private BossBehaviour bossBehaviour;
+    private BossMovement bossMovement;
 
     [Header("GameObject References")]
     public Animator animator;
@@ -25,34 +23,29 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
     private AudioSource audioSource;
 
     [Header("UI References")]
-    public Image healthBar; 
     public GameObject[] statusUI; //Array of each status effect symbol
-    private Color healthColor;
-    private Color buffedHpColor = Color.yellow;
-    private Color enragedColor = new Color(1f, 0.16f, 0.14f);
 
     /*[Header("Stats")]*/
-    private Stats stat;
-    private float attack;
-    private float health; 
-    private float speed;
-    private float attackRate;
+    public Stats stat;
+    public float attack;
+    public float health; 
+    public float speed;
+    public float attackRate;
     private List<StatusEffect> statusEffects = new List<StatusEffect>();
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
     private void Awake()
     {
-        troopMovement = this.GetComponent<TroopMovement>();
-        troopBehaviour = this.GetComponent<TroopBehaviour>();
+        bossMovement = this.GetComponent<BossMovement>();
+        bossBehaviour = this.GetComponent<BossBehaviour>();
         audioSource = this.GetComponent<AudioSource>();
-        healthColor = healthBar.color;
     }
     /*-  Start is called before the first frame update -*/
     private void Start()
     {
         /* Gets the static instances and stores them in the Static References */
-        levelManager = LevelManager.instance;
+        bossManager = BossManager.instance;
     }
     /*-  Sets the units stats when the object has spawned from pool using the newStats Stats variables -*/
     public void SetUnit(Stats newStats)
@@ -64,7 +57,6 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
         attackRate = newStats.unitAttackRate;
         thisSprite.sprite = newStats.unitSprite;
         thisCollider.size =  newStats.unitSize;
-        healthBar.fillAmount = health/newStats.unitHealth;
         audioSource.clip = stat.unitsSfx.statSfx1;
         this.gameObject.tag = newStats.unitTag;
     }
@@ -76,11 +68,9 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
             statusUI[i].SetActive(false);
         }
         animator.speed = stat.unitWalkSpeed; //Sets animation speed
-        troopBehaviour.StartBehaviour(); //Starts the troop's Behaviour
-        troopMovement.StartMovement(); //Starts the troop's Movement
+        bossBehaviour.StartBehaviour(); //Starts the boss's Behaviour
         audioSource.Play();
     }
-
     /*---      FUNCTIONS     ---*/
     /*-  Handles applying a status effect for a unit takes a StatusEffect for the applied effect -*/
     public void ApplyEffect(StatusEffect appliedEffect)
@@ -119,7 +109,7 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
         health = newHealth;
         speed = newSpeed;
         attackRate = newAttackRate;
-        UpdateHealthUI();
+        bossManager.UpdateHealthUI();
     }
     /*-  Calls DecayEffect when called from another script -*/
     public void StartDecayEffect(StatusEffect decayingEffect, float lifeTime)
@@ -147,35 +137,17 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
             BuffUnit();
         }
     }
-    /*-  Updates the health bar of a unit -*/
-    private void UpdateHealthUI()
-    {
-        //if health is greater than stat.unitHealth and levelManager's isEnraged is true
-        if(health > stat.unitHealth && levelManager.GetIsEnraged())
-        {
-            healthBar.color = enragedColor;
-        }
-        else if(health > stat.unitHealth && !levelManager.GetIsEnraged()) //if health is greater than stat.unitHealth and levelManager's isEnraged is false
-        {
-            healthBar.color = buffedHpColor;
-        }
-        else
-        {
-            healthBar.color = healthColor;
-            healthBar.fillAmount = health/stat.unitHealth; //Resets healthBar
-        }
-    }
     /*-  Handles taking damage takes a float that is the oncoming damage value -*/
     public void TakeDamage(float damage)
     {
         health -= damage;
-        UpdateHealthUI();
+        bossManager.UpdateHealthUI();
 
         //if health is less than or equal to 0
         if(health <= 0)
         {
-            troopBehaviour.VoidTargets();
-            this.gameObject.SetActive(false); 
+            bossBehaviour.VoidTargets();
+            bossManager.EndBoss();
         }
     }
     /*-  OnDisable is called when the object becomes disabled -*/
@@ -195,6 +167,11 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
     public float GetAttack()
     {
         return attack;
+    }
+    /*-  Get health -*/
+    public float GetHealth()
+    {
+        return health;
     }
     /*-  Get speed -*/
     public float GetSpeed()

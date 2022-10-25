@@ -6,7 +6,7 @@ public class PlayerTowerDeployer : MonoBehaviour
 {
     /*  
         Name: PlayerGrabber.cs
-        Description: This Script controls the dragging and deployment of the player's towers
+        Description: This Script controls the deployment of the player's towers
 
     */
     /*[Header("Static References")]*/

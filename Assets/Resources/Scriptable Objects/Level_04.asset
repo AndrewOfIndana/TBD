@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b4ec079c7d918a468e4559501702bd3, type: 3}
-  m_Name: Level_01
+  m_Name: Level_04
   m_EditorClassIdentifier: 
-  levelID: 1
-  levelName: Windhelm
-  availbleUnits: {fileID: 11400000, guid: 6b9cae0d154f59842801c8ebdfc7ae3c, type: 2}
-  unitLimit: 3
+  levelID: 4
+  levelName: CrossTower
+  availbleUnits: {fileID: 11400000, guid: 6a28b9494a5f9094aae38adca15fa559, type: 2}
+  unitLimit: 5
   mana: 100
   manaRegen: 5
   playerHealth: 500
-  enemyUnits: {fileID: 11400000, guid: 6eed544803b048d4298df94ab916973f, type: 2}
-  enemySpawnRate: 3
-  enemyHealth: 10
-  enemyCalmTime: 10
-  enemyEnragedTime: 25
+  enemyUnits: {fileID: 11400000, guid: f1b599a854f55bb4d9a8d18d310367dd, type: 2}
+  enemySpawnRate: 200
+  enemyHealth: 1
+  enemyCalmTime: 180
+  enemyEnragedTime: 90

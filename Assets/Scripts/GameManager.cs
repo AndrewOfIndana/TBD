@@ -104,4 +104,22 @@ public class GameManager : MonoBehaviour
     {
         return lastPlayedLevel;
     }
+
+    public bool CheckIfWinOrLose()
+    {
+        if(gameState == GameStates.WIN 
+        || gameState == GameStates.LOSE)
+        {
+            return true;
+        }
+        return false;
+    }
+    public bool CheckIfPlaying()
+    {
+        if(gameState == GameStates.PLAYING)
+        {
+            return true;
+        }
+        return false;
+    }
 }

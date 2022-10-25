@@ -14,6 +14,7 @@ public class EnemySpawner : MonoBehaviour, Idamageable
     LevelManager levelManager;
     LevelUI levelUI;
     ObjectPool objectPool;
+    BossManager bossManager;
 
     [Header("Health Settings")]
     public float health = 1000;
@@ -53,7 +54,7 @@ public class EnemySpawner : MonoBehaviour, Idamageable
         yield return new WaitForSeconds(rate); 
 
         //if gameStates is PLAYING
-        if(gameManager.GetGameState() == GameStates.PLAYING)
+        if(gameManager.CheckIfPlaying())
         {
             GameObject enemyObj = objectPool.SpawnFromPool("Enemy", transform.position, Quaternion.identity);
             TroopController enemy = enemyObj.GetComponent<TroopController>();
@@ -62,13 +63,12 @@ public class EnemySpawner : MonoBehaviour, Idamageable
             if(enemy != null)
             {
                 enemy.SetUnit(typesOfEnemies[Random.Range(0, typesOfEnemies.Count)]); //Sets enemy type and stats based on random number generator
-                enemy.StartController(); //Sets enemy type and stats based on random number generator
+                enemy.StartController(); //Starts the enemy controller
             }
         }
 
         //if gameStates isn't WIN or LOSE
-        if(!(gameManager.GetGameState() == GameStates.WIN 
-        || gameManager.GetGameState() == GameStates.LOSE))
+        if(!gameManager.CheckIfWinOrLose())
         {
             StartCoroutine(SpawnEnemy(rate)); 
         }
@@ -82,9 +82,24 @@ public class EnemySpawner : MonoBehaviour, Idamageable
         //if health is less than or equal to 0
         if(health <= 0)
         {
-            gameManager.SetGameState(GameStates.WIN); //Sets GameStates to WIN
-            levelManager.ChangeState(); //Changes State for level
-            this.gameObject.SetActive(false); 
+            //if BossManager does exist
+            if(BossManager.instance != null)
+            {
+                //if local bossManager doesn't exist
+                if(bossManager == null)
+                {
+                    /* STARTS BOSS FIGHT */
+                    bossManager = BossManager.instance;
+                    bossManager.StartBoss();
+                }
+            }
+            //if BossManager doesn't exist 
+            else if(BossManager.instance == null)
+            {
+                gameManager.SetGameState(GameStates.WIN); //Sets GameStates to WIN
+                levelManager.ChangeState(); //Changes State for level
+                this.gameObject.SetActive(false); 
+            }
         }
     }
 

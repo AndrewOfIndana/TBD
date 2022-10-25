@@ -36,7 +36,7 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         //if gameStates isn't playing 
-        if(gameManager.GetGameState() != GameStates.PLAYING)
+        if(gameManager.CheckIfPlaying())
         {
             return; //Exits if statement
         }

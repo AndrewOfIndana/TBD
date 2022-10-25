@@ -9,7 +9,7 @@ public class TowerController : MonoBehaviour, Idamageable, Ieffectable
     /*  
         Name: TowerController.cs
         Description: This script contains and handles the variables used for the behaviour of a tower unit
-        
+
     */
     /*[Header("Static References")]*/
     LevelManager levelManager;
@@ -25,7 +25,7 @@ public class TowerController : MonoBehaviour, Idamageable, Ieffectable
 
     [Header("UI References")]
     public Image healthBar; 
-    public GameObject[] statusUI;
+    public GameObject[] statusUI; //Array of each status effect symbol
     private Color healthColor;
     private Color buffedHpColor = Color.yellow;
     private Color enragedColor = new Color(1f, 0.16f, 0.14f);
@@ -71,7 +71,7 @@ public class TowerController : MonoBehaviour, Idamageable, Ieffectable
         {
             statusUI[i].SetActive(false);
         }
-        towerBehaviour.StartBehaviour(); //Starts the troop's Behaviour
+        towerBehaviour.StartBehaviour(); //Starts the unit's Behaviour
         // audioSource.Play();
     }
 
@@ -79,6 +79,7 @@ public class TowerController : MonoBehaviour, Idamageable, Ieffectable
     /*-  Handles applying a status effect for a unit takes a StatusEffect for the applied effect -*/
     public void ApplyEffect(StatusEffect appliedEffect)
     {
+        //if statusEffects doesn't contain appliedEffect
         if(!statusEffects.Contains(appliedEffect))
         {
             statusEffects.Add(appliedEffect);
@@ -87,13 +88,14 @@ public class TowerController : MonoBehaviour, Idamageable, Ieffectable
         }
     }
     /*-  Buffs the units stats when applying a status effect -*/
-    /*-  Buffs the units stats when applying a status effect -*/
     private void BuffUnit()
     {
+        /*  Makes new variables for the new attack  */
         float newAttack = stat.unitAttack;
-        float newHealth = health > stat.unitHealth ? newHealth = stat.unitHealth: newHealth = health;
+        float newHealth = health > stat.unitHealth ? newHealth = stat.unitHealth: newHealth = health; //If health is greater than set newHealth to stat.unitHealth, else set newHealth to health 
         float newAttackRate = stat.unitAttackRate;
 
+        /*  Applies each status buff in each status effect for the unit's stats  */
         for(int i = 0; i < statusEffects.Count; i++)
         {
             for(int k = 0; k < statusEffects[i].effects.Count; k++)
@@ -104,18 +106,11 @@ public class TowerController : MonoBehaviour, Idamageable, Ieffectable
             }
         }
 
-        if(newHealth > stat.unitHealth && levelManager.GetIsEnraged())
-        {
-            healthBar.color = enragedColor;
-        }
-        else if(newHealth > stat.unitHealth && !levelManager.GetIsEnraged())
-        {
-            healthBar.color = buffedHpColor;
-        }
-
+        /*  Sets stat values to newStats values */
         attack = newAttack;
         health = newHealth;
         attackRate = newAttackRate;
+        UpdateHealthUI();
     }
     /*-  Calls DecayEffect when called from another script -*/
     public void StartDecayEffect(StatusEffect decayingEffect, float lifeTime)
@@ -125,6 +120,7 @@ public class TowerController : MonoBehaviour, Idamageable, Ieffectable
     /*-  Handles the lifetime of a status effect, takes the StatusEffect that is decaying and float for the life time -*/
     public IEnumerator DecayEffect(StatusEffect decayingEffect, float lifeTime)
     {
+        //if statusEffects contains decayingEffect
         if(statusEffects.Contains(decayingEffect))
         {
             yield return new WaitForSeconds(lifeTime);
@@ -134,6 +130,7 @@ public class TowerController : MonoBehaviour, Idamageable, Ieffectable
     /*-  Handles removing a status effect from a unit takes the StatusEffect that will be removed  -*/
     public void RemoveEffect(StatusEffect removedEffect)
     {
+        //if statusEffects contains removedEffect
         if(statusEffects.Contains(removedEffect))
         {
             statusUI[removedEffect.effectId].SetActive(false);
@@ -141,16 +138,15 @@ public class TowerController : MonoBehaviour, Idamageable, Ieffectable
             BuffUnit();
         }
     }
-    /*-  Handles taking damage takes a float that is the oncoming damage value -*/
-    public void TakeDamage(float damage)
+    /*-  Updates the health bar of a unit -*/
+    private void UpdateHealthUI()
     {
-        health -= damage;
-
+        //if health is greater than stat.unitHealth and levelManager's isEnraged is true
         if(health > stat.unitHealth && levelManager.GetIsEnraged())
         {
             healthBar.color = enragedColor;
         }
-        else if(health > stat.unitHealth && !levelManager.GetIsEnraged())
+        else if(health > stat.unitHealth && !levelManager.GetIsEnraged()) //if health is greater than stat.unitHealth and levelManager's isEnraged is false
         {
             healthBar.color = buffedHpColor;
         }
@@ -159,7 +155,12 @@ public class TowerController : MonoBehaviour, Idamageable, Ieffectable
             healthBar.color = healthColor;
             healthBar.fillAmount = health/stat.unitHealth; //Resets healthBar
         }
-
+    }
+    /*-  Handles taking damage takes a float that is the oncoming damage value -*/
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        UpdateHealthUI();
 
         //if health is less than or equal to 0
         if(health <= 0)
@@ -170,7 +171,7 @@ public class TowerController : MonoBehaviour, Idamageable, Ieffectable
     /*-  OnDisable is called when the object becomes disabled -*/
     private void OnDisable()
     {
-        statusEffects.Clear();
+        statusEffects.Clear(); //Clears statusEffects
         // audioSource.Stop();
     }
 

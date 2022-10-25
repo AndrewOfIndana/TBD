@@ -100,7 +100,7 @@ public class LevelManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             //if gameStates is PLAYING
-            if(gameManager.GetGameState() == GameStates.PLAYING)
+            if(gameManager.CheckIfPlaying())
             {
                 LevelPaused();
             }
@@ -116,7 +116,7 @@ public class LevelManager : MonoBehaviour
         if(playerAvatar != null)
         {
             //if the player avatar isn't active, gameState is at playing and  hasPlayerRespawned is true
-            if(playerAvatar.isActiveAndEnabled == false && gameManager.GetGameState() == GameStates.PLAYING && hasPlayerRespawned == true)
+            if(playerAvatar.isActiveAndEnabled == false && gameManager.CheckIfPlaying() && hasPlayerRespawned == true)
             {
                 hasPlayerRespawned = false;
                 StartCoroutine(RespawnPlayer(respawnTime)); //Begins RespawnPlayer IEnumerator at respawnTime
@@ -214,7 +214,7 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(waitTime); //Waits for rate
 
         //if gameStates is PLAYING
-        if(gameManager.GetGameState() == GameStates.PLAYING)
+        if(gameManager.CheckIfPlaying())
         {
             playerAvatar.gameObject.SetActive(true);
             playerAvatar.transform.position = playerSpawner.transform.position;
@@ -232,7 +232,7 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(time);
 
         //if gameStates is PLAYING
-        if(gameManager.GetGameState() == GameStates.PLAYING)
+        if(gameManager.CheckIfPlaying())
         {
             clockTime++;
             levelUI.UpdateClock(); //Updates the UI's Enraged Clock
@@ -260,8 +260,7 @@ public class LevelManager : MonoBehaviour
         }
 
         //if gameStates isn't WiN or LOSE
-        if(!(gameManager.GetGameState() == GameStates.WIN 
-        || gameManager.GetGameState() == GameStates.LOSE))
+        if(!gameManager.CheckIfWinOrLose())
         {
             StartCoroutine(EnragedCycle(1f)); //Recalls EnragedCycle IEnumerator at 1 second
         }

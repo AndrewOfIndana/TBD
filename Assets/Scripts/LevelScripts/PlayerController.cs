@@ -28,7 +28,6 @@ public class PlayerController : MonoBehaviour
     /*-  Awake is called when the script is being loaded -*/
     private void Awake()
     {
-        /*  Gets the components  */
         playerTowerDeployer = this.GetComponent<PlayerTowerDeployer>();
     }
     /*-  Start is called before the first frame update -*/
@@ -39,7 +38,6 @@ public class PlayerController : MonoBehaviour
         levelManager = LevelManager.instance;
         levelUI = LevelUI.instance;
 
-        /* Gets and sets variables form the level manager */
         mana = levelManager.GetLevel().mana;
         manaRegen = levelManager.GetLevel().manaRegen;
         units = levelManager.GetPlayerUnits();
@@ -47,8 +45,8 @@ public class PlayerController : MonoBehaviour
     /*-  StartGame is called when the game has started -*/
     public void StartGame()
     {
-        StartCoroutine(RegenerateMana(1f)); //Calls RegenerateMana IEnumerator at 1 second
-        levelUI.UpdateUI();
+        StartCoroutine(RegenerateMana(1f));
+        levelUI.UpdateUI(); //Updates UI when the playerStart
     }
 
     /*---      FUNCTIONS     ---*/
@@ -77,7 +75,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(time);
 
         //if gameStates is PLAYING
-        if(gameManager.GetGameState() == GameStates.PLAYING)
+        if(gameManager.CheckIfPlaying())
         {
             //if the mana plus manaRegen is less than 100
             if ((mana + manaRegen) <= 100)
@@ -88,10 +86,9 @@ public class PlayerController : MonoBehaviour
         }
 
         //if gameStates isn't WIN or LOSE
-        if(!(gameManager.GetGameState() == GameStates.WIN 
-        || gameManager.GetGameState() == GameStates.LOSE))
+        if(!gameManager.CheckIfWinOrLose())
         {
-            StartCoroutine(RegenerateMana(1f)); //Recalls RegenerateMana IEnumerator at 1 second
+            StartCoroutine(RegenerateMana(1f));
         }
     }
     /*-  Spends mana, takes a float for the cost -*/

@@ -32,11 +32,10 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     private Idamageable targetEngaged; //Private reference to the enemy troop the troop is engaged with
     private Vector3 velocity;
 
-     /*---      SETUP FUNCTIONS     ---*/
+    /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
     private void Awake()
     {
-        /*  Gets the components  */
         playerRb = this.GetComponent<Rigidbody>();
     }
     /*-  Start is called before the first frame update -*/
@@ -57,7 +56,8 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
         speed = stat.unitSpeed;
         attackRate = stat.unitAttackRate;
         attackRange = stat.unitAttackRange;
-        StartCoroutine(RegenerateHealth(1f)); //Calls RegenerateMana IEnumerator at 1 second
+        healthBar.fillAmount = health / stat.unitHealth;
+        StartCoroutine(RegenerateHealth(1f));
     }
 
     /*---      UPDATE FUNCTIONS     ---*/
@@ -65,9 +65,14 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     private void Update()
     {
         //if gameStates is not PLAYING
-        if(gameManager.GetGameState() != GameStates.PLAYING)
+        if(!gameManager.CheckIfPlaying())
         {
             return;
+        }
+        //if gameStates is WIN or LOSE
+        if(gameManager.CheckIfWinOrLose())
+        {
+            this.gameObject.SetActive(false);
         }
 
         /* Movement Code */
@@ -104,12 +109,12 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
         yield return new WaitForSeconds(time);
 
         //if gameStates is PLAYING
-        if(gameManager.GetGameState() == GameStates.PLAYING)
+        if(gameManager.CheckIfPlaying())
         {
             /* Checks if the player is close to a tile and sets closestTilt to closets tile */
             for (int i = 0; i < availableTiles.Count; i++)
             {
-                //If he player is near an availableTiles
+                //If the player is near an availableTiles
                 if (Vector3.Distance(availableTiles[i].position, this.transform.position) < 2.5f)
                 {
                     closestTile = availableTiles[i];
@@ -117,18 +122,15 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
             }
 
             /* Health regeneration */
-
             //if the mana plus manaRegen is less than 100
             if ((health + 1) <= stat.unitHealth)
             {
                 health += 1;
             }
-            healthBar.fillAmount = health / stat.unitHealth; //Resets healthBar
+            healthBar.fillAmount = health / stat.unitHealth;
         }
-        
         //if gameStates isn't WIN or LOSE
-        if(!(gameManager.GetGameState() == GameStates.WIN 
-        || gameManager.GetGameState() == GameStates.LOSE))
+        if(!gameManager.CheckIfWinOrLose())
         {
             StartCoroutine(RegenerateHealth(1f));
         }
@@ -137,7 +139,7 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     public void TakeDamage(float damage)
     {
         health -= damage;
-        healthBar.fillAmount = health / stat.unitHealth; //Resets healthBar
+        healthBar.fillAmount = health / stat.unitHealth;
 
         //if health is less than or equal to 0
         if (health <= 0)

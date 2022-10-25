@@ -30,6 +30,9 @@ public class Unit : MonoBehaviour
     {
         unitList.Remove(this); //Removes this unit to unitList
     }
+
+    /*---      SET/GET FUNCTIONS     ---*/
+    /*-  Get isEnemy -*/
     public bool IsEnemy()
     {
         return isEnemy;

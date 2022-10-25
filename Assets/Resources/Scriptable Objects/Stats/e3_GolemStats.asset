@@ -15,14 +15,17 @@ MonoBehaviour:
   unitID: 11
   unitName: Golem
   unitDescription: Follows path, targets towers first ranged, unit
-  unitHealth: 55
-  unitAttack: 15
+  unitHealth: 100
+  unitAttack: 25
   unitSpeed: 3.5
   unitAttackRange: 5
-  unitAttackRate: 2
+  unitAttackRate: 3
   unitSprite: {fileID: 21300000, guid: 8aedee3a2f099944f82e866f49f7a428, type: 3}
   unitSize: {x: 1.75, y: 2.5, z: 1.75}
   unitsSfx: {fileID: 11400000, guid: ac7ef3ecea7905642a43d1514313fe87, type: 2}
+  unitType: 0
+  unitBehaviour: 2
+  unitWalkSpeed: 0.5
   isUnitEnemy: 1
   unitTag: EnemyTroop
   targetTags:
@@ -32,6 +35,3 @@ MonoBehaviour:
   sharedTags: {fileID: 11400000, guid: d3fc0c1f4507e3841928636ff32a43d0, type: 2}
   unitCost: 0
   unitThumbnail: {fileID: 0}
-  unitType: 0
-  unitBehaviour: 2
-  unitWalkSpeed: 0.5

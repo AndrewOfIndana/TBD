@@ -7,7 +7,7 @@ public class TowerBehaviour : MonoBehaviour
 {
     /*  
         Name: TowerBehaviour.cs
-        Description: This script controls the behaviour of a tower and how it reacts to other units and damage
+        Description: This script controls the behaviour of a tower and how it reacts to other units
 
     */
     /*[Header("Static References")]*/
@@ -19,7 +19,7 @@ public class TowerBehaviour : MonoBehaviour
 
     [Header("Script Settings")]
     public Transform firingPoint; 
-    private Transform targetDetected;
+    private Transform targetDetected; //What the unit detects
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
@@ -34,11 +34,10 @@ public class TowerBehaviour : MonoBehaviour
         gameManager = GameManager.instance;
         objectPool = ObjectPool.instance; 
     }
-
     /*-  Starts the units targeting behaviour -*/
     public void StartBehaviour()
     {
-        StartCoroutine(UpdateTarget(towerController.GetAttackRate())); //Calls UpdateTarget IEnumerator at attackRate
+        StartCoroutine(UpdateTarget(towerController.GetAttackRate()));
     }
 
     /*---      FUNCTIONS     ---*/
@@ -48,10 +47,10 @@ public class TowerBehaviour : MonoBehaviour
         yield return new WaitForSeconds(time); 
 
         //if gameStates is PLAYING
-        if(gameManager.GetGameState() == GameStates.PLAYING)
+        if(gameManager.CheckIfPlaying())
         {
             Targeting();
-            
+
             //if targetDetected does exist
             if(targetDetected != null)
             {
@@ -60,10 +59,14 @@ public class TowerBehaviour : MonoBehaviour
         }
 
         //if gameStates isn't WIN or LOSE
-        if(!(gameManager.GetGameState() == GameStates.WIN 
-        || gameManager.GetGameState() == GameStates.LOSE))
+        if(!gameManager.CheckIfWinOrLose())
         {
-            StartCoroutine(UpdateTarget(towerController.GetAttackRate())); //Recalls Aiming IEnumerator at attackRate
+            StartCoroutine(UpdateTarget(towerController.GetAttackRate()));
+        }
+            //if gameStates is WIN or LOSE
+        else if(gameManager.CheckIfWinOrLose())
+        {
+            this.gameObject.SetActive(false);
         }
     }
     /*-  Controls targeting -*/
@@ -74,7 +77,7 @@ public class TowerBehaviour : MonoBehaviour
         
         foreach(Unit unit in Unit.GetUnitList())
         {
-            //If the unit's tag is the target tag
+            //If the unit's target tags contain the other units's tag
             if(towerController.GetStats().targetTags.Any(x => x.Contains(unit.gameObject.tag)))
             {
                 float distanceToTarget = Vector3.Distance(transform.position, unit.transform.position); //calculates the distance to that enemy
@@ -87,7 +90,8 @@ public class TowerBehaviour : MonoBehaviour
                 }
             }
         }
-        //if the nearestTarget does exist and shortestDistance is less than or equal to the tower's range
+        
+        //if the nearestTarget does exist and shortestDistance is less than or equal to the units's attackRange
         if(nearestTarget != null && shortestDistance <= towerController.GetStats().unitAttackRange)
         {
             targetDetected = nearestTarget;
