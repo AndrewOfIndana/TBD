@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.6598514, g: 0.74838954, b: 0.7739749, a: 1}
+  m_IndirectSpecularColor: {r: 0.64756036, g: 0.744449, b: 0.7725684, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -218,6 +218,8 @@ GameObject:
   - component: {fileID: 38671383}
   - component: {fileID: 38671385}
   - component: {fileID: 38671384}
+  - component: {fileID: 38671386}
+  - component: {fileID: 38671387}
   m_Layer: 5
   m_Name: Deck
   m_TagString: Untagged
@@ -236,7 +238,10 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1283647985}
+  - {fileID: 1965260536}
+  - {fileID: 1129952119}
   m_Father: {fileID: 209900843}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -283,6 +288,45 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 38671382}
   m_CullTransparentMesh: 1
+--- !u!114 &38671386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38671382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41d4e9f9f5a3606458e252fd4b8887ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deck: []
+  index: 0
+  players: []
+  gameBoard: []
+--- !u!114 &38671387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38671382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5167cfa51668bc24787e3f1841804a56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardImage: {fileID: 1283647986}
+  cardList:
+  - {fileID: 11400000, guid: 2e320c4f2858c0842a777e30bfb49725, type: 2}
+  - {fileID: 11400000, guid: 0c0ff78b96b3f7d4187ddf3d0082204b, type: 2}
+  - {fileID: 11400000, guid: c64c63fecb837d74da2664f8e69f5c4f, type: 2}
+  - {fileID: 11400000, guid: 39cc14c945ebcb146ae768524b675219, type: 2}
+  - {fileID: 11400000, guid: d99a24348d4a093418435d498e7069ae, type: 2}
+  - {fileID: 11400000, guid: c8be7f34601228945b667cd961641063, type: 2}
+  - {fileID: 11400000, guid: 2bd32065c6596e14b923a48e0cb3e5d5, type: 2}
+  - {fileID: 11400000, guid: 41df3e66a4d61c548bc6276603d6bb78, type: 2}
+  - {fileID: 11400000, guid: d23090bbe18ee6941aba4e884b74602d, type: 2}
 --- !u!1 &78544638
 GameObject:
   m_ObjectHideFlags: 0
@@ -975,9 +1019,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 38671383}
-  - {fileID: 1283647985}
-  - {fileID: 1965260536}
-  - {fileID: 1129952119}
   m_Father: {fileID: 356447016}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -998,12 +1039,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d4e9f9f5a3606458e252fd4b8887ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testCard:
-    name: 
-    value: 0
-    effect: 0
-    upgrade: 0
-    att: 0
   deck: []
   index: 0
   players: []
@@ -3287,8 +3322,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 209900843}
-  m_RootOrder: 3
+  m_Father: {fileID: 38671383}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3632,7 +3667,7 @@ GameObject:
   - component: {fileID: 1283647987}
   - component: {fileID: 1283647986}
   m_Layer: 5
-  m_Name: Card (1)
+  m_Name: 'Card '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3650,8 +3685,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 209900843}
-  m_RootOrder: 1
+  m_Father: {fileID: 38671383}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3678,8 +3713,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -6832,8 +6867,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 209900843}
-  m_RootOrder: 2
+  m_Father: {fileID: 38671383}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
