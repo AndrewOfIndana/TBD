@@ -10,6 +10,6 @@ public class StatsList : ScriptableObject
         Description: A ScriptableObject that holds a array of unit stats
 
     */    
-
+    [Header("Script Variables")]
     public List<Stats> statsLists = new List<Stats>(); //Array of units
 }

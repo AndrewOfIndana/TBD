@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56d08fa4eda095c488bf70fcdee34af6, type: 3}
   m_Name: Inflamed
   m_EditorClassIdentifier: 
+  effectId: 1
   effectName: Inflamed
-  effectIncrease: 2
+  effects:
+  - {fileID: 11400000, guid: e4aeb20da77872342bfdf9aff8de2cd8, type: 2}
   effectLifetime: 10
-  effectedStat: 0
-  effectParticles: {fileID: 0}

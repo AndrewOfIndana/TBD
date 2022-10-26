@@ -6,17 +6,15 @@ public class PlayerTowerDeployer : MonoBehaviour
 {
     /*  
         Name: PlayerGrabber.cs
-        Description: This Script controls the dragging and deployment of the player's towers
+        Description: This Script controls the deployment of the player's towers
 
     */
-    /*[Header("Static Variables")]*/
+    /*[Header("Static References")]*/
     LevelManager levelManager;
     ObjectPool objectPool;
 
-    [Header("Script Variables")]
+    [Header("Script Settings")]
     public float yOffset = 1.5f;
-
-    /*[Header("Script References")]*/
     private GameObject selectedTower;
     private Vector3 snappedPosition;
 
@@ -25,8 +23,8 @@ public class PlayerTowerDeployer : MonoBehaviour
     private void Start()
     {
         /* Gets the static instances and stores them in the Static References */
-        levelManager = LevelManager.levelManagerInstance;
-        objectPool = ObjectPool.objectPoolInstance;
+        levelManager = LevelManager.instance;
+        objectPool = ObjectPool.instance;
     }
 
     /*---      FUNCTIONS     ---*/
@@ -44,7 +42,7 @@ public class PlayerTowerDeployer : MonoBehaviour
         }
 
         /* Deploys tower */
-        snappedPosition = levelManager.playerAvatar.closestTile.position;
+        snappedPosition = levelManager.GetPlayerAvatar().GetClosestTile().position;
         snappedPosition.y += yOffset;
         selectedTower.transform.position = snappedPosition;
         selectedTower = null;

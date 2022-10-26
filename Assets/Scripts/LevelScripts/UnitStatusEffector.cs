@@ -14,6 +14,7 @@ public class UnitStatusEffector : MonoBehaviour
             for(int i = 0; i < effects.Length; i++)
             {
                 otherStatus.ApplyEffect(effects[i]);
+                otherStatus.StartDecayEffect(effects[i], effects[i].effectLifetime);
             }
         }
     }

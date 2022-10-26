@@ -15,13 +15,17 @@ MonoBehaviour:
   unitID: 5
   unitName: Troll
   unitDescription: Follows path, ignores everything
-  unitHealth: 45
-  unitAttack: 35
+  unitHealth: 250
+  unitAttack: 100
   unitSpeed: 2
   unitAttackRange: 5
-  unitAttackRate: 1
+  unitAttackRate: 4
   unitSprite: {fileID: 21300000, guid: e4f407ab4352b5446b3eb8b0384d90f5, type: 3}
   unitSize: {x: 1.5, y: 2, z: 1.5}
+  unitsSfx: {fileID: 11400000, guid: f66d0d7016d7b8c4e9927e27933adaaa, type: 2}
+  unitType: 0
+  unitBehaviour: 3
+  unitWalkSpeed: 0.5
   isUnitEnemy: 0
   unitTag: AllyTroop
   targetTags:
@@ -29,5 +33,3 @@ MonoBehaviour:
   sharedTags: {fileID: 11400000, guid: fef36fcd149f1b74d9614a1e3e09f962, type: 2}
   unitCost: 45
   unitThumbnail: {fileID: 21300000, guid: e4f407ab4352b5446b3eb8b0384d90f5, type: 3}
-  unitType: 0
-  unitBehaviour: 3

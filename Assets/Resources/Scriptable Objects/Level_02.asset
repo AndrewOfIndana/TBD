@@ -14,7 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelID: 2
   levelName: Bridges
-  availbleUnits: {fileID: 11400000, guid: 47406490dfae22442ae466b48bf97a33, type: 2}
+  availbleUnits: {fileID: 11400000, guid: d597e9fe6cf19a54f952798610769e2a, type: 2}
   unitLimit: 2
-  enemyUnits: {fileID: 11400000, guid: 2f2e2c6d87058d345a83bbfef47fd31c, type: 2}
-  enemySpawnRate: 2.5
+  mana: 100
+  manaRegen: 5
+  playerHealth: 500
+  enemyUnits: {fileID: 11400000, guid: 63f2d082bfcc9ce438d44d3c26adbc79, type: 2}
+  enemySpawnRate: 20
+  enemyHealth: 2
+  enemyCalmTime: 0
+  enemyEnragedTime: 0

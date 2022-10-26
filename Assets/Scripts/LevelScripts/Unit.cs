@@ -9,7 +9,8 @@ public class Unit : MonoBehaviour
         Description: This script holds a static list of Units
 
     */
-    public static List<Unit> unitList = new List<Unit>(); //A static list of Units
+    public static List<Unit> unitList = new List<Unit>();
+    public bool isEnemy;
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  OnEnable is called when the object becomes enabled -*/
@@ -28,5 +29,12 @@ public class Unit : MonoBehaviour
     private void OnDisable()
     {
         unitList.Remove(this); //Removes this unit to unitList
+    }
+
+    /*---      SET/GET FUNCTIONS     ---*/
+    /*-  Get isEnemy -*/
+    public bool IsEnemy()
+    {
+        return isEnemy;
     }
 }

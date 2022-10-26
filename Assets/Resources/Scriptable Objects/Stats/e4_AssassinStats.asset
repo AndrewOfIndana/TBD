@@ -15,13 +15,17 @@ MonoBehaviour:
   unitID: 12
   unitName: Assassin
   unitDescription: Follows path, ignores everything
-  unitHealth: 10
-  unitAttack: 25
-  unitSpeed: 7.5
+  unitHealth: 5
+  unitAttack: 10
+  unitSpeed: 6
   unitAttackRange: 5
   unitAttackRate: 1
   unitSprite: {fileID: 21300000, guid: 405f96aa9698c4a4da6378d3c7995445, type: 3}
   unitSize: {x: 1.5, y: 2, z: 1.5}
+  unitsSfx: {fileID: 11400000, guid: ddaec99acc241fe49904011dd0eb79ad, type: 2}
+  unitType: 0
+  unitBehaviour: 3
+  unitWalkSpeed: 1.25
   isUnitEnemy: 1
   unitTag: EnemyAssassin
   targetTags:
@@ -32,5 +36,3 @@ MonoBehaviour:
   sharedTags: {fileID: 11400000, guid: d3fc0c1f4507e3841928636ff32a43d0, type: 2}
   unitCost: 0
   unitThumbnail: {fileID: 0}
-  unitType: 0
-  unitBehaviour: 3

@@ -3,73 +3,89 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public enum GameStates {SETUP, PLAYING, WIN, LOSE} //The different game states the level could be in
-public enum HordeState {CALM, ENRAGED} 
-
 public class LevelManager : MonoBehaviour
 {
     /*  
         Name: LevelManager.cs
-        Description: This script handles all global variables and states for a scene or level
+        Description: This script handles all variables and states for a level
 
     */
-    public static LevelManager levelManagerInstance;
+    /*[Header("Static References")]*/
+    GameManager gameManager;
 
-    [Header("Setup References")]
+    public static LevelManager instance;
+
+    /*[Header("Components")]*/
+    private LevelUI levelUI;
+
+    [Header("Level Settings")]
     public Level level;
-    /* Allows for levels to be made without the level scriptable object */
-    public StatsList levelPlayerUnitsList;
-    public StatsList levelEnemyUnitsList;
-    public int levelUnitLimit;
-    public float levelEnemyRate;
-    [HideInInspector] public int levelNum;
-    [HideInInspector] public string levelName;
-    /* Setup Variables that actually matter */
-    [HideInInspector] public List<Stats> levelPlayerUnits = new List<Stats>(); //List of units that the player has to choose
-    [HideInInspector] public List<Stats> playerUnits = new List<Stats>(); //List of units that the player has chosen
-    [HideInInspector] public int playerUnitCount = 0;
-    [HideInInspector] public List<Stats> levelEnemyUnits = new List<Stats>();
+    private int levelUnitLimit;
+    private List<Stats> levelPlayerUnits = new List<Stats>();
+    private List<Stats> playerUnits = new List<Stats>(); //List of units that the player has chosen
+    private int playerUnitCount = 0;
+    private List<Stats> levelEnemyUnits = new List<Stats>();
 
     [Header("Controller References")]
     public PlayerController playerController;
     public PlayerSpawner playerSpawner;
     public EnemySpawner enemySpawner;
-    private LevelUI levelUI;
 
-    [Header("Player Avatar References")]
+    [Header("Player Avatar Settings")]
     public GameObject playerPrefab;
-    [HideInInspector] public PlayerAvatar playerAvatar;
-
-    [Header("Script References")]
-    public CinemachineVirtualCamera topdownCamera; 
-    public CinemachineVirtualCamera playerCamera;
-    [HideInInspector] public GameStates gameState = GameStates.SETUP;
-    public float respawnTime = 10f;
+    private PlayerAvatar playerAvatar;
+    private float respawnTime = 10f;
     private bool hasPlayerRespawned = true;
 
-    // public float HordeCalmTime = 120f;
-    // public float HordeEnragedTime = 60f;
-    // public float HordeTime;
+    [Header("Enraged Clock Settings")]
+    public StatusEffect enragedStatus;
+    private bool isEnraged; 
+    private float clockCalmTime;
+    private float clockEnragedTime;
+    private float clockTime = 0;
+    public int enragedCount = 0;
+
+    [Header("Script Settings")]
+    public CinemachineVirtualCamera topdownCamera; 
+    public CinemachineVirtualCamera playerCamera;
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
     private void Awake()
     {
-        //if another levelManagerInstance exists 
-        if(levelManagerInstance != null)
-        {
-            return; //exit if statement
-        }
-        levelManagerInstance = this;
+        /* SINGLETON PATTERN */
+        //if the instance does exist and the instance isn't this
+        if (instance != null && instance != this) 
+        { 
+            return;
+        } 
+        else 
+        { 
+            instance = this; 
+        } 
+
+        /*  Gets the components  */
         levelUI = this.gameObject.GetComponent<LevelUI>();
-        SetLevel(); //Retrieves values from level package if it exist
-        // HordeTime = HordeCalmTime + HordeEnragedTime;
+
+        SetLevel();
+    }
+    /*-  Retrieves values from level package and sets variables  -*/
+    private void SetLevel()
+    {
+        levelPlayerUnits = level.availbleUnits.statsLists;
+        levelUnitLimit = level.unitLimit;
+        levelEnemyUnits = level.enemyUnits.statsLists;
+        clockCalmTime = level.enemyCalmTime;
+        clockEnragedTime = level.enemyEnragedTime;
     }
     /*-  Start is called before the first frame update -*/
     private void Start()
     {
+        /* Gets the static instances and stores them in the Static References */
+        gameManager = GameManager.instance;
+
         /* Sets game to setup */
-        gameState = GameStates.SETUP;
+        gameManager.SetGameState(GameStates.SETUP);
         levelUI.UpdateScreen(0);
         SwitchCameras(1, 0);
     }
@@ -78,48 +94,64 @@ public class LevelManager : MonoBehaviour
     /*-  Update is called once per frame -*/
     private void Update()
     {
+        /* Pauses game  */
+
+        //If player press escape
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            //if gameStates is PLAYING
+            if(gameManager.CheckIfPlaying())
+            {
+                LevelPaused();
+            }
+            else if(gameManager.GetGameState() == GameStates.PAUSED)             //if gameStates is PAUSED
+            {
+                LevelUnpause();
+            }
+        }
+
         /* Checks if the player is dead */
+        
         //if the player avatar exists
         if(playerAvatar != null)
         {
-            //if the player avatar isn;t active, game state is at playing and the hasPlayerRespawned is true
-            if(playerAvatar.isActiveAndEnabled == false && gameState == GameStates.PLAYING && hasPlayerRespawned == true)
+            //if the player avatar isn't active, gameState is at playing and  hasPlayerRespawned is true
+            if(playerAvatar.isActiveAndEnabled == false && gameManager.CheckIfPlaying() && hasPlayerRespawned == true)
             {
                 hasPlayerRespawned = false;
-                StartCoroutine(RespawnPlayer(respawnTime));
+                StartCoroutine(RespawnPlayer(respawnTime)); //Begins RespawnPlayer IEnumerator at respawnTime
                 return;
             }
         }
     }
 
     /*---      FUNCTIONS     ---*/
-    /*--    GAME STATE MANAGEMENT   --*/
-    /*-  Changes the game state based on what has happened in game, takes GameState -*/
-    public void ChangeState(GameStates newState)
+    /*--    LEVEL STATE CHANGE MANAGEMENT   --*/
+    /*-  Changes the level based game state based on what has happened in game -*/
+    public void ChangeState()
     {
-        //if the new state is PLAYING
-        if(newState == GameStates.PLAYING)
+        //if the gameState is PLAYING
+        if(gameManager.GetGameState() == GameStates.PLAYING)
         {
             /* Starts game */
-            gameState = GameStates.PLAYING;
             levelUI.UpdateScreen(1);
             SwitchCameras(0, 1);
             playerController.StartGame();
             enemySpawner.StartGame();
             SpawnPlayer();
+            StartCoroutine(EnragedCycle(1f)); //Begins EnragedCycle IEnumerator at 1 second
         }
-        else if(newState == GameStates.WIN) //if the new state is WIN
+        else if(gameManager.GetGameState() == GameStates.WIN) //if the gameState is WIN
         {
             /* Player WINS */
-            gameState = GameStates.WIN;
-            levelUI.UpdateScreen(2);
+            gameManager.SetLastPlayedLevel();
+            levelUI.UpdateScreen(3);
             SwitchCameras(1, 0);
         }
-        else if(newState == GameStates.LOSE) //if the new state is LOSE
+        else if(gameManager.GetGameState() == GameStates.LOSE) //if the gameState is LOSE
         {
             /* Player LOSES */
-            gameState = GameStates.LOSE;
-            levelUI.UpdateScreen(3);
+            levelUI.UpdateScreen(4);
             SwitchCameras(1, 0);
         }
     }
@@ -129,26 +161,8 @@ public class LevelManager : MonoBehaviour
         topdownCamera.Priority = cam1;
         playerCamera.Priority = cam2;
     }
+
     /*--    SETUP MANAGEMENT   --*/
-    /*-  Retrives values from level package and sets variables if they exist  -*/
-    private void SetLevel()
-    {
-        //If level exists
-        if(level != null)
-        {
-            levelPlayerUnits = level.availbleUnits.statsLists;
-            levelUnitLimit = level.unitLimit;
-            levelEnemyUnits = level.enemyUnits.statsLists;
-            levelEnemyRate = level.enemySpawnRate;
-            levelNum = level.levelID;
-            levelName = level.levelName;
-        }
-        else if(level == null)
-        {
-            levelPlayerUnits = levelPlayerUnitsList.statsLists;
-            levelEnemyUnits = levelEnemyUnitsList.statsLists;
-        }
-    }
     /*-  Adds or removes unit in the playerUnits list and checks if the player is ready or not  -*/
     public void AddOrRemoveUnit(int index)
     {
@@ -176,12 +190,15 @@ public class LevelManager : MonoBehaviour
             levelUI.startGameButton.SetActive(false); //Sets startGameButton inactive
         }
     }
-    /*-  Starts Game  -*/
+    /*-  Starts Game, OnClick  -*/
     public void StartGame()
     {
-        ChangeState(GameStates.PLAYING);
+        /* Sets game to playing */
+        gameManager.SetGameState(GameStates.PLAYING);
+        ChangeState();
     }
-    /*---/--      PLAYER AVATAR MANAGEMENT     --/---*/
+
+    /*--    PLAYER AVATAR MANAGEMENT   --*/
     /*-  Spawns the player avatar  -*/
     private void SpawnPlayer()
     {
@@ -195,11 +212,149 @@ public class LevelManager : MonoBehaviour
         SwitchCameras(1, 0);
         levelUI.UpdatePlayerDeath(false);
         yield return new WaitForSeconds(waitTime); //Waits for rate
-        playerAvatar.gameObject.SetActive(true);
-        playerAvatar.transform.position = playerSpawner.transform.position;
+
+        //if gameStates is PLAYING
+        if(gameManager.CheckIfPlaying())
+        {
+            playerAvatar.gameObject.SetActive(true);
+            playerAvatar.transform.position = playerSpawner.transform.position;
+            SwitchCameras(0, 1);
+            levelUI.UpdateUI();
+            levelUI.UpdatePlayerDeath(true);
+            hasPlayerRespawned = true;
+        }
+    }
+
+    /*--    ENRAGED SYSTEM MANAGEMENT   --*/
+    /*-  Repeatedly Updates the Enraged Cycle, takes a float for the time -*/
+    private IEnumerator EnragedCycle(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        //if gameStates is PLAYING
+        if(gameManager.CheckIfPlaying())
+        {
+            clockTime++;
+            levelUI.UpdateClock(); //Updates the UI's Enraged Clock
+
+            //if clockTime is less than or equal clockCalmTime
+            if(clockTime <= clockCalmTime)
+            {
+                /*  Calms Enemies  */
+                isEnraged = false; 
+            }
+            else if(clockTime > clockCalmTime && clockTime <= level.GetTotalTime()) //if clockTime is greater than clockCalmTime and clockTime is less than or equal to clockTimeTotal 
+            {
+                /*  Enrages Enemies  */
+                isEnraged = true;
+                GlobalStatusEffect();
+            }
+            else if(clockTime > level.GetTotalTime()) //if clockTime is greater than clockTimeTotal
+            {
+                /*  Calms Enemies and resets clockTime  */
+                isEnraged = false; 
+                GlobalStatusEffect();
+                clockTime = 0;
+                enragedCount++;
+            }
+        }
+
+        //if gameStates isn't WiN or LOSE
+        if(!gameManager.CheckIfWinOrLose())
+        {
+            StartCoroutine(EnragedCycle(1f)); //Recalls EnragedCycle IEnumerator at 1 second
+        }
+    }
+    private void GlobalStatusEffect()
+    {
+        foreach(Unit unit in Unit.GetUnitList())
+        {            
+            if(unit.IsEnemy() && unit.GetComponent<Ieffectable>() != null)
+            {
+                Ieffectable enemy = unit.GetComponent<Ieffectable>();
+
+                if(isEnraged)
+                {
+                    enemy.ApplyEffect(enragedStatus);
+                }
+                else if(!isEnraged)
+                {
+                    enemy.RemoveEffect(enragedStatus);
+                }
+            }
+        }
+    }
+
+    /*--    LEVEL BUTTONS MANAGEMENT   --*/
+    /*-  Pauses Game -*/
+    public void LevelPaused()
+    {
+        SwitchCameras(1, 0);
+        levelUI.UpdateScreen(2);
+        gameManager.gameState = GameStates.PAUSED;
+    }
+    /*-  Unpauses Game, OnClick -*/
+    public void LevelUnpause()
+    {
         SwitchCameras(0, 1);
-        levelUI.UpdateUI();
-        levelUI.UpdatePlayerDeath(true);
-        hasPlayerRespawned = true;
+        levelUI.UpdateScreen(1);
+        gameManager.gameState = GameStates.PLAYING;
+    }
+    /*-  Calls GameManager RetryLevel, OnClick -*/
+    public void LevelRetry()
+    {
+        gameManager.RetryLevel();
+    }
+    /*-  Calls GameManager QuitLevel, OnClick -*/
+    public void LevelQuit()
+    {
+        gameManager.QuitLevel();
+    }
+    /*-  Calls GameManager NextLevel, OnClick -*/
+    public void LevelComplete()
+    {
+        gameManager.NextLevel();
+    }
+
+    /*---      SET/GET FUNCTIONS     ---*/
+    /*-  Gets level variables -*/
+    public Level GetLevel()
+    {
+        return level;
+    }
+    /*-  Gets levelPlayerUnits -*/
+    public List<Stats> GetLevelPlayerUnits()
+    {
+        return levelPlayerUnits;
+    }
+    /*-  Gets levelEnemyUnits -*/
+    public List<Stats> GetEnemyUnits()
+    {
+        return levelEnemyUnits;
+    }
+    /*-  Gets playerUnits -*/
+    public List<Stats> GetPlayerUnits()
+    {
+        return playerUnits;
+    }
+    /*-  Gets playerUnitCount -*/
+    public int GetPlayerUnitsCount()
+    {
+        return playerUnitCount;
+    }
+    /*-  Gets PlayerAvatar -*/
+    public PlayerAvatar GetPlayerAvatar()
+    {
+        return playerAvatar;
+    }
+    /*-  Gets enragedStatus -*/
+    public StatusEffect GetEnragedStatus()
+    {
+        return enragedStatus;
+    }
+    /*-  Gets IsEnraged -*/
+    public bool GetIsEnraged()
+    {
+        return isEnraged;
     }
 }

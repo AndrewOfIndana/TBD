@@ -10,7 +10,8 @@ public class PlayerController : MonoBehaviour
         Description: This script allows the player to choose what units and cards the player wants to deploy, as well as handle mana and card cost times.
 
     */
-    /*[Header("Static Variables")]*/
+    /*[Header("Static References")]*/
+    GameManager gameManager;
     LevelManager levelManager;
     LevelUI levelUI;
 
@@ -18,7 +19,7 @@ public class PlayerController : MonoBehaviour
     public PlayerSpawner playerSpawner;
     private PlayerTowerDeployer playerTowerDeployer;
 
-    [Header("PlayerController Variables")]
+    [Header("Script Settings")]
     public float mana = 100;
     public float manaRegen = 2;
     private List<Stats> units = new List<Stats>(); 
@@ -33,17 +34,19 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         /* Gets the static instances and stores them in the Static References */
-        levelManager = LevelManager.levelManagerInstance;
-        levelUI = LevelUI.levelUIinstance;
+        gameManager = GameManager.instance;
+        levelManager = LevelManager.instance;
+        levelUI = LevelUI.instance;
 
-        /* Gets and sets variables form the level manager */
-        units = levelManager.playerUnits;
+        mana = levelManager.GetLevel().mana;
+        manaRegen = levelManager.GetLevel().manaRegen;
+        units = levelManager.GetPlayerUnits();
     }
     /*-  StartGame is called when the game has started -*/
     public void StartGame()
     {
-        StartCoroutine(RegenerateMana(1f)); //Calls RegenerateMana IEnumerator at 1 second
-        levelUI.UpdateUI();
+        StartCoroutine(RegenerateMana(1f));
+        levelUI.UpdateUI(); //Updates UI when the playerStart
     }
 
     /*---      FUNCTIONS     ---*/
@@ -71,13 +74,22 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
 
-        //if the mana plus manaRegen is less than 100
-        if ((mana + manaRegen) <= 100)
+        //if gameStates is PLAYING
+        if(gameManager.CheckIfPlaying())
         {
-            mana += manaRegen;
+            //if the mana plus manaRegen is less than 100
+            if ((mana + manaRegen) <= 100)
+            {
+                mana += manaRegen;
+            }
+            levelUI.UpdateUI();
         }
-        levelUI.UpdateUI();
-        StartCoroutine(RegenerateMana(1f)); //Recalls RegenerateMana IEnumerator at 1 second
+
+        //if gameStates isn't WIN or LOSE
+        if(!gameManager.CheckIfWinOrLose())
+        {
+            StartCoroutine(RegenerateMana(1f));
+        }
     }
     /*-  Spends mana, takes a float for the cost -*/
     private void SpendMana(float cost)
@@ -97,5 +109,11 @@ public class PlayerController : MonoBehaviour
         {
             return false;
         }
+    }
+
+    /*---      SET/GET FUNCTIONS     ---*/
+    public float GetMana()
+    {
+        return mana;
     }
 }

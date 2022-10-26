@@ -268,6 +268,8 @@ GameObject:
   - component: {fileID: 7037220480807331792}
   - component: {fileID: 7037220480807331793}
   - component: {fileID: 595206621860369269}
+  - component: {fileID: 826833076328513397}
+  - component: {fileID: 5839144936826296171}
   m_Layer: 3
   m_Name: Player
   m_TagString: AllyTroop
@@ -333,14 +335,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55645ebc92cede54fb00391bfb11505f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 9099600117971821011}
   healthBar: {fileID: 2145755683}
   stat: {fileID: 11400000, guid: 1eec6fa06b189da4093e28b2ffe09a55, type: 2}
-  attack: 0
-  health: 0
-  speed: 0
-  attackRate: 0
-  attackRange: 0
-  closestTile: {fileID: 0}
 --- !u!114 &595206621860369269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,6 +350,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b0432642b370f74fa6d29bd8230ea0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &826833076328513397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7037220480807331756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae92928f92124f439054f7d136b25eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!81 &5839144936826296171
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7037220480807331756}
+  m_Enabled: 1
 --- !u!1 &7037220481289707789
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,7 +380,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7037220481289707790}
   - component: {fileID: 7037220481289707791}
-  - component: {fileID: 4304334991941827861}
+  - component: {fileID: 9099600117971821011}
   m_Layer: 3
   m_Name: Sprite
   m_TagString: Untagged
@@ -438,15 +455,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4304334991941827861
-MonoBehaviour:
+--- !u!95 &9099600117971821011
+Animator:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7037220481289707789}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dae92928f92124f439054f7d136b25eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a9bd02cca08a8454196aea5e6e93b6f0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

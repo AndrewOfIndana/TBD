@@ -9,12 +9,21 @@ public class Bullet : MonoBehaviour
         Description: This script controls bullets spawned by towers and the speed of the bullet
 
     */
+    /*[Header("Static References")]*/
+    GameManager gameManager;
 
+    [Header("Script Settings")]
     public float speed;
-    [HideInInspector] public float bulletAttack;
+    private float bulletAttack;
     private Transform target;
 
     /*---      SETUP FUNCTIONS     ---*/
+    /*-  Start is called before the first frame update -*/
+    private void Start()
+    {
+        /* Gets the static instances and stores them in the Static References */
+        gameManager = GameManager.instance;
+    }
     /*-  Sets target to the tower's enemyDetected as well as bullet's attack value -*/
     public void Seek(Transform targ, float atk)
     {
@@ -26,6 +35,12 @@ public class Bullet : MonoBehaviour
     /*-  Update is called once per frame -*/
     private void Update()
     {
+        //if gameStates isn't playing 
+        if(gameManager.CheckIfPlaying())
+        {
+            return; //Exits if statement
+        }
+
         //if target doesn't exist
         if(target == null)
         {
@@ -44,5 +59,12 @@ public class Bullet : MonoBehaviour
     public void DestroyBullet()
     {
         this.gameObject.SetActive(false); 
+    }
+
+    /*---      SET/GET FUNCTIONS     ---*/
+    /*-  Gets attack -*/
+    public float GetAttack()
+    {
+        return bulletAttack;
     }
 }

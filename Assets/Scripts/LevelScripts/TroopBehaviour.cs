@@ -1,19 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
-public class TroopBehaviour : MonoBehaviour, Idamageable
+public class TroopBehaviour : MonoBehaviour
 {
     /*  
         Name: TroopBehaviour.cs
-        Description: This script controls the behaviour of a troop and how it reacts to other units and damage
+        Description: This script controls the behaviour of a troop and how it reacts to other units
 
     */
+    /*[Header("Static References")]*/
+    GameManager gameManager;
 
-    /*[Header("Script References")]*/
+    /*[Header("Components")]*/
     private TroopController troopController;
     private TroopMovement troopMovement;
-    [HideInInspector] public Transform targetDetected; //What the unit detects
+
+    /*[Header("Script Settings")]*/
+    private PlayerAvatar playerAvatar;
+    private Transform targetDetected; //What the unit detects
+    private Transform playerDetected; //When the unit detects a player
     private Idamageable targetEngaged; //What the unit is fighting
 
     /*---      SETUP FUNCTIONS     ---*/
@@ -23,20 +30,42 @@ public class TroopBehaviour : MonoBehaviour, Idamageable
         troopController = this.GetComponent<TroopController>();
         troopMovement = this.GetComponent<TroopMovement>();
     }
+    /*-  Start is called before the first frame update -*/
+    private void Start()
+    {
+        /* Gets the static instances and stores them in the Static References */
+        gameManager = GameManager.instance;
+        playerAvatar = LevelManager.instance.GetPlayerAvatar();
+    }
     /*-  Starts the units targeting behaviour -*/
     public void StartBehaviour()
     {
-        StartCoroutine(UpdateTarget(1f)); //Calls UpdateTarget IEnumerator at 1 second
+        StartCoroutine(UpdateTarget(1f));
     }
 
-   /*---      FUNCTIONS     ---*/
+    /*---      FUNCTIONS     ---*/
     /*-  Repeatedly updates a target, takes a float for the time -*/
     private IEnumerator UpdateTarget(float time)
     {
         yield return new WaitForSeconds(time);
-        Targeting();
-        Engaging();
-        StartCoroutine(UpdateTarget(1f)); //Recalls Aiming IEnumerator at attackRate
+
+        //if gameStates is PLAYING
+        if(gameManager.CheckIfPlaying())
+        {
+            Targeting();
+            Engaging();
+        }
+
+        //if gameStates isn't WIN or LOSE
+        if(!gameManager.CheckIfWinOrLose())
+        {
+            StartCoroutine(UpdateTarget(1f));
+        }
+        //if gameStates is WIN or LOSE
+        else if(gameManager.CheckIfWinOrLose())
+        {
+            this.gameObject.SetActive(false);
+        }
     }
     /*-  Controls targeting -*/
     private void Targeting()
@@ -46,95 +75,112 @@ public class TroopBehaviour : MonoBehaviour, Idamageable
         
         foreach(Unit unit in Unit.GetUnitList())
         {
-            for(int i = 0; i < troopController.stat.targetTags.Length; i++)
+            //If the unit's target tags contain the other units's tag
+            if(troopController.GetStats().targetTags.Any(x => x.Contains(unit.gameObject.tag)))
             {
-                //If the unit's tag is the target tag
-                if(unit.gameObject.tag == troopController.stat.targetTags[i])
-                {
-                    float distanceToTarget = Vector3.Distance(transform.position, unit.transform.position); //calculates the distance to that enemy
+                float distanceToTarget = Vector3.Distance(transform.position, unit.transform.position); //calculates the distance to that enemy
 
-                    //if the distanceToTarget is lesser than shortestDistance
-                    if(distanceToTarget < shortestDistance)
-                    {
-                        shortestDistance = distanceToTarget;
-                        nearestTarget = unit.transform;
-                    }
+                //if the distanceToTarget is lesser than shortestDistance
+                if(distanceToTarget < shortestDistance)
+                {
+                    shortestDistance = distanceToTarget;
+                    nearestTarget = unit.transform;
                 }
             }
         }
-        //if the nearestTarget does exist and shortestDistance is less than or equal to the tower's range
-        if(nearestTarget != null && shortestDistance <= troopController.attackRange)
+
+        //if the nearestTarget does exist and shortestDistance is less than or equal to the units's attackRange
+        if(nearestTarget != null && shortestDistance <= troopController.GetStats().unitAttackRange)
         {
             targetDetected = nearestTarget;
 
-            //if the unit's behaviour is RANGED
-            if(troopController.stat.unitBehaviour == Behaviour.RANGED && targetEngaged == null)
+            //if the unit's behaviour is RANGED and targetEngaged doesn't exist
+            if(troopController.GetStats().unitBehaviour == Behaviour.RANGED && targetEngaged == null)
             {
+                /* STARTS COMBAT FOR RANGED */
                 targetEngaged = targetDetected.gameObject.GetComponent<Idamageable>(); 
-                StartCoroutine(Combat(troopController.attackRate, 1.5f, 2f));
+                StartCoroutine(Combat(troopController.GetAttackRate()));
             }
+        }
+        //if the unit's behaviour is defend, and this position and playerAvatar's position is greater than the units's attackRange * 2 
+        else if(troopController.GetStats().unitBehaviour == Behaviour.DEFEND && Vector3.Distance(transform.position, playerAvatar.transform.position) <= (troopController.GetStats().unitAttackRange * 2))
+        {
+            /* SETS playerDetected for friendly golems */
+            playerDetected = playerAvatar.transform;
         }
         else
         {
-            targetDetected = null;
-            targetEngaged = null;
+            VoidTargets();
         }
     }
     /*-  Controls engagement of targets  -*/
     private void Engaging()
     {
+
         //if targetDetected does exist
         if(targetDetected != null)
         {
             //if this position and targetDetected's position is greater 2 and unit's behaviour isn't RANGED and targetEngaged doesn't exist 
-            if(Vector3.Distance(transform.position, targetDetected.position) <= 2f && troopController.stat.unitBehaviour != Behaviour.RANGED && targetEngaged == null)
+            if(Vector3.Distance(transform.position, targetDetected.position) <= 2.5f && troopController.GetStats().unitBehaviour != Behaviour.RANGED && targetEngaged == null)
             {
+                /* STARTS COMBAT FOR EVERYONE ELSE */
                 targetEngaged = targetDetected.gameObject.GetComponent<Idamageable>(); 
-                StartCoroutine(Combat(troopController.attackRate, 1, 1.5f));
+                StartCoroutine(Combat(troopController.GetAttackRate()));
             }
         }
     }
-    /*-  Controls Combat between units for troops -*/
-    private IEnumerator Combat(float rate, float minAtkTime, float maxAtkTime)
+    /*-  Controls Combat between units for troops, takes float for an attack rate -*/
+    private IEnumerator Combat(float atkRate)
     {
-        float randomRate = rate * Random.Range(minAtkTime, maxAtkTime);
-        yield return new WaitForSeconds(randomRate);
+        troopController.animator.SetBool("aAttacking", true);
+        yield return new WaitForSeconds(atkRate);
 
-        //if targetEngaged does exist
-        if(targetEngaged != null && targetDetected.gameObject.activeSelf)
+        //if targetEngaged does exists
+        if(targetEngaged != null)
         {
-            targetEngaged.TakeDamage(troopController.attack); //Transfer the enemy's troop's attack to the this script's TakeDamage function
-            StartCoroutine(Combat(rate, minAtkTime, maxAtkTime)); //Recalls Combat IEnumerator at attackRate * random
+            targetEngaged.TakeDamage((troopController.GetAttack() * Random.Range(0.75f, 1.25f))); //Transfer the enemy's troop's attack to the this script's TakeDamage function
         }
-        else
-        {
-            targetDetected = null;
-            targetEngaged = null;
-        }
+
+        //ADD AOE ATTACK
+
+        Invoke("VoidTargets", 0.5f);
     }
     /*-  When a GameObject collides with another GameObject, Unity calls OnTriggerEnter. -*/
     private void OnTriggerEnter(Collider other)
     {
         //if the troop collides with an opposing bullet
-        if (other.gameObject.CompareTag(troopController.stat.sharedTags.oncomingBulletTag))
+        if (other.gameObject.CompareTag(troopController.GetStats().sharedTags.oncomingBulletTag))
         {
             Bullet bullet = other.gameObject.GetComponent<Bullet>(); 
-            TakeDamage(bullet.bulletAttack); //Transfer bulletAttack to the this script's TakeDamage function
+            troopController.TakeDamage(bullet.GetAttack()); //Transfer bulletAttack to the this script's TakeDamage function
             bullet.DestroyBullet();
         }
     }
-    /*-  Handles taking damage takes a float that is the oncoming damage value -*/
-    public void TakeDamage(float damage)
-    {
-        troopController.health -= damage;
-        troopController.healthBar.fillAmount = troopController.health/troopController.stat.unitHealth; //Resets healthBar
 
-        //if health is less than or equal to 0
-        if(troopController.health <= 0)
-        {
-            targetDetected = null;
-            targetEngaged = null;
-            this.gameObject.SetActive(false); 
-        }
+    /*---      SET/GET FUNCTIONS     ---*/
+    /*-  Gets targetDetected  -*/
+    public Transform GetTargetDetected()
+    {
+        return targetDetected;
+    }
+    /*-  Gets targetEngaged  -*/
+    public Idamageable GetTargetEngaged()
+    {
+        return targetEngaged;
+    }
+    /*-  Gets playerDetected  -*/
+    public Transform GetPlayerDetected()
+    {
+        return playerDetected;
+    }
+    /*-  Sets all target to null  -*/
+    public void VoidTargets()
+    {
+        targetDetected = null;
+        targetEngaged = null;
+        playerDetected = null;
+        troopController.animator.SetBool("aAttacking", false);
     }
 }
+
+

@@ -8,7 +8,8 @@ public class Billboard : MonoBehaviour
         Name: Billboard.cs
         Description: This script causes 2D sprites to face the camera
 
-    */    
+    */
+    /*[Header("Script Settings")]*/
     private Transform cam;
 
     /*---      SETUP FUNCTIONS     ---*/

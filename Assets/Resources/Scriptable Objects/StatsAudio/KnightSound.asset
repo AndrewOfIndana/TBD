@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a271d75c2b6fe48aea0044147abe5b, type: 3}
+  m_Name: KnightSound
+  m_EditorClassIdentifier: 
+  statSfx1: {fileID: 8300000, guid: 6792e196f4fcf8f4aa0da98f5003043c, type: 3}
+  statSfx2: {fileID: 8300000, guid: f8905355cb0c4724c9474b52a6f72de6, type: 3}
+  statSfx3: {fileID: 8300000, guid: 2fcec658ab518fb4b847392fdfb4b97b, type: 3}

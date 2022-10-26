@@ -10,7 +10,6 @@ public class StatsTags : ScriptableObject
         Description: A ScriptableObject that holds all the shared tags for either faction
 
     */    
-    
     [Header("Projectiles Tags")]
     public string bulletTag; //Tag of what the unit will fire
 

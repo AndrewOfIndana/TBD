@@ -20,14 +20,16 @@ MonoBehaviour:
   unitSpeed: 0
   unitAttackRange: 10
   unitAttackRate: 2
-  unitSprite: {fileID: 21300000, guid: 163f2568dbc073240bcfd115dc2fb775, type: 3}
+  unitSprite: {fileID: 21300000, guid: b93610cbe78e81843be5f0ebef92ec1a, type: 3}
   unitSize: {x: 1.75, y: 2.5, z: 1.75}
+  unitsSfx: {fileID: 0}
+  unitType: 1
+  unitBehaviour: 5
+  unitWalkSpeed: 0
   isUnitEnemy: 0
   unitTag: AllyTower
   targetTags:
   - EnemyTroop
   sharedTags: {fileID: 11400000, guid: fef36fcd149f1b74d9614a1e3e09f962, type: 2}
   unitCost: 65
-  unitThumbnail: {fileID: 21300000, guid: 163f2568dbc073240bcfd115dc2fb775, type: 3}
-  unitType: 1
-  unitBehaviour: 5
+  unitThumbnail: {fileID: 21300000, guid: 3d152473e47ea08458dbde7fe3bd498e, type: 3}

@@ -10,15 +10,17 @@ public class EnemySpawner : MonoBehaviour, Idamageable
 
     */
     /*[Header("Static References")]*/
+    GameManager gameManager;
     LevelManager levelManager;
     LevelUI levelUI;
     ObjectPool objectPool;
+    BossManager bossManager;
 
-    [Header("Health Variables")]
+    [Header("Health Settings")]
     public float health = 1000;
-    [HideInInspector] public float maxHealth;
+    private float maxHealth;
 
-    /*[Header("Script Variables")]*/
+    /*[Header("Script Settings")]*/
     private float spawnRate; 
     private List<Stats> typesOfEnemies = new List<Stats>();
 
@@ -27,15 +29,17 @@ public class EnemySpawner : MonoBehaviour, Idamageable
     private void Start()
     {
         /* Gets the static instances and stores them in the Static References */
-        levelManager = LevelManager.levelManagerInstance;
-        levelUI = LevelUI.levelUIinstance;
-        objectPool = ObjectPool.objectPoolInstance;
+        gameManager = GameManager.instance;
+        levelManager = LevelManager.instance;
+        levelUI = LevelUI.instance;
+        objectPool = ObjectPool.instance;
 
+        health = levelManager.GetLevel().enemyHealth;
         maxHealth = health;
 
         /* Gets and sets variables form the level manager */
-        typesOfEnemies = levelManager.levelEnemyUnits;
-        spawnRate = levelManager.levelEnemyRate;
+        typesOfEnemies = levelManager.GetEnemyUnits();
+        spawnRate = levelManager.GetLevel().enemySpawnRate;
     }
     /*-  StartGame is called when the game has started -*/
     public void StartGame()
@@ -48,16 +52,26 @@ public class EnemySpawner : MonoBehaviour, Idamageable
     private IEnumerator SpawnEnemy(float rate)
     {
         yield return new WaitForSeconds(rate); 
-        GameObject enemyObj = objectPool.SpawnFromPool("Enemy", transform.position, Quaternion.identity);
-        TroopController enemy = enemyObj.GetComponent<TroopController>();
-        
-        //if this enemy exist
-        if(enemy != null)
+
+        //if gameStates is PLAYING
+        if(gameManager.CheckIfPlaying())
         {
-            enemy.SetUnit(typesOfEnemies[Random.Range(0, typesOfEnemies.Count)]); //Sets enemy type and stats based on random number generator
-            enemy.StartController(); //Sets enemy type and stats based on random number generator
+            GameObject enemyObj = objectPool.SpawnFromPool("Enemy", transform.position, Quaternion.identity);
+            TroopController enemy = enemyObj.GetComponent<TroopController>();
+            
+            //if this enemy exist
+            if(enemy != null)
+            {
+                enemy.SetUnit(typesOfEnemies[Random.Range(0, typesOfEnemies.Count)]); //Sets enemy type and stats based on random number generator
+                enemy.StartController(); //Starts the enemy controller
+            }
         }
-        StartCoroutine(SpawnEnemy(rate)); 
+
+        //if gameStates isn't WIN or LOSE
+        if(!gameManager.CheckIfWinOrLose())
+        {
+            StartCoroutine(SpawnEnemy(rate)); 
+        }
     }
     /*-  Handles taking damage takes a float that is the oncoming damage value -*/
     public void TakeDamage(float damage)
@@ -68,8 +82,36 @@ public class EnemySpawner : MonoBehaviour, Idamageable
         //if health is less than or equal to 0
         if(health <= 0)
         {
-            levelManager.ChangeState(GameStates.WIN); //Sets GameStates to WIN in the levelManager
-            this.gameObject.SetActive(false); //deactivate the troop
+            //if BossManager does exist
+            if(BossManager.instance != null)
+            {
+                //if local bossManager doesn't exist
+                if(bossManager == null)
+                {
+                    /* STARTS BOSS FIGHT */
+                    bossManager = BossManager.instance;
+                    bossManager.StartBoss();
+                }
+            }
+            //if BossManager doesn't exist 
+            else if(BossManager.instance == null)
+            {
+                gameManager.SetGameState(GameStates.WIN); //Sets GameStates to WIN
+                levelManager.ChangeState(); //Changes State for level
+                this.gameObject.SetActive(false); 
+            }
         }
+    }
+
+    /*---      SET/GET FUNCTIONS     ---*/
+    /*-  Gets health -*/
+    public float GetHealth()
+    {
+        return health;
+    }
+    /*-  Gets max health -*/
+    public float GetMaxHealth()
+    {
+        return maxHealth;
     }
 }

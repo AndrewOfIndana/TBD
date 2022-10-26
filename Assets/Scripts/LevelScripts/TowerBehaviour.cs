@@ -1,21 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
-public class TowerBehaviour : MonoBehaviour, Idamageable
+public class TowerBehaviour : MonoBehaviour
 {
     /*  
         Name: TowerBehaviour.cs
-        Description: This script controls the behaviour of a tower and how it reacts to other units and damage
+        Description: This script controls the behaviour of a tower and how it reacts to other units
 
     */
-    /*[Header("Static Variables")]*/
+    /*[Header("Static References")]*/
+    GameManager gameManager;
     ObjectPool objectPool; 
 
-    [Header("Script References")]
+    /*[Header("Components")]*/
     private TowerController towerController;
+
+    [Header("Script Settings")]
     public Transform firingPoint; 
-    private Transform targetDetected;
+    private Transform targetDetected; //What the unit detects
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
@@ -27,13 +31,13 @@ public class TowerBehaviour : MonoBehaviour, Idamageable
     private void Start()
     {
         /* Gets the static instances and stores them in the Static References */
-        objectPool = ObjectPool.objectPoolInstance; 
+        gameManager = GameManager.instance;
+        objectPool = ObjectPool.instance; 
     }
-
     /*-  Starts the units targeting behaviour -*/
     public void StartBehaviour()
     {
-        StartCoroutine(UpdateTarget(towerController.attackRate)); //Calls UpdateTarget IEnumerator at attackRate
+        StartCoroutine(UpdateTarget(towerController.GetAttackRate()));
     }
 
     /*---      FUNCTIONS     ---*/
@@ -41,72 +45,74 @@ public class TowerBehaviour : MonoBehaviour, Idamageable
     private IEnumerator UpdateTarget(float time)
     {
         yield return new WaitForSeconds(time); 
-        Targeting();
-        
-        //if targetDetected does exist
-        if(targetDetected != null)
+
+        //if gameStates is PLAYING
+        if(gameManager.CheckIfPlaying())
         {
-            Shoot();
+            Targeting();
+
+            //if targetDetected does exist
+            if(targetDetected != null)
+            {
+                Shoot();
+            }
         }
-        StartCoroutine(UpdateTarget(towerController.attackRate)); //Recalls Aiming IEnumerator at attackRate
+
+        //if gameStates isn't WIN or LOSE
+        if(!gameManager.CheckIfWinOrLose())
+        {
+            StartCoroutine(UpdateTarget(towerController.GetAttackRate()));
+        }
+            //if gameStates is WIN or LOSE
+        else if(gameManager.CheckIfWinOrLose())
+        {
+            this.gameObject.SetActive(false);
+        }
     }
     /*-  Controls targeting -*/
     private void Targeting()
     {
-        float shortestDistance = Mathf.Infinity; 
+        float shortestDistance = Mathf.Infinity;
         Transform nearestTarget = null;
-
+        
         foreach(Unit unit in Unit.GetUnitList())
         {
-            for(int i = 0; i < towerController.stat.targetTags.Length; i++)
+            //If the unit's target tags contain the other units's tag
+            if(towerController.GetStats().targetTags.Any(x => x.Contains(unit.gameObject.tag)))
             {
-                //If the unit's tag is the target tag
-                if(unit.gameObject.tag == towerController.stat.targetTags[i])
-                {
-                    float distanceToTarget = Vector3.Distance(transform.position, unit.transform.position); //calculates the distance to that enemy
+                float distanceToTarget = Vector3.Distance(transform.position, unit.transform.position); //calculates the distance to that enemy
 
-                    //if the distanceToTarget is lesser than shortestDistance
-                    if(distanceToTarget < shortestDistance)
-                    {
-                        shortestDistance = distanceToTarget; 
-                        nearestTarget = unit.transform;
-                    }
+                //if the distanceToTarget is lesser than shortestDistance
+                if(distanceToTarget < shortestDistance)
+                {
+                    shortestDistance = distanceToTarget;
+                    nearestTarget = unit.transform;
                 }
             }
         }
-        //if the nearestTarget does exist and shortestDistance is less than or equal to the tower's range
-        if(nearestTarget != null && shortestDistance <= towerController.attackRange)
+        
+        //if the nearestTarget does exist and shortestDistance is less than or equal to the units's attackRange
+        if(nearestTarget != null && shortestDistance <= towerController.GetStats().unitAttackRange)
         {
-            targetDetected = nearestTarget; 
+            targetDetected = nearestTarget;
+            towerController.animator.SetBool("aAttacking", true);
         }
         else
         {
             targetDetected = null;
+            towerController.animator.SetBool("aAttacking", false);
         }
     }
     /*-  Controls shooting -*/
     private void Shoot()
     {
-        GameObject bulletObj = objectPool.SpawnFromPool(towerController.stat.sharedTags.bulletTag, firingPoint.position, firingPoint.rotation);
+        GameObject bulletObj = objectPool.SpawnFromPool(towerController.GetStats().sharedTags.bulletTag, firingPoint.position, firingPoint.rotation);
         Bullet bullet = bulletObj.GetComponent<Bullet>();
 
         //if this bullet exist
         if(bullet != null)
         {
-            bullet.Seek(targetDetected, towerController.attack); //calls the bullet's seek function
+            bullet.Seek(targetDetected, towerController.GetAttack()); //calls the bullet's seek function
         }
     }
-    /*-  Handles taking damage takes a float that is the oncoming damage value -*/
-    public void TakeDamage(float damage)
-    {
-        towerController.health -= damage;
-        towerController.healthBar.fillAmount = towerController.health/towerController.stat.unitHealth; //Resets healthBar
-
-        //if health is less than or equal to 0
-        if(towerController.health <= 0)
-        {
-            this.gameObject.SetActive(false); 
-        }
-    }
-
 }
