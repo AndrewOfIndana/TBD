@@ -12,6 +12,7 @@ public class TroopBehaviour : MonoBehaviour
     */
     /*[Header("Static References")]*/
     GameManager gameManager;
+    ObjectPool objectPool; 
 
     /*[Header("Components")]*/
     private TroopController troopController;
@@ -35,6 +36,7 @@ public class TroopBehaviour : MonoBehaviour
     {
         /* Gets the static instances and stores them in the Static References */
         gameManager = GameManager.instance;
+        objectPool = ObjectPool.instance; 
         playerAvatar = LevelManager.instance.GetPlayerAvatar();
     }
     /*-  Starts the units targeting behaviour -*/
@@ -116,7 +118,6 @@ public class TroopBehaviour : MonoBehaviour
     /*-  Controls engagement of targets  -*/
     private void Engaging()
     {
-
         //if targetDetected does exist
         if(targetDetected != null)
         {
@@ -141,7 +142,10 @@ public class TroopBehaviour : MonoBehaviour
             targetEngaged.TakeDamage((troopController.GetAttack() * Random.Range(0.75f, 1.25f))); //Transfer the enemy's troop's attack to the this script's TakeDamage function
         }
 
-        //ADD AOE ATTACK
+        if(troopController.GetStats().unitBehaviour == Behaviour.DEFEND)
+        {
+            ApplyAreaOfEffect(true);
+        }
 
         Invoke("VoidTargets", 0.5f);
     }
@@ -154,6 +158,21 @@ public class TroopBehaviour : MonoBehaviour
             Bullet bullet = other.gameObject.GetComponent<Bullet>(); 
             troopController.TakeDamage(bullet.GetAttack()); //Transfer bulletAttack to the this script's TakeDamage function
             bullet.DestroyBullet();
+        }
+    }
+    /*-  Controls shooting -*/
+    private void ApplyAreaOfEffect(bool isAttack)
+    {
+        GameObject aoeObj = objectPool.SpawnFromPool("AreaOfEffect", this.transform.position, this.transform.rotation);
+        AreaOfEffect aoe = aoeObj.GetComponent<AreaOfEffect>();
+
+        //if this bullet exist
+        if(aoe != null)
+        {
+            if(isAttack)
+            {
+                aoe.SetAOE(troopController.GetStats().unitAttackRange, troopController.GetStats().isUnitEnemy, !troopController.GetStats().isUnitEnemy, (troopController.GetAttack() * 0.75f)); //calls the bullet's seek function
+            }
         }
     }
 

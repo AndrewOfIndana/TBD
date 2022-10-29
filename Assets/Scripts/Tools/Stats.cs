@@ -24,6 +24,7 @@ public class Stats : ScriptableObject
     public float unitSpeed; //Speed of the unit
     public float unitAttackRange; //Attack Range of the unit
     public float unitAttackRate; //Attack Rate of the unit
+    public List<StatusEffect> unitStartEffects = new List<StatusEffect>();
 
     [Header("Physical Variables")]
     public Sprite unitSprite; //Sprite of the unit

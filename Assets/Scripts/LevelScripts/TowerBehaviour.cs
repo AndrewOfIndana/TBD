@@ -54,7 +54,14 @@ public class TowerBehaviour : MonoBehaviour
             //if targetDetected does exist
             if(targetDetected != null)
             {
-                Shoot();
+                if(towerController.GetStats().unitBehaviour == Behaviour.RANGED)
+                {
+                    Shoot();
+                }
+                else if(towerController.GetStats().unitBehaviour == Behaviour.AOE)
+                {
+                    ApplyAreaOfEffect(true);
+                }
             }
         }
 
@@ -113,6 +120,22 @@ public class TowerBehaviour : MonoBehaviour
         if(bullet != null)
         {
             bullet.Seek(targetDetected, towerController.GetAttack()); //calls the bullet's seek function
+        }
+    }
+    /*-  Controls shooting -*/
+    private void ApplyAreaOfEffect(bool isAttack)
+    {
+        GameObject aoeObj = objectPool.SpawnFromPool("AreaOfEffect", this.transform.position, this.transform.rotation);
+        AreaOfEffect aoe = aoeObj.GetComponent<AreaOfEffect>();
+
+        //if this bullet exist
+        if(aoe != null)
+        {
+            if(isAttack)
+            {
+                Debug.Log("created");
+                aoe.SetAOE(towerController.GetStats().unitAttackRange, towerController.GetStats().isUnitEnemy, !towerController.GetStats().isUnitEnemy, towerController.GetAttack()); //calls the bullet's seek function
+            }
         }
     }
 }

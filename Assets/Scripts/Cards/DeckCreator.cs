@@ -23,7 +23,7 @@ public class DeckCreator : MonoBehaviour
             p.index = i;
             players[i] = p;
         }
-      //  buildDeck();
+    //    buildDeck();
         Shuffle();
 
         for (int i = 0; i < players.Length; i++)

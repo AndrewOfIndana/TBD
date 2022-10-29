@@ -10,8 +10,11 @@ public class BossBehaviour : MonoBehaviour
         Description: This script controls the behaviour of a boss and how it reacts to other units and damage
 
     */
+    public delegate void bossDelegate();
+
     /*[Header("Static References")]*/
     GameManager gameManager;
+    ObjectPool objectPool; 
 
     /*[Header("Components")]*/
     private BossController bossController;
@@ -23,6 +26,10 @@ public class BossBehaviour : MonoBehaviour
     private Transform playerDetected; //When the unit detects a player
     private Idamageable targetEngaged; //What the unit is fighting
 
+    private bossDelegate specialAttack;
+    private int bossCounter = 5;
+
+    #region 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
     private void Awake()
@@ -35,7 +42,10 @@ public class BossBehaviour : MonoBehaviour
     {
         /* Gets the static instances and stores them in the Static References */
         gameManager = GameManager.instance;
+        objectPool = ObjectPool.instance; 
         playerAvatar = LevelManager.instance.GetPlayerAvatar();
+
+        GetNextSpecialMove();
     }
     /*-  Starts the units targeting behaviour -*/
     public void StartBehaviour()
@@ -54,6 +64,14 @@ public class BossBehaviour : MonoBehaviour
         {
             Targeting();
             Engaging();
+            bossCounter--;
+
+            if(bossCounter <= 0f)
+            {
+                specialAttack();
+                bossCounter = 45;
+            }
+            
         }
 
         //if gameStates isn't WIN or LOSE
@@ -137,7 +155,7 @@ public class BossBehaviour : MonoBehaviour
             targetEngaged.TakeDamage((bossController.GetAttack() * Random.Range(0.75f, 1.25f))); //Transfer the enemy's troop's attack to the this script's TakeDamage function
         }
 
-        //ADD AOE ATTACK
+        ApplyAreaOfEffectAttack();
 
         Invoke("VoidTargets", 0.5f);
     }
@@ -152,6 +170,73 @@ public class BossBehaviour : MonoBehaviour
             bullet.DestroyBullet();
         }
     }
+    /*-  Controls shooting -*/
+    private void ApplyAreaOfEffectAttack()
+    {
+        GameObject aoeObj = objectPool.SpawnFromPool("AreaOfEffect", this.transform.position, this.transform.rotation);
+        AreaOfEffect aoe = aoeObj.GetComponent<AreaOfEffect>();
+
+        //if this bullet exist
+        if(aoe != null)
+        {
+            aoe.SetAOE((bossController.GetStats().unitAttackRange * 2), true, false, (bossController.GetAttack() * 0.75f)); //calls the bullet's seek function
+        }
+    }
+    private void ApplyAreaOfEffectStatus(bool toEnemy, StatusEffect appliedEffect)
+    {
+        GameObject aoeObj = objectPool.SpawnFromPool("AreaOfEffect", this.transform.position, this.transform.rotation);
+        AreaOfEffect aoe = aoeObj.GetComponent<AreaOfEffect>();
+
+        //if this bullet exist
+        if(aoe != null)
+        {
+            aoe.SetAOE((bossController.GetStats().unitAttackRange * 2), true, toEnemy, appliedEffect); //calls the bullet's seek function
+        }
+    }
+    #endregion
+    private void GetNextSpecialMove()
+    {
+        int randomNum = Random.Range(0, 3);
+
+        if(bossController.GetStats().unitBehaviour == Behaviour.DEFEND)
+        {
+            if(randomNum == 0)
+            {
+                specialAttack = GolemAttack_1;
+            }
+            else if(randomNum == 1)
+            {
+                specialAttack = GolemAttack_2;
+            }
+            else if(randomNum == 2)
+            {
+                specialAttack = GolemAttack_3;
+            }
+        }
+    }
+
+
+    /*---      MOVES     ---*/
+    private void GolemAttack_1()
+    {
+        //HIGH GEAR
+        bossController.ApplyEffect(bossController.GetStats().unitStartEffects[0]);
+        bossController.StartDecayEffect(bossController.GetStats().unitStartEffects[0], bossController.GetStats().unitStartEffects[0].effectLifetime);
+        GetNextSpecialMove();
+    }
+    private void GolemAttack_2()
+    {
+        //STONE COLD
+        ApplyAreaOfEffectStatus(false, bossController.GetStats().unitStartEffects[1]);
+        GetNextSpecialMove();
+    }
+    private void GolemAttack_3()
+    {
+        //ARMOR UP
+        ApplyAreaOfEffectStatus(true, bossController.GetStats().unitStartEffects[2]);
+        GetNextSpecialMove();
+    }
+
 
     /*---      SET/GET FUNCTIONS     ---*/
     /*-  Gets targetDetected  -*/

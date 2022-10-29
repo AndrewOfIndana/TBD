@@ -3588,6 +3588,10 @@ MonoBehaviour:
     objPrefab: {fileID: 4374202085250568022, guid: 2dc4255b84ae3104cb672c28df0b6e5a,
       type: 3}
     objNum: 40
+  - objName: AreaOfEffect
+    objPrefab: {fileID: 4639489343173734901, guid: 16d526bc50f5d804797f837614e4fd51,
+      type: 3}
+    objNum: 20
 --- !u!1 &3117340058202203374
 GameObject:
   m_ObjectHideFlags: 0

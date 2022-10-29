@@ -22,6 +22,7 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
     public Animator animator;
     public SpriteRenderer thisSprite; 
     public BoxCollider thisCollider;
+    public BoxCollider aoeCollider;
     private AudioSource audioSource;
 
     [Header("UI References")]
@@ -205,5 +206,10 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
     public float GetAttackRate()
     {
         return attackRate;
+    }
+    /*-  Get status effect -*/
+    public List<StatusEffect> GetStatusEffects()
+    {
+        return statusEffects;
     }
 }

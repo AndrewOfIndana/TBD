@@ -64,15 +64,15 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     /*-  Update is called once per frame -*/
     private void Update()
     {
-        //if gameStates is not PLAYING
-        if(!gameManager.CheckIfPlaying())
-        {
-            return;
-        }
         //if gameStates is WIN or LOSE
         if(gameManager.CheckIfWinOrLose())
         {
             this.gameObject.SetActive(false);
+        }
+        //if gameStates is not PLAYING
+        if(!gameManager.CheckIfPlaying())
+        {
+            return;
         }
 
         /* Movement Code */
@@ -115,7 +115,7 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
             for (int i = 0; i < availableTiles.Count; i++)
             {
                 //If the player is near an availableTiles
-                if (Vector3.Distance(availableTiles[i].position, this.transform.position) < 2.5f)
+                if (Vector3.Distance(availableTiles[i].position, this.transform.position) < 2.75f)
                 {
                     closestTile = availableTiles[i];
                 }

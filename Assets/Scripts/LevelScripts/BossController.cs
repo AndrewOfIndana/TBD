@@ -26,11 +26,11 @@ public class BossController : MonoBehaviour, Idamageable, Ieffectable
     public GameObject[] statusUI; //Array of each status effect symbol
 
     /*[Header("Stats")]*/
-    public Stats stat;
-    public float attack;
-    public float health; 
-    public float speed;
-    public float attackRate;
+    private Stats stat;
+    private float attack;
+    private float health; 
+    private float speed;
+    private float attackRate;
     private List<StatusEffect> statusEffects = new List<StatusEffect>();
 
     /*---      SETUP FUNCTIONS     ---*/

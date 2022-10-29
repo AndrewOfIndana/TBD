@@ -13,13 +13,17 @@ MonoBehaviour:
   m_Name: e9_TheBrokenGolem
   m_EditorClassIdentifier: 
   unitID: 17
-  unitName: The Broken Golem
+  unitName: The Broken Dreams
   unitDescription: Chases Player
-  unitHealth: 5000
+  unitHealth: 500
   unitAttack: 50
   unitSpeed: 2
   unitAttackRange: 5
   unitAttackRate: 5
+  unitStartEffects:
+  - {fileID: 11400000, guid: 97719074dd025e4478c739893af25f88, type: 2}
+  - {fileID: 11400000, guid: 092d7f898ce910a4d85f4955bf0cb9d7, type: 2}
+  - {fileID: 11400000, guid: 22e93c0464126c8409aa87c2a44a9d50, type: 2}
   unitSprite: {fileID: 21300000, guid: 307473cdf882df146b070f7fadb0d558, type: 3}
   unitSize: {x: 1.75, y: 4.25, z: 1.75}
   unitsSfx: {fileID: 11400000, guid: ac7ef3ecea7905642a43d1514313fe87, type: 2}

@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 
   Description: 
-  sprite: {fileID: 21300000, guid: bbf94f1b250aa254c98d9251fed562ea, type: 3}
+  cardImage: {fileID: 21300000, guid: bbf94f1b250aa254c98d9251fed562ea, type: 3}
   particle: {fileID: 0}
   audioSource: {fileID: 0}

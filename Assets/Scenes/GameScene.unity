@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.64756036, g: 0.744449, b: 0.7725684, a: 1}
+  m_IndirectSpecularColor: {r: 0.6598514, g: 0.74838954, b: 0.7739749, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -998,7 +998,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 209900843}
-  - component: {fileID: 209900844}
   m_Layer: 5
   m_Name: Card + Deck Holder
   m_TagString: Untagged
@@ -1027,22 +1026,6 @@ RectTransform:
   m_AnchoredPosition: {x: 850, y: -425}
   m_SizeDelta: {x: 100, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &209900844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 209900842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41d4e9f9f5a3606458e252fd4b8887ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deck: []
-  index: 0
-  players: []
-  gameBoard: []
 --- !u!1001 &219972135
 PrefabInstance:
   m_ObjectHideFlags: 0
