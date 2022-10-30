@@ -16,10 +16,10 @@ MonoBehaviour:
   unitName: Mage
   unitDescription: Follows path, ignores everything
   unitHealth: 20
-  unitAttack: 0
-  unitSpeed: 4.5
+  unitAttack: 2.5
+  unitSpeed: 3
   unitAttackRange: 5
-  unitAttackRate: 1
+  unitAttackRate: 3
   unitStartEffects:
   - {fileID: 11400000, guid: c3bd2abaa81090a45b5686dec446bf41, type: 2}
   unitSprite: {fileID: 21300000, guid: 6aa5d04f2dffcd24e8163a63254c592e, type: 3}
@@ -31,8 +31,10 @@ MonoBehaviour:
   isUnitEnemy: 0
   unitTag: AllyTroop
   targetTags:
-  - AllyTroop
-  - AllyAssassin
+  - EnemyAssassin
+  - EnemyTroop
+  - EnemyTower
+  - EnemyBase
   sharedTags: {fileID: 11400000, guid: fef36fcd149f1b74d9614a1e3e09f962, type: 2}
   unitCost: 25
   unitThumbnail: {fileID: 21300000, guid: b6f892680cb7f7840a75f77ac6888050, type: 3}

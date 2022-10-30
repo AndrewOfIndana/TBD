@@ -22,7 +22,7 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
     public Animator animator;
     public SpriteRenderer thisSprite; 
     public BoxCollider thisCollider;
-    public BoxCollider aoeCollider;
+    public Aura troopAura;
     private AudioSource audioSource;
 
     [Header("UI References")]
@@ -39,6 +39,7 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
     private float speed;
     private float attackRate;
     private List<StatusEffect> statusEffects = new List<StatusEffect>();
+    private List<StatusEffect> auraStatusEffects = new List<StatusEffect>();
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
@@ -68,6 +69,12 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
         healthBar.fillAmount = health/newStats.unitHealth;
         audioSource.clip = stat.unitsSfx.statSfx1;
         this.gameObject.tag = newStats.unitTag;
+        auraStatusEffects = newStats.unitStartEffects;
+
+        if(newStats.unitBehaviour == Behaviour.SUPPORT)
+        {
+            troopAura.EnableAura(auraStatusEffects, newStats.isUnitEnemy, newStats.isUnitEnemy);
+        }
     }
     /*-  Starts the unit's behaviour and movement -*/
     public void StartController()
@@ -184,6 +191,7 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
     {
         statusEffects.Clear(); //Clears statusEffects
         audioSource.Stop();
+        troopAura.DisableAura();
     }
 
     /*---      SET/GET FUNCTIONS     ---*/

@@ -569,7 +569,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh67652
+  m_Name: pb_Mesh25794
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6568,10 +6568,20 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 27
       objectReference: {fileID: 0}
+    - target: {fileID: 3595846416609033454, guid: d89f09391f21c364cbcd3b84871e485d,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5416375462610977349, guid: d89f09391f21c364cbcd3b84871e485d,
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5416375462610977349, guid: d89f09391f21c364cbcd3b84871e485d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5416375462610977349, guid: d89f09391f21c364cbcd3b84871e485d,
         type: 3}
@@ -7491,7 +7501,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh67462
+  m_Name: pb_Mesh25574
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -8103,6 +8113,7 @@ GameObject:
   - component: {fileID: 1867338296}
   - component: {fileID: 1867338295}
   - component: {fileID: 1867338294}
+  - component: {fileID: 1867338299}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -9227,6 +9238,20 @@ Transform:
   m_Father: {fileID: 122973851}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &1867338299
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867338293}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 216247351}
 --- !u!1 &1918198613
 GameObject:
   m_ObjectHideFlags: 0

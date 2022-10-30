@@ -17,6 +17,7 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     [Header("GameObject Reference")]
     public Animator animator;
     public Image healthBar;
+    public Aura playerAura;
     private Rigidbody playerRb;
 
     [Header("Stats")]
@@ -26,6 +27,7 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     private float speed;
     private float attackRate;
     private float attackRange;
+    private List<StatusEffect> auraEffects = new List<StatusEffect>();
 
     /*[Header("Script Settings")]*/
     private Transform closestTile;
@@ -58,6 +60,7 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
         attackRange = stat.unitAttackRange;
         healthBar.fillAmount = health / stat.unitHealth;
         StartCoroutine(RegenerateHealth(1f));
+        // playerAura.gameObject.SetActive(true);
     }
 
     /*---      UPDATE FUNCTIONS     ---*/
