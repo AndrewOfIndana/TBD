@@ -48,6 +48,7 @@ public class LevelManager : MonoBehaviour
     [Header("Script Settings")]
     public CinemachineVirtualCamera topdownCamera; 
     public CinemachineVirtualCamera playerCamera;
+    private AudioListener mainAudioListener;
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
@@ -84,6 +85,10 @@ public class LevelManager : MonoBehaviour
         /* Gets the static instances and stores them in the Static References */
         gameManager = GameManager.instance;
 
+        GameObject cam = Camera.main.gameObject;
+        mainAudioListener = cam.GetComponent<AudioListener>();
+        mainAudioListener.enabled = true;
+
         /* Sets game to setup */
         gameManager.SetGameState(GameStates.SETUP);
         levelUI.UpdateScreen(0);
@@ -118,6 +123,7 @@ public class LevelManager : MonoBehaviour
             //if the player avatar isn't active, gameState is at playing and  hasPlayerRespawned is true
             if(playerAvatar.isActiveAndEnabled == false && gameManager.CheckIfPlaying() && hasPlayerRespawned == true)
             {
+                mainAudioListener.enabled = true;
                 hasPlayerRespawned = false;
                 StartCoroutine(RespawnPlayer(respawnTime)); //Begins RespawnPlayer IEnumerator at respawnTime
                 return;
@@ -205,6 +211,7 @@ public class LevelManager : MonoBehaviour
         GameObject playerAvatarObj = Instantiate(playerPrefab, playerSpawner.transform.position, playerSpawner.transform.rotation); 
         playerAvatar = playerAvatarObj.GetComponent<PlayerAvatar>(); 
         playerCamera.Follow = playerAvatar.transform; //sets player camera's follow to the player's transform
+        mainAudioListener.enabled = false;
     }
     /*-  respawns the player avatar, takes a float for the respawn time  -*/
     private IEnumerator RespawnPlayer(float waitTime)
@@ -219,6 +226,7 @@ public class LevelManager : MonoBehaviour
             playerAvatar.gameObject.SetActive(true);
             playerAvatar.transform.position = playerSpawner.transform.position;
             SwitchCameras(0, 1);
+            mainAudioListener.enabled = false;
             levelUI.UpdateUI();
             levelUI.UpdatePlayerDeath(true);
             hasPlayerRespawned = true;

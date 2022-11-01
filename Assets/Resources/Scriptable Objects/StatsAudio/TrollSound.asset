@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a271d75c2b6fe48aea0044147abe5b, type: 3}
   m_Name: TrollSound
   m_EditorClassIdentifier: 
-  statSfx1: {fileID: 8300000, guid: 1e99b656a0d54474d97a795c55762fe2, type: 3}
-  statSfx2: {fileID: 8300000, guid: 58ac60b591da9104d90a0cf32330459c, type: 3}
-  statSfx3: {fileID: 8300000, guid: 84e5b7f420d3c6144b116246eca0b43a, type: 3}
+  statSfx:
+  - {fileID: 8300000, guid: 84e5b7f420d3c6144b116246eca0b43a, type: 3}
+  - {fileID: 8300000, guid: 1e99b656a0d54474d97a795c55762fe2, type: 3}
+  - {fileID: 8300000, guid: 58ac60b591da9104d90a0cf32330459c, type: 3}
+  deathSfx: {fileID: 8300000, guid: 08475f31cfa5e224ba1e17fc270c1ccd, type: 3}

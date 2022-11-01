@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a271d75c2b6fe48aea0044147abe5b, type: 3}
   m_Name: ArcherSounds
   m_EditorClassIdentifier: 
-  statSfx1: {fileID: 8300000, guid: b3ab3d15c1c22264c99d8c1d6147d803, type: 3}
-  statSfx2: {fileID: 8300000, guid: ce18602f3bf41c245aeb73f97116e603, type: 3}
-  statSfx3: {fileID: 8300000, guid: e7749ada8a51a8d45b64864a9c8f534f, type: 3}
+  statSfx:
+  - {fileID: 8300000, guid: b3ab3d15c1c22264c99d8c1d6147d803, type: 3}
+  - {fileID: 8300000, guid: ce18602f3bf41c245aeb73f97116e603, type: 3}
+  - {fileID: 8300000, guid: e7749ada8a51a8d45b64864a9c8f534f, type: 3}
+  deathSfx: {fileID: 8300000, guid: 09db99af94901954f96faacd9ade9a9a, type: 3}

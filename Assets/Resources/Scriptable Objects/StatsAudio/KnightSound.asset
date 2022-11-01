@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a271d75c2b6fe48aea0044147abe5b, type: 3}
   m_Name: KnightSound
   m_EditorClassIdentifier: 
-  statSfx1: {fileID: 8300000, guid: 6792e196f4fcf8f4aa0da98f5003043c, type: 3}
-  statSfx2: {fileID: 8300000, guid: f8905355cb0c4724c9474b52a6f72de6, type: 3}
-  statSfx3: {fileID: 8300000, guid: 2fcec658ab518fb4b847392fdfb4b97b, type: 3}
+  statSfx:
+  - {fileID: 8300000, guid: 6792e196f4fcf8f4aa0da98f5003043c, type: 3}
+  - {fileID: 8300000, guid: f8905355cb0c4724c9474b52a6f72de6, type: 3}
+  - {fileID: 8300000, guid: 2fcec658ab518fb4b847392fdfb4b97b, type: 3}
+  deathSfx: {fileID: 8300000, guid: 09db99af94901954f96faacd9ade9a9a, type: 3}

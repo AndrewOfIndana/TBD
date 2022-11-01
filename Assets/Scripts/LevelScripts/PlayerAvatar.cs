@@ -27,7 +27,7 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     private float speed;
     private float attackRate;
     private float attackRange;
-    private List<StatusEffect> auraEffects = new List<StatusEffect>();
+    private List<StatusEffect> auraStatusEffects = new List<StatusEffect>();
 
     /*[Header("Script Settings")]*/
     private Transform closestTile;
@@ -60,7 +60,7 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
         attackRange = stat.unitAttackRange;
         healthBar.fillAmount = health / stat.unitHealth;
         StartCoroutine(RegenerateHealth(1f));
-        // playerAura.gameObject.SetActive(true);
+        //playerAura.EnableAura(auraStatusEffects, stat.isUnitEnemy, stat.isUnitEnemy);
     }
 
     /*---      UPDATE FUNCTIONS     ---*/
@@ -147,6 +147,7 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
         //if health is less than or equal to 0
         if (health <= 0)
         {
+            // playerAura.DisableAura();
             this.gameObject.SetActive(false);
         }
     }

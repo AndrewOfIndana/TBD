@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a271d75c2b6fe48aea0044147abe5b, type: 3}
   m_Name: AssassinSound
   m_EditorClassIdentifier: 
-  statSfx1: {fileID: 8300000, guid: 31d47f0a3ae3c7c4385a0ee815e166b4, type: 3}
-  statSfx2: {fileID: 8300000, guid: fea35e68290bd32499555b32c2e53d25, type: 3}
-  statSfx3: {fileID: 8300000, guid: 014e6cf2b9e19514c9d2918049f336ab, type: 3}
+  statSfx:
+  - {fileID: 8300000, guid: 31d47f0a3ae3c7c4385a0ee815e166b4, type: 3}
+  - {fileID: 8300000, guid: fea35e68290bd32499555b32c2e53d25, type: 3}
+  - {fileID: 8300000, guid: 014e6cf2b9e19514c9d2918049f336ab, type: 3}
+  deathSfx: {fileID: 8300000, guid: fe49dca60b45b9c45a0fa5377154214d, type: 3}

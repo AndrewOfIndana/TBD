@@ -11,7 +11,11 @@ public class StatsAudio : ScriptableObject
     
     */
     [Header("Audio Variables")]
-    public AudioClip statSfx1;
-    public AudioClip statSfx2;
-    public AudioClip statSfx3;
+    public AudioClip[] statSfx;
+    public AudioClip deathSfx;
+
+    public AudioClip GetRandomSfx()
+    {
+        return statSfx[Random.Range(0, statSfx.Length)];
+    }
 }

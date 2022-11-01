@@ -337,6 +337,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 9099600117971821011}
   healthBar: {fileID: 2145755683}
+  playerAura: {fileID: 0}
   stat: {fileID: 11400000, guid: 1eec6fa06b189da4093e28b2ffe09a55, type: 2}
 --- !u!114 &595206621860369269
 MonoBehaviour:
@@ -350,6 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b0432642b370f74fa6d29bd8230ea0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnemy: 0
 --- !u!114 &826833076328513397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,7 +446,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3118d2cad8e7b4d448b7ae209ba465a5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 999c72001017e7e4086f8bbf4f7d107e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

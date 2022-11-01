@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a271d75c2b6fe48aea0044147abe5b, type: 3}
   m_Name: MageSound
   m_EditorClassIdentifier: 
-  statSfx1: {fileID: 8300000, guid: b06bd35647cf5ff4f9ea85b14ab9a675, type: 3}
-  statSfx2: {fileID: 8300000, guid: 2676432326e92474f8afc39abcefd091, type: 3}
-  statSfx3: {fileID: 8300000, guid: df2ccd46a003d1b4386f3847ef7c02bf, type: 3}
+  statSfx:
+  - {fileID: 8300000, guid: b06bd35647cf5ff4f9ea85b14ab9a675, type: 3}
+  - {fileID: 8300000, guid: 2676432326e92474f8afc39abcefd091, type: 3}
+  - {fileID: 8300000, guid: df2ccd46a003d1b4386f3847ef7c02bf, type: 3}
+  deathSfx: {fileID: 8300000, guid: 09db99af94901954f96faacd9ade9a9a, type: 3}

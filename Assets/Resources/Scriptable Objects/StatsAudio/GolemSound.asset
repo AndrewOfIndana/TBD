@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a271d75c2b6fe48aea0044147abe5b, type: 3}
   m_Name: GolemSound
   m_EditorClassIdentifier: 
-  statSfx1: {fileID: 8300000, guid: b10c8e46a679a2e4987362ee696763b4, type: 3}
-  statSfx2: {fileID: 8300000, guid: f6fbcb39505f5a7419aba07c3040f87f, type: 3}
-  statSfx3: {fileID: 8300000, guid: 1a78954fff751314985590f9d2878497, type: 3}
+  statSfx:
+  - {fileID: 8300000, guid: b10c8e46a679a2e4987362ee696763b4, type: 3}
+  - {fileID: 8300000, guid: f6fbcb39505f5a7419aba07c3040f87f, type: 3}
+  - {fileID: 8300000, guid: 1a78954fff751314985590f9d2878497, type: 3}
+  deathSfx: {fileID: 8300000, guid: 527bc211e0e9a60479c942d4b672e047, type: 3}

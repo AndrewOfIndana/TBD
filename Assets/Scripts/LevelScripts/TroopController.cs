@@ -67,7 +67,7 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
         thisSprite.sprite = newStats.unitSprite;
         thisCollider.size =  newStats.unitSize;
         healthBar.fillAmount = health/newStats.unitHealth;
-        audioSource.clip = stat.unitsSfx.statSfx1;
+        audioSource.clip = newStats.unitsSfx.GetRandomSfx();
         this.gameObject.tag = newStats.unitTag;
         auraStatusEffects = newStats.unitStartEffects;
 
@@ -183,6 +183,7 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
         if(health <= 0)
         {
             troopBehaviour.VoidTargets();
+            AudioSource.PlayClipAtPoint(stat.unitsSfx.deathSfx, this.transform.position);
             this.gameObject.SetActive(false); 
         }
     }
