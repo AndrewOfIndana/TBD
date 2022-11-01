@@ -21,6 +21,6 @@ MonoBehaviour:
   playerHealth: 500
   enemyUnits: {fileID: 11400000, guid: b9d18b24dc79d2543a5ba1e2e41ef9ce, type: 2}
   enemySpawnRate: 5
-  enemyHealth: 250
+  enemyHealth: 100
   enemyCalmTime: 60
   enemyEnragedTime: 30

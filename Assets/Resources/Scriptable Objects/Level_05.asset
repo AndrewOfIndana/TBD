@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b4ec079c7d918a468e4559501702bd3, type: 3}
-  m_Name: Level_02
+  m_Name: Level_05
   m_EditorClassIdentifier: 
-  levelID: 2
-  levelName: Bridges
-  availbleUnits: {fileID: 11400000, guid: d597e9fe6cf19a54f952798610769e2a, type: 2}
-  unitLimit: 2
+  levelID: 5
+  levelName: Dunes
+  availbleUnits: {fileID: 11400000, guid: e6f025753cc591249b65c1777ab69044, type: 2}
+  unitLimit: 4
   mana: 100
   manaRegen: 10
   playerHealth: 500
-  enemyUnits: {fileID: 11400000, guid: 63f2d082bfcc9ce438d44d3c26adbc79, type: 2}
-  enemySpawnRate: 4.5
-  enemyHealth: 100
-  enemyCalmTime: 60
-  enemyEnragedTime: 20
+  enemyUnits: {fileID: 11400000, guid: 9ec142a4e901aee4e919b48cccf743c7, type: 2}
+  enemySpawnRate: 4
+  enemyHealth: 250
+  enemyCalmTime: 90
+  enemyEnragedTime: 45
