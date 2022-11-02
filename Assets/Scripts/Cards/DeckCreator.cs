@@ -10,25 +10,37 @@ public class DeckCreator : MonoBehaviour
     public static DeckCreator Instance { get; private set; }
     public PlayerDeck[] decks;
     public CardDisplay[,] Cards { get; private set; }
-
+    public int x;
     public int Height => Cards.GetLength(0);
     public int Width => Cards.GetLength(1);
     private readonly List<CardDisplay> _selection = new List<CardDisplay>();
-
+    public int deckSize;
+    public List<Card> testDeck = new List<Card> { };
     private void Awake() => Instance = this;
-    public int index;
+   
     //public Player[] players;
 
     // Start is called before the first frame update
     void Start()
     {
+        deckSize = 5;
         buildDeck();
     }
 
     public void buildDeck()
     {
+        bool handfull = false;
+        /*
+
+        for(int i = 0; i <deckSize; i++)
+        {
+            x = UnityEngine.Random.Range(0,CardDatabase.Cards.Length);
+            testDeck[i] = CardDatabase.Cards[x];
+        }
+        */
         //counts how many cards in a deck and applies the images to the card
-        Cards = new CardDisplay[decks.Max(hand => hand.deck.Length), 4];
+        Cards = new CardDisplay[decks.Max(hand => hand.deck.Length), 3];
+        if(handfull = false) { }
         for (var y = 0; y < Height; y++)
         {
             for (var x = 0; x < Width; x++)
@@ -44,12 +56,13 @@ public class DeckCreator : MonoBehaviour
         }
     }
 
-    public void Select(CardDisplay card) { }
+    public void Select(CardDisplay card) { 
+        
 
-    private Color mouseOverColor = Color.white;
-    private bool dragging = false;
-    private float distance;
 
+    }
+
+    
 
 
    
