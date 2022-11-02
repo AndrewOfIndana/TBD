@@ -2,18 +2,61 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 public class DeckCreator : MonoBehaviour
 {
-    public CardDisplay[] deck;
-    
+    public static DeckCreator Instance { get; private set; }
+    public PlayerDeck[] decks;
+    public CardDisplay[,] Cards { get; private set; }
+
+    public int Height => Cards.GetLength(0);
+    public int Width => Cards.GetLength(1);
+    private readonly List<CardDisplay> _selection = new List<CardDisplay>();
+
+    private void Awake() => Instance = this;
     public int index;
-    public Player[] players;
-    public Card[] gameBoard;
+    //public Player[] players;
+
     // Start is called before the first frame update
     void Start()
     {
-        gameBoard = new Card[0];
+        buildDeck();
+    }
+
+    public void buildDeck()
+    {
+        //counts how many cards in a deck and applies the images to the card
+        Cards = new CardDisplay[decks.Max(hand => hand.deck.Length), 4];
+        for (var y = 0; y < Height; y++)
+        {
+            for (var x = 0; x < Width; x++)
+            {
+                //gets the card location 
+                var card = decks[y].deck[x];
+                card.x = x;
+                card.y = y;
+                Cards[y, x] = card;
+                //sets the card image from a random scritpable object in the database
+                card.Card = CardDatabase.Cards[UnityEngine.Random.Range(0, CardDatabase.Cards.Length)];
+            }
+        }
+    }
+
+    public void Select(CardDisplay card) { }
+
+    private Color mouseOverColor = Color.white;
+    private bool dragging = false;
+    private float distance;
+
+
+
+   
+
+}
+    
+/*
         players = new Player[1];
         CardDisplay[] tempHand = new CardDisplay[0];
         for (int i = 0; i < players.Length; i++)
@@ -23,7 +66,7 @@ public class DeckCreator : MonoBehaviour
             p.index = i;
             players[i] = p;
         }
-    //    buildDeck();
+        //    buildDeck();
         Shuffle();
 
         for (int i = 0; i < players.Length; i++)
@@ -53,7 +96,7 @@ public class DeckCreator : MonoBehaviour
     }
     public void Deal(Player p)
     {
-        //deals firts three cards to player
+        //deals first three cards to player
         CardDisplay[] afterDraw = new CardDisplay[p.hand.Length + 1];
         p.hand.CopyTo(afterDraw, 0);
         afterDraw[p.hand.Length] = deck[0];
@@ -66,6 +109,7 @@ public class DeckCreator : MonoBehaviour
         deck = tempDeck;
 
     }
+    /*
     public void playCard(Player p, int selectedCard)
     {
         CardDisplay selection = p.hand[selectedCard];
@@ -91,6 +135,7 @@ public class DeckCreator : MonoBehaviour
         }
     }   
     
+    
     // Update is called once per frame
     void Update()
     {
@@ -100,7 +145,8 @@ public class DeckCreator : MonoBehaviour
         }
     }
 }
-
+    
+}
 
 [Serializable]
 public class Player
@@ -109,3 +155,4 @@ public class Player
     public int index;
    
 }
+*/

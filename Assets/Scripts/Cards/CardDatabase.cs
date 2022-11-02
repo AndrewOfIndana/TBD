@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//stores the cards scritable objects in array
 public class CardDatabase
 {
     public static Card[] Cards { get; private set; }
