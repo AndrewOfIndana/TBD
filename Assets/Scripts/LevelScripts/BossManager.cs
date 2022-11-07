@@ -19,6 +19,7 @@ public class BossManager : MonoBehaviour
 
     [Header("Script Settings")]
     public GameObject bossPrefab;
+    public Transform bossSpawnPoint;
     public Stats bossStat;
     private BossController boss;
 
@@ -54,12 +55,17 @@ public class BossManager : MonoBehaviour
         gameManager = GameManager.instance;
         levelManager = LevelManager.instance;
 
+        if(bossSpawnPoint == null)
+        {
+            bossSpawnPoint = levelManager.enemySpawner.transform;
+        }
+
         UpdateSetUpText();
     }
     /*-  Starts boss fight, Spawns the boss and changes the UI of the game -*/
     public void StartBoss()
     {
-        GameObject bossObj = Instantiate(bossPrefab, levelManager.enemySpawner.transform.position, Quaternion.identity);
+        GameObject bossObj = Instantiate(bossPrefab, bossSpawnPoint.transform.position, Quaternion.identity);
         boss = bossObj.GetComponent<BossController>();
 
         //if this enemy exist

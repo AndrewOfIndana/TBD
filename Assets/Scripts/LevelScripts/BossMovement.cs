@@ -42,6 +42,10 @@ public class BossMovement : MonoBehaviour
         {
             return;
         }
+        if(bossController.GetStats().unitType == UnitType.TOWER)
+        {
+            return;
+        }
 
         //if targetDetected doesn't exist, playerDetected doesn't exist
         if(bossBehaviour.GetTargetDetected() == null && bossBehaviour.GetPlayerDetected() == null)

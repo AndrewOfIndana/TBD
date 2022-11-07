@@ -57,7 +57,7 @@ public class BossController : MonoBehaviour, Idamageable, Ieffectable
         attackRate = newStats.unitAttackRate;
         thisSprite.sprite = newStats.unitSprite;
         thisCollider.size =  newStats.unitSize;
-        audioSource.clip = stat.unitsSfx.GetRandomSfx();
+        // audioSource.clip = stat.unitsSfx.GetRandomSfx();
         this.gameObject.tag = newStats.unitTag;
     }
     /*-  Starts the unit's behaviour and movement -*/

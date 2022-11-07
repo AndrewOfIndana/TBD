@@ -45,7 +45,7 @@ public class BossBehaviour : MonoBehaviour
         objectPool = ObjectPool.instance; 
         playerAvatar = LevelManager.instance.GetPlayerAvatar();
 
-        GetNextSpecialMove();
+        specialAttack = GetNextSpecialMove();
     }
     /*-  Starts the units targeting behaviour -*/
     public void StartBehaviour()
@@ -110,15 +110,18 @@ public class BossBehaviour : MonoBehaviour
         if(bossController.GetStats().unitBehaviour == Behaviour.DEFEND && Vector3.Distance(transform.position, playerAvatar.transform.position) <= (bossController.GetStats().unitAttackRange * 2))
         {
             playerDetected = playerAvatar.transform;
+            bossController.animator.SetBool("aAttacking", true);
         }
         //if the nearestTarget does exist, shortestDistance is less than or equal to the units's attackRange and playerDetected doesn't exist
         else if(nearestTarget != null && shortestDistance <= bossController.GetStats().unitAttackRange && playerDetected == null)
         {
             targetDetected = nearestTarget;
+            bossController.animator.SetBool("aAttacking", true);
         }
         else
         {
             VoidTargets();
+            bossController.animator.SetBool("aAttacking", false);
         }
     }
     /*-  Controls engagement of targets  -*/
@@ -134,12 +137,19 @@ public class BossBehaviour : MonoBehaviour
         //if targetDetected does exist
         if(targetDetected != null)
         {
-            //if this position and targetDetected's position is greater 3.5 and targetEngaged doesn't exist 
-            if(Vector3.Distance(transform.position, targetDetected.position) <= 3.5f && targetEngaged == null)
+            if(bossController.GetStats().unitType == UnitType.TOWER)
             {
-                /* STARTS COMBAT FOR RANGED */
-                targetEngaged = targetDetected.gameObject.GetComponent<Idamageable>(); 
-                StartCoroutine(Combat(bossController.GetAttackRate()));
+                Shoot();
+            }
+            else if(bossController.GetStats().unitType == UnitType.TROOP)
+            {
+                //if this position and targetDetected's position is greater 3.5 and targetEngaged doesn't exist 
+                if(Vector3.Distance(transform.position, targetDetected.position) <= 3.5f && targetEngaged == null)
+                {
+                    /* STARTS COMBAT FOR RANGED */
+                    targetEngaged = targetDetected.gameObject.GetComponent<Idamageable>(); 
+                    StartCoroutine(Combat(bossController.GetAttackRate()));
+                }
             }
         }
     }
@@ -171,6 +181,19 @@ public class BossBehaviour : MonoBehaviour
         }
     }
     /*-  Controls shooting -*/
+    private void Shoot()
+    {
+        Debug.Log("shoot");
+        GameObject bulletObj = objectPool.SpawnFromPool(bossController.GetStats().sharedTags.bulletTag, new Vector3(this.transform.position.x, this.transform.position.y + 2, this.transform.position.z), Quaternion.identity);
+        Bullet bullet = bulletObj.GetComponent<Bullet>();
+
+        //if this bullet exist
+        if(bullet != null)
+        {
+            bullet.Seek(targetDetected, bossController.GetAttack()); //calls the bullet's seek function
+        }
+    }
+    /*-  Controls shooting -*/
     private void ApplyAreaOfEffectAttack()
     {
         GameObject aoeObj = objectPool.SpawnFromPool("AreaOfEffect", this.transform.position, this.transform.rotation);
@@ -194,7 +217,7 @@ public class BossBehaviour : MonoBehaviour
         }
     }
     #endregion
-    private void GetNextSpecialMove()
+    private bossDelegate GetNextSpecialMove()
     {
         int randomNum = Random.Range(0, 3);
 
@@ -202,17 +225,18 @@ public class BossBehaviour : MonoBehaviour
         {
             if(randomNum == 0)
             {
-                specialAttack = GolemAttack_1;
+                return GolemAttack_1;
             }
             else if(randomNum == 1)
             {
-                specialAttack = GolemAttack_2;
+                return GolemAttack_2;
             }
             else if(randomNum == 2)
             {
-                specialAttack = GolemAttack_3;
+                return GolemAttack_3;
             }
         }
+        return GolemAttack_1;
     }
 
 
@@ -222,19 +246,19 @@ public class BossBehaviour : MonoBehaviour
         //HIGH GEAR
         bossController.ApplyEffect(bossController.GetStats().unitStartEffects[0]);
         bossController.StartDecayEffect(bossController.GetStats().unitStartEffects[0], bossController.GetStats().unitStartEffects[0].effectLifetime);
-        GetNextSpecialMove();
+        specialAttack = GetNextSpecialMove();
     }
     private void GolemAttack_2()
     {
         //STONE COLD
         ApplyAreaOfEffectStatus(false, bossController.GetStats().unitStartEffects[1]);
-        GetNextSpecialMove();
+        specialAttack = GetNextSpecialMove();
     }
     private void GolemAttack_3()
     {
         //ARMOR UP
         ApplyAreaOfEffectStatus(true, bossController.GetStats().unitStartEffects[2]);
-        GetNextSpecialMove();
+        specialAttack = GetNextSpecialMove();
     }
 
 

@@ -138,6 +138,19 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
             StartCoroutine(RegenerateHealth(1f));
         }
     }
+
+    /*-  When a GameObject collides with another GameObject, Unity calls OnTriggerEnter. -*/
+    private void OnTriggerEnter(Collider other)
+    {
+        //if the boss collides with an opposing bullet
+        if (other.gameObject.CompareTag(stat.sharedTags.oncomingBulletTag))
+        {
+            Bullet bullet = other.gameObject.GetComponent<Bullet>(); 
+            TakeDamage(bullet.GetAttack()); //Transfer bulletAttack to the this script's TakeDamage function
+            bullet.DestroyBullet();
+        }
+    }
+
     /*-  Handles taking damage takes a float that is the oncoming damage value -*/
     public void TakeDamage(float damage)
     {
