@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8bd5f7e24af5f84c94802a155e134bc, type: 3}
-  m_Name: 5_R_AtkRate
+  m_Name: 11_Dem_AtkRD
   m_EditorClassIdentifier: 
-  effectIncrease: 0.9
+  effectIncrease: 1.6
   effectedStat: 3

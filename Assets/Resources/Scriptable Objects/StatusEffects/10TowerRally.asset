@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56d08fa4eda095c488bf70fcdee34af6, type: 3}
+  m_Name: 10TowerRally
+  m_EditorClassIdentifier: 
+  effectId: 10
+  effectName: Tower Rally
+  effects:
+  - {fileID: 11400000, guid: 61298e07b8e66fa4ea8f286e50dcaa55, type: 2}
+  - {fileID: 11400000, guid: af8ee99bad892574d977e0d074ec4712, type: 2}
+  - {fileID: 11400000, guid: a36410e496d05344aa6065f7c04b417d, type: 2}
+  - {fileID: 11400000, guid: e6cbe042aefad2043a2aa723822bc4c8, type: 2}
+  effectLifetime: 30

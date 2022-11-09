@@ -7285,6 +7285,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3117340057834891310, guid: 19e26f2cd96072a4c95096cf1a0bd45c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3117340057834891310, guid: 19e26f2cd96072a4c95096cf1a0bd45c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 3117340058139832497, guid: 19e26f2cd96072a4c95096cf1a0bd45c,
         type: 3}
       propertyPath: pools.Array.size
@@ -7334,6 +7344,16 @@ PrefabInstance:
       propertyPath: bossSpawnPoint
       value: 
       objectReference: {fileID: 179023762}
+    - target: {fileID: 3117340058572634522, guid: 19e26f2cd96072a4c95096cf1a0bd45c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3117340058572634522, guid: 19e26f2cd96072a4c95096cf1a0bd45c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 3117340058607212797, guid: 19e26f2cd96072a4c95096cf1a0bd45c,
         type: 3}
       propertyPath: m_RootOrder

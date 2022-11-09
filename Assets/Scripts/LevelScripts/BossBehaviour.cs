@@ -27,7 +27,8 @@ public class BossBehaviour : MonoBehaviour
     private Idamageable targetEngaged; //What the unit is fighting
 
     private bossDelegate specialAttack;
-    private int bossCounter = 5;
+    private int bossCounter = 0;
+    public int bossCountDown = 45;
 
     #region 
     /*---      SETUP FUNCTIONS     ---*/
@@ -64,12 +65,12 @@ public class BossBehaviour : MonoBehaviour
         {
             Targeting();
             Engaging();
-            bossCounter--;
+            bossCounter++;
 
-            if(bossCounter <= 0f)
+            if(bossCounter >= bossCountDown)
             {
                 specialAttack();
-                bossCounter = 45;
+                bossCounter = 0;
             }
             
         }
@@ -236,6 +237,21 @@ public class BossBehaviour : MonoBehaviour
                 return GolemAttack_3;
             }
         }
+        else if(bossController.GetStats().unitBehaviour == Behaviour.RANGED)
+        {
+            if(randomNum == 0)
+            {
+                return TowerAttack_1;
+            }
+            else if(randomNum == 1)
+            {
+                return TowerAttack_2;
+            }
+            else if(randomNum == 2)
+            {
+                return TowerAttack_3;
+            }
+        }
         return GolemAttack_1;
     }
 
@@ -258,6 +274,24 @@ public class BossBehaviour : MonoBehaviour
     {
         //ARMOR UP
         ApplyAreaOfEffectStatus(true, bossController.GetStats().unitStartEffects[2]);
+        specialAttack = GetNextSpecialMove();
+    }
+    private void TowerAttack_1()
+    {
+        //PETRIFY
+        ApplyAreaOfEffectStatus(false, bossController.GetStats().unitStartEffects[0]);
+        specialAttack = GetNextSpecialMove();
+    }
+    private void TowerAttack_2()
+    {
+        //TOWER RALLY
+        ApplyAreaOfEffectStatus(true, bossController.GetStats().unitStartEffects[1]);
+        specialAttack = GetNextSpecialMove();
+    }
+    private void TowerAttack_3()
+    {
+        //DEMORALIZE
+        ApplyAreaOfEffectStatus(false, bossController.GetStats().unitStartEffects[2]);
         specialAttack = GetNextSpecialMove();
     }
 
