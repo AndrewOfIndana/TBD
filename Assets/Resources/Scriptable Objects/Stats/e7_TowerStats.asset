@@ -23,7 +23,7 @@ MonoBehaviour:
   unitStartEffects: []
   unitSprite: {fileID: 21300000, guid: 3d7f308c94a24db498e1e44ab3304271, type: 3}
   unitSize: {x: 1.75, y: 2.5, z: 1.75}
-  unitsSfx: {fileID: 0}
+  unitsSfx: {fileID: 11400000, guid: ed859139bb4d2394cb940c951acab878, type: 2}
   unitType: 1
   unitBehaviour: 1
   unitWalkSpeed: 0
