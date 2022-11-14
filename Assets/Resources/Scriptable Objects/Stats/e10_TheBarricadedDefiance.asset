@@ -26,7 +26,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3c0462368e2567d4a80f5dde3518c92b, type: 2}
   unitSprite: {fileID: 21300000, guid: 7a625f066a4c525459f7f5cc3e2a5d8a, type: 3}
   unitSize: {x: 1.75, y: 4.25, z: 1.75}
-  unitsSfx: {fileID: 11400000, guid: ed859139bb4d2394cb940c951acab878, type: 2}
+  unitsSfx: {fileID: 11400000, guid: f30b3a3d5b0100442ad8a79c612e7579, type: 2}
   unitType: 1
   unitBehaviour: 1
   unitWalkSpeed: 0.75

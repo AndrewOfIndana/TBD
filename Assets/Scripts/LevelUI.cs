@@ -29,6 +29,7 @@ public class LevelUI : MonoBehaviour
     public GameObject[] gameScreens;
     public GameObject Cards;
     public GameObject Units;
+    public Slider[] sliders;
 
     [Header("SetupUI References")]
     public Image[] selectUnitIcons;
@@ -85,6 +86,7 @@ public class LevelUI : MonoBehaviour
 
         UpdateSetUpText(); //Changes text for the setup UI text like the title or unit limit
         UpdateSetUpUI(); //Updates the thumbnails of the sprites
+        UpdateSliders();
         startGameButton.SetActive(false);
         UpdatePlayerDeath(true);
     }
@@ -172,9 +174,37 @@ public class LevelUI : MonoBehaviour
         Cards.SetActive(isDead);
         Units.SetActive(isDead);
     }
+    public void CameraZoomSlide(float s)
+    {
+        gameManager.GetGameOptions().SetCameraZoom(s);
+    }
+    public void MusicVolumeSlide(float s)
+    {
+        gameManager.GetGameOptions().SetMusicVolume(s);
+    }
+    public void GameVolumeSlide(float s)
+    {
+        gameManager.GetGameOptions().SetEffectVolume(s);
+    }
+    public void VoiceVolumeSlide(float s)
+    {
+        gameManager.GetGameOptions().SetVoiceVolume(s);
+    }
+    public void BrightnessSlide(float s)
+    {
+        gameManager.GetGameOptions().SetBrightness(s);
+    }
+    public void UpdateSliders()
+    {
+        for(int i = 0; i < sliders.Length; i++)
+        {
+            sliders[i].value = gameManager.GetGameOptions().GetOptionsValues(i);
+        }
+    }
     /*-  Updates the Swaps the screen, takes an index for chosen screen -*/
     public void UpdateScreen(int index)
     {
+        UpdateSliders();
         //Sets all game screens to false
         for(int i = 0; i < gameScreens.Length; i++)
         {

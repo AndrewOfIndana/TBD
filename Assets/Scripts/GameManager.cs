@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     public int currentLevel = 0;
     public int lastPlayedLevel = 1;
 
+    private GameOptions gameOptions;
+
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
     private void Awake()
@@ -35,6 +37,8 @@ public class GameManager : MonoBehaviour
         { 
             instance = this; 
         } 
+
+        gameOptions = this.gameObject.GetComponent<GameOptions>();
     }
     /*-  Start is called before the first frame update -*/
     private void Start()
@@ -78,6 +82,10 @@ public class GameManager : MonoBehaviour
     }
 
     /*---      SET/GET FUNCTIONS     ---*/
+    public GameOptions GetGameOptions()
+    {
+        return gameOptions;
+    }
     /*-  Sets the gameState outside of GameManager -*/
     public void SetGameState(GameStates newStates)
     {

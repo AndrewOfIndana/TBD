@@ -12,6 +12,7 @@ public class TowerController : MonoBehaviour, Idamageable, Ieffectable
 
     */
     /*[Header("Static References")]*/
+    GameManager gameManager;
     LevelManager levelManager;
 
     /*[Header("Components")]*/
@@ -49,6 +50,7 @@ public class TowerController : MonoBehaviour, Idamageable, Ieffectable
     private void Start()
     {
         /* Gets the static instances and stores them in the Static References */
+        gameManager = GameManager.instance;
         levelManager = LevelManager.instance;
     }
     /*-  Sets the units stats when the object has spawned from pool using the newStats Stats variables -*/
@@ -61,7 +63,7 @@ public class TowerController : MonoBehaviour, Idamageable, Ieffectable
         thisSprite.sprite = newStats.unitSprite;
         thisCollider.size =  newStats.unitSize;
         healthBar.fillAmount = health/newStats.unitHealth;
-        // audioSource.clip = stat.unitsSfx.statSfx1;
+        audioSource.clip = newStats.unitsSfx.GetRandomSfx();
         this.gameObject.tag = newStats.unitTag;
     }
     /*-  Starts the unit's behaviour and movement -*/
@@ -72,7 +74,7 @@ public class TowerController : MonoBehaviour, Idamageable, Ieffectable
             statusUI[i].SetActive(false);
         }
         towerBehaviour.StartBehaviour(); //Starts the unit's Behaviour
-        // audioSource.Play();
+        audioSource.Play();
     }
 
     /*---      FUNCTIONS     ---*/
@@ -166,13 +168,14 @@ public class TowerController : MonoBehaviour, Idamageable, Ieffectable
         if(health <= 0)
         {
             this.gameObject.SetActive(false); 
+            AudioSource.PlayClipAtPoint(stat.unitsSfx.deathSfx, this.transform.position, gameManager.GetGameOptions().GetVoiceClipVolume());
         }
     }
     /*-  OnDisable is called when the object becomes disabled -*/
     private void OnDisable()
     {
         statusEffects.Clear(); //Clears statusEffects
-        // audioSource.Stop();
+        audioSource.Stop();
     }
 
     /*---      SET/GET FUNCTIONS     ---*/

@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31a271d75c2b6fe48aea0044147abe5b, type: 3}
-  m_Name: MageTowerAudio
+  m_Name: BossTowerAudio
   m_EditorClassIdentifier: 
   statSfx:
-  - {fileID: 8300000, guid: 8cdd64e0240796b4a9488ac2a2f6f472, type: 3}
-  deathSfx: {fileID: 8300000, guid: e09c2541b26d5bd499cf54948d870af3, type: 3}
+  - {fileID: 8300000, guid: 2cd4700e165d371408bc30451d5d2f66, type: 3}
+  deathSfx: {fileID: 8300000, guid: 5f234a4318d934e4cbf2ea93eafbf476, type: 3}

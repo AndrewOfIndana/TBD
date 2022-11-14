@@ -10,6 +10,7 @@ public class BossController : MonoBehaviour, Idamageable, Ieffectable
 
     */
     /*[Header("Static References")]*/
+    GameManager gameManager;
     BossManager bossManager;
 
     /*[Header("Components")]*/
@@ -45,6 +46,7 @@ public class BossController : MonoBehaviour, Idamageable, Ieffectable
     private void Start()
     {
         /* Gets the static instances and stores them in the Static References */
+        gameManager = GameManager.instance;
         bossManager = BossManager.instance;
     }
     /*-  Sets the units stats when the object has spawned from pool using the newStats Stats variables -*/
@@ -57,7 +59,7 @@ public class BossController : MonoBehaviour, Idamageable, Ieffectable
         attackRate = newStats.unitAttackRate;
         thisSprite.sprite = newStats.unitSprite;
         thisCollider.size =  newStats.unitSize;
-        // audioSource.clip = stat.unitsSfx.GetRandomSfx();
+        audioSource.clip = newStats.unitsSfx.GetRandomSfx();
         this.gameObject.tag = newStats.unitTag;
     }
     /*-  Starts the unit's behaviour and movement -*/
@@ -147,6 +149,7 @@ public class BossController : MonoBehaviour, Idamageable, Ieffectable
         if(health <= 0)
         {
             bossBehaviour.VoidTargets();
+            AudioSource.PlayClipAtPoint(stat.unitsSfx.deathSfx, this.transform.position, gameManager.GetGameOptions().GetVoiceClipVolume());
             bossManager.EndBoss();
         }
     }

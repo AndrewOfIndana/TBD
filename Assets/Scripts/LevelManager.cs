@@ -49,7 +49,7 @@ public class LevelManager : MonoBehaviour
     public CinemachineVirtualCamera topdownCamera; 
     public CinemachineVirtualCamera playerCamera;
     private AudioListener mainAudioListener;
-
+    private CinemachineTransposer cameraOffset;
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
     private void Awake()
@@ -85,6 +85,7 @@ public class LevelManager : MonoBehaviour
         /* Gets the static instances and stores them in the Static References */
         gameManager = GameManager.instance;
 
+        cameraOffset = playerCamera.GetCinemachineComponent<CinemachineTransposer>();
         GameObject cam = Camera.main.gameObject;
         mainAudioListener = cam.GetComponent<AudioListener>();
         mainAudioListener.enabled = true;
@@ -145,19 +146,20 @@ public class LevelManager : MonoBehaviour
             playerController.StartGame();
             enemySpawner.StartGame();
             SpawnPlayer();
+            AdjustPlayerCamera();
             StartCoroutine(EnragedCycle(1f)); //Begins EnragedCycle IEnumerator at 1 second
         }
         else if(gameManager.GetGameState() == GameStates.WIN) //if the gameState is WIN
         {
             /* Player WINS */
             gameManager.SetLastPlayedLevel();
-            levelUI.UpdateScreen(3);
+            levelUI.UpdateScreen(4);
             SwitchCameras(1, 0);
         }
         else if(gameManager.GetGameState() == GameStates.LOSE) //if the gameState is LOSE
         {
             /* Player LOSES */
-            levelUI.UpdateScreen(4);
+            levelUI.UpdateScreen(5);
             SwitchCameras(1, 0);
         }
     }
@@ -212,6 +214,7 @@ public class LevelManager : MonoBehaviour
         playerAvatar = playerAvatarObj.GetComponent<PlayerAvatar>(); 
         playerCamera.Follow = playerAvatar.transform; //sets player camera's follow to the player's transform
         mainAudioListener.enabled = false;
+
     }
     /*-  respawns the player avatar, takes a float for the respawn time  -*/
     private IEnumerator RespawnPlayer(float waitTime)
@@ -231,6 +234,10 @@ public class LevelManager : MonoBehaviour
             levelUI.UpdatePlayerDeath(true);
             hasPlayerRespawned = true;
         }
+    }
+    public void AdjustPlayerCamera()
+    {
+        cameraOffset.m_FollowOffset = new Vector3(0, gameManager.GetGameOptions().GetCameraZoomY(), gameManager.GetGameOptions().GetCameraZoom());
     }
 
     /*--    ENRAGED SYSTEM MANAGEMENT   --*/
@@ -304,9 +311,19 @@ public class LevelManager : MonoBehaviour
     /*-  Unpauses Game, OnClick -*/
     public void LevelUnpause()
     {
+        AdjustPlayerCamera();
+        if(playerAvatar.isActiveAndEnabled == true)
+        {
+            playerAvatar.SetAttackRange();
+        }
         SwitchCameras(0, 1);
         levelUI.UpdateScreen(1);
         gameManager.gameState = GameStates.PLAYING;
+    }
+    /*-  Opens options menu, OnClick   -*/
+    public void Options()
+    {
+        levelUI.UpdateScreen(3);
     }
     /*-  Calls GameManager RetryLevel, OnClick -*/
     public void LevelRetry()

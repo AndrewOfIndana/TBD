@@ -16,6 +16,7 @@ public class MenuManager : MonoBehaviour
     [Header("Script References")]
     public GameObject[] menuScreens;
     public Image[] levelIcons;
+    public Slider[] sliders;
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Start is called before the first frame update -*/
@@ -55,6 +56,28 @@ public class MenuManager : MonoBehaviour
             icons[i].gameObject.SetActive(false);
         }
     }
+
+    public void CameraZoomSlide(float s)
+    {
+        gameManager.GetGameOptions().SetCameraZoom(s);
+    }
+    public void MusicVolumeSlide(float s)
+    {
+        gameManager.GetGameOptions().SetMusicVolume(s);
+    }
+    public void GameVolumeSlide(float s)
+    {
+        gameManager.GetGameOptions().SetEffectVolume(s);
+    }
+    public void VoiceVolumeSlide(float s)
+    {
+        gameManager.GetGameOptions().SetVoiceVolume(s);
+    }
+    public void BrightnessSlide(float s)
+    {
+        gameManager.GetGameOptions().SetBrightness(s);
+    }
+
     /*-  Opens level select menu, OnClick   -*/
     public void LevelSelect()
     {
@@ -75,9 +98,17 @@ public class MenuManager : MonoBehaviour
     {
         gameManager.QuitGame();
     }
+    public void UpdateSliders()
+    {
+        for(int i = 0; i < sliders.Length; i++)
+        {
+            sliders[i].value = gameManager.GetGameOptions().GetOptionsValues(i);
+        }
+    }
     /*-  Updates the Swaps the screen, takes an index for chosen screen -*/
     private void UpdateScreen(int index)
     {
+        UpdateSliders();
         for(int i = 0; i < menuScreens.Length; i++)
         {
             menuScreens[i].SetActive(false);

@@ -26,7 +26,7 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     private float health;
     private float speed;
     private float attackRate;
-    private float attackRange;
+    public float attackRange;
     private List<StatusEffect> auraStatusEffects = new List<StatusEffect>();
 
     /*[Header("Script Settings")]*/
@@ -45,8 +45,8 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     {
         /* Gets the static instances and stores them in the Static References */
         gameManager = GameManager.instance;
+        SetAttackRange();
         availableTiles = Tile.GetTiles(); //Gets the list of transform from Tile
-
         closestTile = availableTiles[0]; //Sets closestTile to the first availableTiles list item
     }
     /*-  OnEnable is called when the object becomes enabled -*/
@@ -57,7 +57,6 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
         health = stat.unitHealth;
         speed = stat.unitSpeed;
         attackRate = stat.unitAttackRate;
-        attackRange = stat.unitAttackRange;
         healthBar.fillAmount = health / stat.unitHealth;
         StartCoroutine(RegenerateHealth(1f));
         //playerAura.EnableAura(auraStatusEffects, stat.isUnitEnemy, stat.isUnitEnemy);
@@ -166,6 +165,10 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     }
 
     /*---      SET/GET FUNCTIONS     ---*/
+    public void SetAttackRange()
+    {
+        attackRange = gameManager.GetGameOptions().GetCameraZoomAttackRange();
+    }
     /*-  Gets closestTile -*/
     public Transform GetClosestTile()
     {

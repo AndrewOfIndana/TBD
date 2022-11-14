@@ -12,6 +12,7 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
 
     */
     /*[Header("Static References")]*/
+    GameManager gameManager;
     LevelManager levelManager;
 
     /*[Header("Components")]*/
@@ -54,6 +55,7 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
     private void Start()
     {
         /* Gets the static instances and stores them in the Static References */
+        gameManager = GameManager.instance;
         levelManager = LevelManager.instance;
     }
     /*-  Sets the units stats when the object has spawned from pool using the newStats Stats variables -*/
@@ -183,7 +185,7 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
         if(health <= 0)
         {
             troopBehaviour.VoidTargets();
-            AudioSource.PlayClipAtPoint(stat.unitsSfx.deathSfx, this.transform.position);
+            AudioSource.PlayClipAtPoint(stat.unitsSfx.deathSfx, this.transform.position, gameManager.GetGameOptions().GetVoiceClipVolume());
             this.gameObject.SetActive(false); 
         }
     }
@@ -194,7 +196,6 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
         audioSource.Stop();
         troopAura.DisableAura();
     }
-
     /*---      SET/GET FUNCTIONS     ---*/
     /*-  Get Stats -*/
     public Stats GetStats()
