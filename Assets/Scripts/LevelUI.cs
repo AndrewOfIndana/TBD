@@ -204,7 +204,6 @@ public class LevelUI : MonoBehaviour
     /*-  Updates the Swaps the screen, takes an index for chosen screen -*/
     public void UpdateScreen(int index)
     {
-        UpdateSliders();
         //Sets all game screens to false
         for(int i = 0; i < gameScreens.Length; i++)
         {

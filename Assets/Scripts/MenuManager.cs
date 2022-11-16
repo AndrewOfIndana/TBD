@@ -87,6 +87,7 @@ public class MenuManager : MonoBehaviour
     public void Options()
     {
         UpdateScreen(2);
+        UpdateSliders();
     }
     /*-  Backs out to Main menu, OnClick   -*/
     public void Back()
@@ -108,7 +109,6 @@ public class MenuManager : MonoBehaviour
     /*-  Updates the Swaps the screen, takes an index for chosen screen -*/
     private void UpdateScreen(int index)
     {
-        UpdateSliders();
         for(int i = 0; i < menuScreens.Length; i++)
         {
             menuScreens[i].SetActive(false);

@@ -89,7 +89,6 @@ public class LevelManager : MonoBehaviour
         GameObject cam = Camera.main.gameObject;
         mainAudioListener = cam.GetComponent<AudioListener>();
         mainAudioListener.enabled = true;
-
         /* Sets game to setup */
         gameManager.SetGameState(GameStates.SETUP);
         levelUI.UpdateScreen(0);
@@ -154,7 +153,7 @@ public class LevelManager : MonoBehaviour
             /* Player WINS */
             gameManager.SetLastPlayedLevel();
             levelUI.UpdateScreen(4);
-            SwitchCameras(1, 0);
+                        SwitchCameras(1, 0);
         }
         else if(gameManager.GetGameState() == GameStates.LOSE) //if the gameState is LOSE
         {
@@ -324,6 +323,7 @@ public class LevelManager : MonoBehaviour
     public void Options()
     {
         levelUI.UpdateScreen(3);
+        levelUI.UpdateSliders();
     }
     /*-  Calls GameManager RetryLevel, OnClick -*/
     public void LevelRetry()
