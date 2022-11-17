@@ -15,7 +15,7 @@ MonoBehaviour:
   unitID: 7
   unitName: ArcherTower
   unitDescription: Shoots oncoming troops
-  unitHealth: 45
+  unitHealth: 75
   unitAttack: 5
   unitSpeed: 0
   unitAttackRange: 7.5
@@ -32,5 +32,5 @@ MonoBehaviour:
   targetTags:
   - EnemyTroop
   sharedTags: {fileID: 11400000, guid: fef36fcd149f1b74d9614a1e3e09f962, type: 2}
-  unitCost: 50
+  unitCost: 35
   unitThumbnail: {fileID: 21300000, guid: 1342a906101dafb47a444bd9deb12276, type: 3}
