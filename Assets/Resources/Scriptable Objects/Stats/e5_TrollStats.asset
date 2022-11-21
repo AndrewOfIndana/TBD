@@ -20,17 +20,7 @@ MonoBehaviour:
   unitSpeed: 2
   unitAttackRange: 5
   unitAttackRate: 4
-  unitStartEffects: []
-  unitSprite: {fileID: 21300000, guid: ce06427c1b7fd464b8cc2f5633cd652f, type: 3}
-  unitSize: {x: 3, y: 2.25, z: 3}
-  unitsSfx: {fileID: 11400000, guid: f66d0d7016d7b8c4e9927e27933adaaa, type: 2}
-  unitType: 0
-  unitBehaviour: 3
-  unitWalkSpeed: 0.5
+  unitUtils: {fileID: 11400000, guid: cbcfbd887a9c1964b9d8aef0dad7a847, type: 2}
   isUnitEnemy: 1
-  unitTag: EnemyTroop
-  targetTags:
-  - AllyBase
-  sharedTags: {fileID: 11400000, guid: d3fc0c1f4507e3841928636ff32a43d0, type: 2}
   unitCost: 0
   unitThumbnail: {fileID: 0}

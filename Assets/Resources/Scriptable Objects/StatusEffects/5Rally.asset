@@ -19,4 +19,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cf44a7047d3d92e4792d3711052f828b, type: 2}
   - {fileID: 11400000, guid: f743180d3d5cf2f4da4b420b3a8cd4fe, type: 2}
   - {fileID: 11400000, guid: a88f60c73ea7aef49b92d5f8f4b44947, type: 2}
-  effectLifetime: 10
+  effectLifetime: 60

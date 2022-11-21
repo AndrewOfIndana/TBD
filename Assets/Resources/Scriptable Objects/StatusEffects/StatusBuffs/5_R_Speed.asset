@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8bd5f7e24af5f84c94802a155e134bc, type: 3}
   m_Name: 5_R_Speed
   m_EditorClassIdentifier: 
-  effectIncrease: 1.1
+  effectIncrease: 2
   effectedStat: 2

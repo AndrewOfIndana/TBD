@@ -15,12 +15,12 @@ MonoBehaviour:
   levelID: 7
   levelName: Trenches
   availbleUnits: {fileID: 11400000, guid: 9d1f93bf950cd2840bdf250ec45e7f2b, type: 2}
-  unitLimit: 4
-  mana: 100
-  manaRegen: 4
-  playerHealth: 500
+  unitLimit: 3
+  mana: 125
+  manaRegen: 2
+  playerHealth: 350
   enemyUnits: {fileID: 11400000, guid: 9d69c7f4d3526f14cb975a4e16d2e7df, type: 2}
-  enemySpawnRate: 3.75
-  enemyHealth: 250
-  enemyCalmTime: 150
+  enemySpawnRate: 2.75
+  enemyHealth: 350
+  enemyCalmTime: 180
   enemyEnragedTime: 60

@@ -94,7 +94,7 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
             if (Physics.Raycast(ray, out hit, attackRange))
             {
                 //If what the player hit is the same as the player's stat.targetTags[0 ,1 and 2]
-                if (hit.transform.gameObject.tag == stat.targetTags[0] || hit.transform.gameObject.tag == stat.targetTags[1] || hit.transform.gameObject.tag == stat.targetTags[2])
+                if (hit.transform.gameObject.tag == stat.unitUtils.targetTags[0] || hit.transform.gameObject.tag == stat.unitUtils.targetTags[1] || hit.transform.gameObject.tag == stat.unitUtils.targetTags[2] || hit.transform.gameObject.tag == stat.unitUtils.targetTags[3])
                 {
                     animator.Play("playerAttack");
                     targetEngaged = hit.transform.gameObject.GetComponent<Idamageable>();
@@ -142,7 +142,7 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     private void OnTriggerEnter(Collider other)
     {
         //if the boss collides with an opposing bullet
-        if (other.gameObject.CompareTag(stat.sharedTags.oncomingBulletTag))
+        if (other.gameObject.CompareTag(stat.unitUtils.sharedTags.oncomingBulletTag))
         {
             Bullet bullet = other.gameObject.GetComponent<Bullet>(); 
             TakeDamage(bullet.GetAttack()); //Transfer bulletAttack to the this script's TakeDamage function

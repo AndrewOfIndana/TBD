@@ -40,7 +40,6 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
     private float speed;
     private float attackRate;
     private List<StatusEffect> statusEffects = new List<StatusEffect>();
-    private List<StatusEffect> auraStatusEffects = new List<StatusEffect>();
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
@@ -66,16 +65,15 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
         health = newStats.unitHealth;
         speed = newStats.unitSpeed;
         attackRate = newStats.unitAttackRate;
-        thisSprite.sprite = newStats.unitSprite;
-        thisCollider.size =  newStats.unitSize;
+        thisSprite.sprite = newStats.unitUtils.unitSprite;
+        thisCollider.size =  newStats.unitUtils.unitSize;
         healthBar.fillAmount = health/newStats.unitHealth;
-        audioSource.clip = newStats.unitsSfx.GetRandomSfx();
-        this.gameObject.tag = newStats.unitTag;
-        auraStatusEffects = newStats.unitStartEffects;
+        audioSource.clip = newStats.unitUtils.unitsSfx.GetRandomSfx();
+        this.gameObject.tag = newStats.unitUtils.unitTag;
 
-        if(newStats.unitBehaviour == Behaviour.SUPPORT)
+        if(newStats.unitUtils.unitBehaviour == Behaviour.SUPPORT)
         {
-            troopAura.EnableAura(auraStatusEffects, newStats.isUnitEnemy, newStats.isUnitEnemy);
+            troopAura.EnableAura(newStats.unitUtils.unitKeyEffects, newStats.isUnitEnemy, newStats.isUnitEnemy);
         }
     }
     /*-  Starts the unit's behaviour and movement -*/
@@ -85,7 +83,7 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
         {
             statusUI[i].SetActive(false);
         }
-        animator.speed = stat.unitWalkSpeed; //Sets animation speed
+        animator.speed = stat.unitUtils.unitAnimationSpeed; //Sets animation speed
         troopBehaviour.StartBehaviour(); //Starts the troop's Behaviour
         troopMovement.StartMovement(); //Starts the troop's Movement
         audioSource.Play();
@@ -185,7 +183,7 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
         if(health <= 0)
         {
             troopBehaviour.VoidTargets();
-            AudioSource.PlayClipAtPoint(stat.unitsSfx.deathSfx, this.transform.position, gameManager.GetGameOptions().GetVoiceClipVolume());
+            AudioSource.PlayClipAtPoint(stat.unitUtils.unitsSfx.deathSfx, this.transform.position, gameManager.GetGameOptions().GetVoiceClipVolume());
             this.gameObject.SetActive(false); 
         }
     }

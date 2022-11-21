@@ -20,22 +20,7 @@ MonoBehaviour:
   unitSpeed: 0
   unitAttackRange: 10
   unitAttackRate: 1.5
-  unitStartEffects:
-  - {fileID: 11400000, guid: 4cb86a27836147a4cb7c54f8fed7ed12, type: 2}
-  - {fileID: 11400000, guid: 8689c1fcb0c3c7c49b08d90044c8cdd0, type: 2}
-  - {fileID: 11400000, guid: 3c0462368e2567d4a80f5dde3518c92b, type: 2}
-  unitSprite: {fileID: 21300000, guid: 7a625f066a4c525459f7f5cc3e2a5d8a, type: 3}
-  unitSize: {x: 1.75, y: 4.25, z: 1.75}
-  unitsSfx: {fileID: 11400000, guid: f30b3a3d5b0100442ad8a79c612e7579, type: 2}
-  unitType: 1
-  unitBehaviour: 1
-  unitWalkSpeed: 0.75
+  unitUtils: {fileID: 11400000, guid: 7e4999d9c10db3241977b5a90c0f6f4a, type: 2}
   isUnitEnemy: 1
-  unitTag: EnemyTower
-  targetTags:
-  - AllyTroop
-  - AllyTower
-  - AllyAssassin
-  sharedTags: {fileID: 11400000, guid: d3fc0c1f4507e3841928636ff32a43d0, type: 2}
   unitCost: 0
   unitThumbnail: {fileID: 0}

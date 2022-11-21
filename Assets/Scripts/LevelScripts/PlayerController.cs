@@ -57,12 +57,12 @@ public class PlayerController : MonoBehaviour
         if (CheckManaCost(units[index].unitCost))
         {
             //if the buttons are deploying troop 
-            if (units[index].unitType == UnitType.TROOP)
+            if (units[index].unitUtils.unitType == UnitType.TROOP)
             {
                 SpendMana(units[index].unitCost);
                 playerSpawner.SpawnTroop(units[index]); //Calls the spawnTroop function in the playerTroopSpawner script
             }
-            else if (units[index].unitType == UnitType.TOWER) //if the buttons are deploying tower 
+            else if (units[index].unitUtils.unitType == UnitType.TOWER) //if the buttons are deploying tower 
             {
                 SpendMana(units[index].unitCost);
                 playerTowerDeployer.SetSelectedTower(units[index]); //Calls the SetSelectedTower function in the PlayerTowerDeployer script
@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
         if(gameManager.CheckIfPlaying())
         {
             //if the mana plus manaRegen is less than 100
-            if ((mana + manaRegen) <= 100)
+            if ((mana + manaRegen) <= levelManager.GetLevel().GetMaxMana())
             {
                 mana += manaRegen;
             }

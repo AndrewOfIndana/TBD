@@ -57,10 +57,10 @@ public class BossController : MonoBehaviour, Idamageable, Ieffectable
         health = newStats.unitHealth;
         speed = newStats.unitSpeed;
         attackRate = newStats.unitAttackRate;
-        thisSprite.sprite = newStats.unitSprite;
-        thisCollider.size =  newStats.unitSize;
-        audioSource.clip = newStats.unitsSfx.GetRandomSfx();
-        this.gameObject.tag = newStats.unitTag;
+        thisSprite.sprite = newStats.unitUtils.unitSprite;
+        thisCollider.size =  newStats.unitUtils.unitSize;
+        audioSource.clip = newStats.unitUtils.unitsSfx.GetRandomSfx();
+        this.gameObject.tag = newStats.unitUtils.unitTag;
     }
     /*-  Starts the unit's behaviour and movement -*/
     public void StartController()
@@ -69,7 +69,7 @@ public class BossController : MonoBehaviour, Idamageable, Ieffectable
         {
             statusUI[i].SetActive(false);
         }
-        animator.speed = stat.unitWalkSpeed; //Sets animation speed
+        animator.speed = stat.unitUtils.unitAnimationSpeed; //Sets animation speed
         bossBehaviour.StartBehaviour(); //Starts the boss's Behaviour
         audioSource.Play();
     }
@@ -149,7 +149,7 @@ public class BossController : MonoBehaviour, Idamageable, Ieffectable
         if(health <= 0)
         {
             bossBehaviour.VoidTargets();
-            AudioSource.PlayClipAtPoint(stat.unitsSfx.deathSfx, this.transform.position, gameManager.GetGameOptions().GetVoiceClipVolume());
+            AudioSource.PlayClipAtPoint(stat.unitUtils.unitsSfx.deathSfx, this.transform.position, gameManager.GetGameOptions().GetVoiceClipVolume());
             bossManager.EndBoss();
         }
     }

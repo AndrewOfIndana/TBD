@@ -78,7 +78,7 @@ public class TroopBehaviour : MonoBehaviour
         foreach(Unit unit in Unit.GetUnitList())
         {
             //If the unit's target tags contain the other units's tag
-            if(troopController.GetStats().targetTags.Any(x => x.Contains(unit.gameObject.tag)))
+            if(troopController.GetStats().unitUtils.targetTags.Any(x => x.Contains(unit.gameObject.tag)))
             {
                 float distanceToTarget = Vector3.Distance(transform.position, unit.transform.position); //calculates the distance to that enemy
 
@@ -97,7 +97,7 @@ public class TroopBehaviour : MonoBehaviour
             targetDetected = nearestTarget;
 
             //if the unit's behaviour is RANGED and targetEngaged doesn't exist
-            if(troopController.GetStats().unitBehaviour == Behaviour.RANGED && targetEngaged == null)
+            if(troopController.GetStats().unitUtils.unitBehaviour == Behaviour.RANGED && targetEngaged == null)
             {
                 /* STARTS COMBAT FOR RANGED */
                 targetEngaged = targetDetected.gameObject.GetComponent<Idamageable>(); 
@@ -105,7 +105,7 @@ public class TroopBehaviour : MonoBehaviour
             }
         }
         //if the unit's behaviour is defend, and this position and playerAvatar's position is greater than the units's attackRange * 2 
-        else if(troopController.GetStats().unitBehaviour == Behaviour.DEFEND && Vector3.Distance(transform.position, playerAvatar.transform.position) <= (troopController.GetStats().unitAttackRange * 2))
+        else if(troopController.GetStats().unitUtils.unitBehaviour == Behaviour.DEFEND && Vector3.Distance(transform.position, playerAvatar.transform.position) <= (troopController.GetStats().unitAttackRange * 2))
         {
             /* SETS playerDetected for friendly golems */
             playerDetected = playerAvatar.transform;
@@ -122,7 +122,7 @@ public class TroopBehaviour : MonoBehaviour
         if(targetDetected != null)
         {
             //if this position and targetDetected's position is greater 2 and unit's behaviour isn't RANGED and targetEngaged doesn't exist 
-            if(Vector3.Distance(transform.position, targetDetected.position) <= 2.5f && troopController.GetStats().unitBehaviour != Behaviour.RANGED && targetEngaged == null)
+            if(Vector3.Distance(transform.position, targetDetected.position) <= 2.5f && troopController.GetStats().unitUtils.unitBehaviour != Behaviour.RANGED && targetEngaged == null)
             {
                 /* STARTS COMBAT FOR EVERYONE ELSE */
                 targetEngaged = targetDetected.gameObject.GetComponent<Idamageable>(); 
@@ -142,7 +142,7 @@ public class TroopBehaviour : MonoBehaviour
             targetEngaged.TakeDamage((troopController.GetAttack() * Random.Range(0.75f, 1.25f))); //Transfer the enemy's troop's attack to the this script's TakeDamage function
         }
 
-        if(troopController.GetStats().unitBehaviour == Behaviour.DEFEND)
+        if(troopController.GetStats().unitUtils.unitBehaviour == Behaviour.DEFEND)
         {
             ApplyAreaOfEffect(true);
         }
@@ -153,7 +153,7 @@ public class TroopBehaviour : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //if the troop collides with an opposing bullet
-        if (other.gameObject.CompareTag(troopController.GetStats().sharedTags.oncomingBulletTag))
+        if (other.gameObject.CompareTag(troopController.GetStats().unitUtils.sharedTags.oncomingBulletTag))
         {
             Bullet bullet = other.gameObject.GetComponent<Bullet>(); 
             troopController.TakeDamage(bullet.GetAttack()); //Transfer bulletAttack to the this script's TakeDamage function

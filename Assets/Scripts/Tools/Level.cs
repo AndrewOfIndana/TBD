@@ -36,4 +36,9 @@ public class Level : ScriptableObject
     {
         return enemyCalmTime + enemyEnragedTime;
     }
+    public float GetMaxMana()
+    {
+        return mana;
+    }
+
 }

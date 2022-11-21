@@ -15,12 +15,12 @@ MonoBehaviour:
   levelID: 5
   levelName: Dunes
   availbleUnits: {fileID: 11400000, guid: e6f025753cc591249b65c1777ab69044, type: 2}
-  unitLimit: 4
+  unitLimit: 3
   mana: 100
-  manaRegen: 10
-  playerHealth: 500
+  manaRegen: 2
+  playerHealth: 400
   enemyUnits: {fileID: 11400000, guid: 9ec142a4e901aee4e919b48cccf743c7, type: 2}
-  enemySpawnRate: 4
-  enemyHealth: 250
-  enemyCalmTime: 90
-  enemyEnragedTime: 45
+  enemySpawnRate: 3
+  enemyHealth: 300
+  enemyCalmTime: 180
+  enemyEnragedTime: 60

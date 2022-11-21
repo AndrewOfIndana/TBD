@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Level_04
   m_EditorClassIdentifier: 
   levelID: 4
-  levelName: CrossTower
+  levelName: Cross Tower
   availbleUnits: {fileID: 11400000, guid: 6a28b9494a5f9094aae38adca15fa559, type: 2}
-  unitLimit: 5
+  unitLimit: 4
   mana: 100
-  manaRegen: 5
+  manaRegen: 3
   playerHealth: 500
   enemyUnits: {fileID: 11400000, guid: f1b599a854f55bb4d9a8d18d310367dd, type: 2}
-  enemySpawnRate: 4
-  enemyHealth: 100
-  enemyCalmTime: 180
-  enemyEnragedTime: 90
+  enemySpawnRate: 3.75
+  enemyHealth: 250
+  enemyCalmTime: 120
+  enemyEnragedTime: 60

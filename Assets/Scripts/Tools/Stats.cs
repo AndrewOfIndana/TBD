@@ -2,9 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum UnitType {TROOP, TOWER }; //The states of whether a unit is a troop or a tower
-public enum Behaviour {MELEE, RANGED, DEFEND, KAMIKAZE, SUPPORT, AOE }; //The states of behavior the unit has
-
 [CreateAssetMenu] //Allows user to create this 
 public class Stats : ScriptableObject
 {
@@ -24,23 +21,13 @@ public class Stats : ScriptableObject
     public float unitSpeed; //Speed of the unit
     public float unitAttackRange; //Attack Range of the unit
     public float unitAttackRate; //Attack Rate of the unit
-    public List<StatusEffect> unitStartEffects = new List<StatusEffect>();
 
-    [Header("Physical Variables")]
-    public Sprite unitSprite; //Sprite of the unit
-    public Vector3 unitSize; //Size of the BoxCollider of unit
-    public StatsAudio unitsSfx; //Stores the audio of the a unit
-    public UnitType unitType; //Type of the unit
-    public Behaviour unitBehaviour; //The behavior of the unit
-    public float unitWalkSpeed; //The animation speed of the unit
-
-    [Header("Tag Variables")]
-    public bool isUnitEnemy; //is the unit an enemy
-    public string unitTag;  //Tag of the unit
-    public string[] targetTags; //Tags of what the unit should face
-    public StatsTags sharedTags; //Tags of what the units share with other units of the same faction
+    [Header("Developer Variables")]
+    public StatsHidden unitUtils;
 
     [Header("Setup Variables")]
+    public bool isUnitEnemy; //is the unit an enemy
     public float unitCost; //Cost of the unit
     public Sprite unitThumbnail; //Thumbnail of the unit
+
 }

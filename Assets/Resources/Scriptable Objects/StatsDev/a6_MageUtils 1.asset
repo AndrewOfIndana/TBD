@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09e265862da64bf478143804fb6168f5, type: 3}
+  m_Name: a6_MageUtils 1
+  m_EditorClassIdentifier: 
+  unitSprite: {fileID: 21300000, guid: 6aa5d04f2dffcd24e8163a63254c592e, type: 3}
+  unitSize: {x: 1.5, y: 2, z: 1.5}
+  unitsSfx: {fileID: 11400000, guid: d346bf2b580c2ae42a5230b7f62fe562, type: 2}
+  unitAnimationSpeed: 1
+  unitType: 0
+  unitBehaviour: 4
+  unitTag: AllyTroop
+  targetTags:
+  - EnemyTroop
+  - EnemyAssassin
+  - EnemyTower
+  - EnemyBase
+  - EnemyBoss
+  sharedTags: {fileID: 11400000, guid: fef36fcd149f1b74d9614a1e3e09f962, type: 2}
+  unitKeyEffects:
+  - {fileID: 11400000, guid: c3bd2abaa81090a45b5686dec446bf41, type: 2}

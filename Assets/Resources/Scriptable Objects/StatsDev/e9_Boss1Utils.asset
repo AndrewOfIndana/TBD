@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09e265862da64bf478143804fb6168f5, type: 3}
+  m_Name: e9_Boss1Utils
+  m_EditorClassIdentifier: 
+  unitSprite: {fileID: 21300000, guid: 307473cdf882df146b070f7fadb0d558, type: 3}
+  unitSize: {x: 1.75, y: 4.25, z: 1.75}
+  unitsSfx: {fileID: 11400000, guid: ac7ef3ecea7905642a43d1514313fe87, type: 2}
+  unitAnimationSpeed: 0.25
+  unitType: 2
+  unitBehaviour: 2
+  unitTag: EnemyBoss
+  targetTags:
+  - AllyTroop
+  - AllyTower
+  - AllyAssassin
+  sharedTags: {fileID: 11400000, guid: d3fc0c1f4507e3841928636ff32a43d0, type: 2}
+  unitKeyEffects:
+  - {fileID: 11400000, guid: 97719074dd025e4478c739893af25f88, type: 2}
+  - {fileID: 11400000, guid: 092d7f898ce910a4d85f4955bf0cb9d7, type: 2}
+  - {fileID: 11400000, guid: 22e93c0464126c8409aa87c2a44a9d50, type: 2}

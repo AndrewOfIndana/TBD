@@ -95,7 +95,7 @@ public class BossBehaviour : MonoBehaviour
         foreach(Unit unit in Unit.GetUnitList())
         {
             //If the unit's target tags contain the other units's tag
-            if(bossController.GetStats().targetTags.Any(x => x.Contains(unit.gameObject.tag)))
+            if(bossController.GetStats().unitUtils.targetTags.Any(x => x.Contains(unit.gameObject.tag)))
             {
                 float distanceToTarget = Vector3.Distance(transform.position, unit.transform.position); //calculates the distance to that enemy
 
@@ -108,7 +108,7 @@ public class BossBehaviour : MonoBehaviour
             }
         }
         //if the unit's behaviour is defend, and this position and playerAvatar's position is greater than the units's attackRange * 2 
-        if(bossController.GetStats().unitBehaviour == Behaviour.DEFEND && Vector3.Distance(transform.position, playerAvatar.transform.position) <= (bossController.GetStats().unitAttackRange * 2))
+        if(bossController.GetStats().unitUtils.unitBehaviour == Behaviour.DEFEND && Vector3.Distance(transform.position, playerAvatar.transform.position) <= (bossController.GetStats().unitAttackRange * 2))
         {
             playerDetected = playerAvatar.transform;
             bossController.animator.SetBool("aAttacking", true);
@@ -138,11 +138,11 @@ public class BossBehaviour : MonoBehaviour
         //if targetDetected does exist
         if(targetDetected != null)
         {
-            if(bossController.GetStats().unitType == UnitType.TOWER)
+            if(bossController.GetStats().unitUtils.unitType == UnitType.TOWER)
             {
                 Shoot();
             }
-            else if(bossController.GetStats().unitType == UnitType.TROOP)
+            else if(bossController.GetStats().unitUtils.unitType == UnitType.TROOP)
             {
                 //if this position and targetDetected's position is greater 3.5 and targetEngaged doesn't exist 
                 if(Vector3.Distance(transform.position, targetDetected.position) <= 3.5f && targetEngaged == null)
@@ -174,7 +174,7 @@ public class BossBehaviour : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //if the boss collides with an opposing bullet
-        if (other.gameObject.CompareTag(bossController.GetStats().sharedTags.oncomingBulletTag))
+        if (other.gameObject.CompareTag(bossController.GetStats().unitUtils.sharedTags.oncomingBulletTag))
         {
             Bullet bullet = other.gameObject.GetComponent<Bullet>(); 
             bossController.TakeDamage(bullet.GetAttack()); //Transfer bulletAttack to the this script's TakeDamage function
@@ -185,7 +185,7 @@ public class BossBehaviour : MonoBehaviour
     private void Shoot()
     {
         Debug.Log("shoot");
-        GameObject bulletObj = objectPool.SpawnFromPool(bossController.GetStats().sharedTags.bulletTag, new Vector3(this.transform.position.x, this.transform.position.y + 2, this.transform.position.z), Quaternion.identity);
+        GameObject bulletObj = objectPool.SpawnFromPool(bossController.GetStats().unitUtils.sharedTags.bulletTag, new Vector3(this.transform.position.x, this.transform.position.y + 2, this.transform.position.z), Quaternion.identity);
         Bullet bullet = bulletObj.GetComponent<Bullet>();
 
         //if this bullet exist
@@ -222,7 +222,7 @@ public class BossBehaviour : MonoBehaviour
     {
         int randomNum = Random.Range(0, 3);
 
-        if(bossController.GetStats().unitBehaviour == Behaviour.DEFEND)
+        if(bossController.GetStats().unitUtils.unitBehaviour == Behaviour.DEFEND)
         {
             if(randomNum == 0)
             {
@@ -237,7 +237,7 @@ public class BossBehaviour : MonoBehaviour
                 return GolemAttack_3;
             }
         }
-        else if(bossController.GetStats().unitBehaviour == Behaviour.RANGED)
+        else if(bossController.GetStats().unitUtils.unitBehaviour == Behaviour.RANGED)
         {
             if(randomNum == 0)
             {
@@ -260,38 +260,38 @@ public class BossBehaviour : MonoBehaviour
     private void GolemAttack_1()
     {
         //HIGH GEAR
-        bossController.ApplyEffect(bossController.GetStats().unitStartEffects[0]);
-        bossController.StartDecayEffect(bossController.GetStats().unitStartEffects[0], bossController.GetStats().unitStartEffects[0].effectLifetime);
+        bossController.ApplyEffect(bossController.GetStats().unitUtils.unitKeyEffects[0]);
+        bossController.StartDecayEffect(bossController.GetStats().unitUtils.unitKeyEffects[0], bossController.GetStats().unitUtils.unitKeyEffects[0].effectLifetime);
         specialAttack = GetNextSpecialMove();
     }
     private void GolemAttack_2()
     {
         //STONE COLD
-        ApplyAreaOfEffectStatus(false, bossController.GetStats().unitStartEffects[1]);
+        ApplyAreaOfEffectStatus(false, bossController.GetStats().unitUtils.unitKeyEffects[1]);
         specialAttack = GetNextSpecialMove();
     }
     private void GolemAttack_3()
     {
         //ARMOR UP
-        ApplyAreaOfEffectStatus(true, bossController.GetStats().unitStartEffects[2]);
+        ApplyAreaOfEffectStatus(true, bossController.GetStats().unitUtils.unitKeyEffects[2]);
         specialAttack = GetNextSpecialMove();
     }
     private void TowerAttack_1()
     {
         //PETRIFY
-        ApplyAreaOfEffectStatus(false, bossController.GetStats().unitStartEffects[0]);
+        ApplyAreaOfEffectStatus(false, bossController.GetStats().unitUtils.unitKeyEffects[0]);
         specialAttack = GetNextSpecialMove();
     }
     private void TowerAttack_2()
     {
         //TOWER RALLY
-        ApplyAreaOfEffectStatus(true, bossController.GetStats().unitStartEffects[1]);
+        ApplyAreaOfEffectStatus(true, bossController.GetStats().unitUtils.unitKeyEffects[1]);
         specialAttack = GetNextSpecialMove();
     }
     private void TowerAttack_3()
     {
         //DEMORALIZE
-        ApplyAreaOfEffectStatus(false, bossController.GetStats().unitStartEffects[2]);
+        ApplyAreaOfEffectStatus(false, bossController.GetStats().unitUtils.unitKeyEffects[2]);
         specialAttack = GetNextSpecialMove();
     }
 

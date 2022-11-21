@@ -79,6 +79,5 @@ public class Aura : MonoBehaviour
     public void DisableAura()
     {
         auraCollider.enabled = false;
-        auraEffects.Clear();
     }
 }

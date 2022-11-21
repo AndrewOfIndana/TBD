@@ -15,12 +15,12 @@ MonoBehaviour:
   levelID: 8
   levelName: Altar
   availbleUnits: {fileID: 11400000, guid: 6a28b9494a5f9094aae38adca15fa559, type: 2}
-  unitLimit: 5
+  unitLimit: 6
   mana: 100
-  manaRegen: 3
-  playerHealth: 500
+  manaRegen: 2
+  playerHealth: 250
   enemyUnits: {fileID: 11400000, guid: f1b599a854f55bb4d9a8d18d310367dd, type: 2}
-  enemySpawnRate: 3.5
+  enemySpawnRate: 2.5
   enemyHealth: 250
-  enemyCalmTime: 180
-  enemyEnragedTime: 120
+  enemyCalmTime: 120
+  enemyEnragedTime: 60

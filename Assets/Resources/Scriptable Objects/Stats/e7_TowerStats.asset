@@ -18,19 +18,9 @@ MonoBehaviour:
   unitHealth: 45
   unitAttack: 5
   unitSpeed: 0
-  unitAttackRange: 7.5
+  unitAttackRange: 12.5
   unitAttackRate: 1.1
-  unitStartEffects: []
-  unitSprite: {fileID: 21300000, guid: 3d7f308c94a24db498e1e44ab3304271, type: 3}
-  unitSize: {x: 1.75, y: 2.5, z: 1.75}
-  unitsSfx: {fileID: 11400000, guid: ed859139bb4d2394cb940c951acab878, type: 2}
-  unitType: 1
-  unitBehaviour: 1
-  unitWalkSpeed: 0
+  unitUtils: {fileID: 11400000, guid: ce73794ff27e00f4dab485ff466f9453, type: 2}
   isUnitEnemy: 1
-  unitTag: EnemyTower
-  targetTags:
-  - AllyTroop
-  sharedTags: {fileID: 11400000, guid: d3fc0c1f4507e3841928636ff32a43d0, type: 2}
   unitCost: 0
   unitThumbnail: {fileID: 0}

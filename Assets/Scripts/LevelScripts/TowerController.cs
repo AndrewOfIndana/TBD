@@ -60,11 +60,11 @@ public class TowerController : MonoBehaviour, Idamageable, Ieffectable
         attack = newStats.unitAttack;
         health = newStats.unitHealth;
         attackRate = newStats.unitAttackRate;
-        thisSprite.sprite = newStats.unitSprite;
-        thisCollider.size =  newStats.unitSize;
+        thisSprite.sprite = newStats.unitUtils.unitSprite;
+        thisCollider.size =  newStats.unitUtils.unitSize;
         healthBar.fillAmount = health/newStats.unitHealth;
-        audioSource.clip = newStats.unitsSfx.GetRandomSfx();
-        this.gameObject.tag = newStats.unitTag;
+        audioSource.clip = newStats.unitUtils.unitsSfx.GetRandomSfx();
+        this.gameObject.tag = newStats.unitUtils.unitTag;
     }
     /*-  Starts the unit's behaviour and movement -*/
     public void StartController()
@@ -168,7 +168,7 @@ public class TowerController : MonoBehaviour, Idamageable, Ieffectable
         if(health <= 0)
         {
             this.gameObject.SetActive(false); 
-            AudioSource.PlayClipAtPoint(stat.unitsSfx.deathSfx, this.transform.position, gameManager.GetGameOptions().GetVoiceClipVolume());
+            AudioSource.PlayClipAtPoint(stat.unitUtils.unitsSfx.deathSfx, this.transform.position, gameManager.GetGameOptions().GetVoiceClipVolume());
         }
     }
     /*-  OnDisable is called when the object becomes disabled -*/

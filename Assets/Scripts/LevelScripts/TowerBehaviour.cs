@@ -54,11 +54,11 @@ public class TowerBehaviour : MonoBehaviour
             //if targetDetected does exist
             if(targetDetected != null)
             {
-                if(towerController.GetStats().unitBehaviour == Behaviour.RANGED)
+                if(towerController.GetStats().unitUtils.unitBehaviour == Behaviour.RANGED)
                 {
                     Shoot();
                 }
-                else if(towerController.GetStats().unitBehaviour == Behaviour.AOE)
+                else if(towerController.GetStats().unitUtils.unitBehaviour == Behaviour.AOE)
                 {
                     ApplyAreaOfEffect(true);
                 }
@@ -85,7 +85,7 @@ public class TowerBehaviour : MonoBehaviour
         foreach(Unit unit in Unit.GetUnitList())
         {
             //If the unit's target tags contain the other units's tag
-            if(towerController.GetStats().targetTags.Any(x => x.Contains(unit.gameObject.tag)))
+            if(towerController.GetStats().unitUtils.targetTags.Any(x => x.Contains(unit.gameObject.tag)))
             {
                 float distanceToTarget = Vector3.Distance(transform.position, unit.transform.position); //calculates the distance to that enemy
 
@@ -113,7 +113,7 @@ public class TowerBehaviour : MonoBehaviour
     /*-  Controls shooting -*/
     private void Shoot()
     {
-        GameObject bulletObj = objectPool.SpawnFromPool(towerController.GetStats().sharedTags.bulletTag, firingPoint.position, firingPoint.rotation);
+        GameObject bulletObj = objectPool.SpawnFromPool(towerController.GetStats().unitUtils.sharedTags.bulletTag, firingPoint.position, firingPoint.rotation);
         Bullet bullet = bulletObj.GetComponent<Bullet>();
 
         //if this bullet exist
@@ -133,7 +133,6 @@ public class TowerBehaviour : MonoBehaviour
         {
             if(isAttack)
             {
-                Debug.Log("created");
                 aoe.SetAOE(towerController.GetStats().unitAttackRange, towerController.GetStats().isUnitEnemy, !towerController.GetStats().isUnitEnemy, towerController.GetAttack()); //calls the bullet's seek function
             }
         }

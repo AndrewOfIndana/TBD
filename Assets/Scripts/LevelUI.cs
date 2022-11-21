@@ -160,7 +160,7 @@ public class LevelUI : MonoBehaviour
     {
         playerHealthBar.fillAmount = playerSpawner.GetHealth()/playerSpawner.GetMaxHealth();
         enemyHealthBar.fillAmount = enemySpawner.GetHealth()/enemySpawner.GetMaxHealth();
-        manaBar.fillAmount = playerController.GetMana()/100f;
+        manaBar.fillAmount = playerController.GetMana()/level.GetMaxMana();
         manaTxt.text = "Mana: " + playerController.GetMana(); 
     }
     /*-  Updates the Enraged Clock UI -*/

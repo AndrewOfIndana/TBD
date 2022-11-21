@@ -79,7 +79,7 @@ public class TroopMovement : MonoBehaviour
             }
         }
         //if the unit's behaviour is defend, playerDetected dose exist, and targetDetected doesn't exist
-        else if(troopController.GetStats().unitBehaviour == Behaviour.DEFEND && troopBehaviour.GetPlayerDetected() != null && troopBehaviour.GetTargetDetected() == null)
+        else if(troopController.GetStats().unitUtils.unitBehaviour == Behaviour.DEFEND && troopBehaviour.GetPlayerDetected() != null && troopBehaviour.GetTargetDetected() == null)
         {
             /* MOVES TROOP FOLLOWING TROOP TO PLAYER */
 
@@ -98,7 +98,7 @@ public class TroopMovement : MonoBehaviour
                 troopController.animator.SetBool("aIdle", true);
             }
         }
-        else if(troopBehaviour.GetTargetDetected() != null && troopController.GetStats().unitBehaviour != Behaviour.RANGED) //if targetDetected does exist and this unit's behaviour isn't RANGED
+        else if(troopBehaviour.GetTargetDetected() != null && troopController.GetStats().unitUtils.unitBehaviour != Behaviour.RANGED) //if targetDetected does exist and this unit's behaviour isn't RANGED
         {
             /* MOVES TROOP TO OPPONENT */
 

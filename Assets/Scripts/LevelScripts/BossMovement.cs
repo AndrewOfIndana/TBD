@@ -38,11 +38,11 @@ public class BossMovement : MonoBehaviour
     private void Update()
     {
         //if gameStates is not PLAYING
-        if(!gameManager.CheckIfPlaying() && bossController.GetStats().unitBehaviour == Behaviour.RANGED)
+        if(!gameManager.CheckIfPlaying() && bossController.GetStats().unitUtils.unitBehaviour == Behaviour.RANGED)
         {
             return;
         }
-        if(bossController.GetStats().unitType == UnitType.TOWER)
+        if(bossController.GetStats().unitUtils.unitType == UnitType.TOWER)
         {
             return;
         }
@@ -55,7 +55,7 @@ public class BossMovement : MonoBehaviour
             transform.Translate(dir.normalized * bossController.GetSpeed() * Time.deltaTime, Space.World);
         }
         //if the boss's behaviour is defend, and playerDetected does exist
-        else if(bossController.GetStats().unitBehaviour == Behaviour.DEFEND && bossBehaviour.GetPlayerDetected() != null)
+        else if(bossController.GetStats().unitUtils.unitBehaviour == Behaviour.DEFEND && bossBehaviour.GetPlayerDetected() != null)
         {
             /* MOVES BOSS TO PLAYER */
 
