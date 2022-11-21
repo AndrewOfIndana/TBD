@@ -141,6 +141,7 @@ public class LevelManager : MonoBehaviour
         {
             /* Starts game */
             levelUI.UpdateScreen(1);
+            levelUI.UpdateUI();
             SwitchCameras(0, 1);
             playerController.StartGame();
             enemySpawner.StartGame();
@@ -153,7 +154,7 @@ public class LevelManager : MonoBehaviour
             /* Player WINS */
             gameManager.SetLastPlayedLevel();
             levelUI.UpdateScreen(4);
-                        SwitchCameras(1, 0);
+            SwitchCameras(1, 0);
         }
         else if(gameManager.GetGameState() == GameStates.LOSE) //if the gameState is LOSE
         {

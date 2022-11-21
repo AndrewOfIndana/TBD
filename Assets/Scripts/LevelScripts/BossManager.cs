@@ -19,7 +19,6 @@ public class BossManager : MonoBehaviour
 
     [Header("Script Settings")]
     public GameObject bossPrefab;
-    public Transform bossSpawnPoint;
     public Stats bossStat;
     private BossController boss;
 
@@ -27,6 +26,7 @@ public class BossManager : MonoBehaviour
     public GameObject enemySpawnerUI; //A reference to the enemySpawner health bar
     public GameObject bossUI; //A reference to the boss UI
     public TextMeshProUGUI bossName;
+    public TextMeshProUGUI bossMoveName;
     public Image bossHealthBar; 
     private Color healthColor;
     private Color buffedHpColor = Color.yellow;
@@ -54,38 +54,35 @@ public class BossManager : MonoBehaviour
         /* Gets the static instances and stores them in the Static References */
         gameManager = GameManager.instance;
         levelManager = LevelManager.instance;
-
-        if(bossSpawnPoint == null)
-        {
-            bossSpawnPoint = levelManager.enemySpawner.transform;
-        }
-
         UpdateSetUpText();
     }
     /*-  Starts boss fight, Spawns the boss and changes the UI of the game -*/
     public void StartBoss()
     {
-        GameObject bossObj = Instantiate(bossPrefab, bossSpawnPoint.transform.position, Quaternion.identity);
+        GameObject bossObj = Instantiate(bossPrefab, levelManager.enemySpawner.transform.position, Quaternion.identity);
         boss = bossObj.GetComponent<BossController>();
-
-        //if this enemy exist
-        if(boss != null)
-        {
-            boss.SetUnit(bossStat); //Sets boss's stats
-            boss.StartController(); //Starts the boss controller
-        }
-
         enemySpawnerUI.SetActive(false);
         bossUI.SetActive(true);
-        UpdateHealthUI();
+        ClearSpecialMoveText();
     }
-
     /*-  Updates the setup texts and even the unit select thumbnails, should only be called once   -*/
     private void UpdateSetUpText()
     {
         bossName.text = bossStat.unitName;
+        bossHealthBar.fillAmount = 1;
         bossUI.SetActive(false);
     }
+    /*-  Updates the setup texts and even the unit select thumbnails, should only be called once   -*/
+    public void UpdateSpecialMoveText(string str)
+    {
+        bossMoveName.text = str;
+        Invoke("ClearSpecialMoveText", 2f);
+    }
+    private void ClearSpecialMoveText()
+    {
+        bossMoveName.text = "";
+    }
+
     /*-  Updates the health bar of a unit -*/
     public void UpdateHealthUI()
     {

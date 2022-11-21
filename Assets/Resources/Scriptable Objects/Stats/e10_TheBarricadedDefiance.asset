@@ -15,10 +15,10 @@ MonoBehaviour:
   unitID: 18
   unitName: The Barricadied Defiance
   unitDescription: Large Tower
-  unitHealth: 1100
-  unitAttack: 10
-  unitSpeed: 0
-  unitAttackRange: 10
+  unitHealth: 2000
+  unitAttack: 12.5
+  unitSpeed: 1
+  unitAttackRange: 12.5
   unitAttackRate: 1.5
   unitUtils: {fileID: 11400000, guid: 7e4999d9c10db3241977b5a90c0f6f4a, type: 2}
   isUnitEnemy: 1

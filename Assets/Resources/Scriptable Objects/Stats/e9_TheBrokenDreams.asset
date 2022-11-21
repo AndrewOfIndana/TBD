@@ -15,7 +15,7 @@ MonoBehaviour:
   unitID: 17
   unitName: The Broken Dreams
   unitDescription: Chases Player
-  unitHealth: 500
+  unitHealth: 1000
   unitAttack: 50
   unitSpeed: 2
   unitAttackRange: 5

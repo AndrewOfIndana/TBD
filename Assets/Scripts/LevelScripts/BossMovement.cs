@@ -38,11 +38,7 @@ public class BossMovement : MonoBehaviour
     private void Update()
     {
         //if gameStates is not PLAYING
-        if(!gameManager.CheckIfPlaying() && bossController.GetStats().unitUtils.unitBehaviour == Behaviour.RANGED)
-        {
-            return;
-        }
-        if(bossController.GetStats().unitUtils.unitType == UnitType.TOWER)
+        if(!gameManager.CheckIfPlaying())
         {
             return;
         }
@@ -60,7 +56,7 @@ public class BossMovement : MonoBehaviour
             /* MOVES BOSS TO PLAYER */
 
             //if this position and playerDetected's position is greater 4
-            if(Vector3.Distance(transform.position, bossBehaviour.GetPlayerDetected().position) >= 4f)
+            if(Vector3.Distance(transform.position, bossBehaviour.GetPlayerDetected().position) >= 3f)
             {
                 dir = bossBehaviour.GetPlayerDetected().position - transform.position; 
                 transform.Translate(dir.normalized * bossController.GetSpeed() * Time.deltaTime, Space.World);
@@ -71,7 +67,7 @@ public class BossMovement : MonoBehaviour
             /* MOVES BOSS TO OPPONENT */
 
             //if this position and targetDetected's position is greater 2
-            if(Vector3.Distance(transform.position, bossBehaviour.GetTargetDetected().position) >= 4f)
+            if(Vector3.Distance(transform.position, bossBehaviour.GetTargetDetected().position) >= 3f)
             {
                 dir = bossBehaviour.GetTargetDetected().position - transform.position; 
                 transform.Translate(dir.normalized * bossController.GetSpeed() * Time.deltaTime, Space.World);

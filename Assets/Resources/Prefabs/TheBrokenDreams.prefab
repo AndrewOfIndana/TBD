@@ -117,13 +117,13 @@ GameObject:
   - component: {fileID: 6128957829873134036}
   - component: {fileID: 6128957829873133993}
   - component: {fileID: 6015170998445940063}
-  - component: {fileID: 6015170998445940057}
   - component: {fileID: 6015170998445940062}
+  - component: {fileID: 5878713058778989067}
   - component: {fileID: 4209698774933076843}
   - component: {fileID: 1126931326093924270}
   - component: {fileID: 6015170998445940060}
   m_Layer: 6
-  m_Name: EnemyBoss
+  m_Name: TheBrokenDreams
   m_TagString: EnemyTroop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -203,19 +203,7 @@ MonoBehaviour:
   - {fileID: 4136932045021793184}
   - {fileID: 5456170335978324990}
   - {fileID: 1351864138659043654}
---- !u!114 &6015170998445940057
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6128957829873134037}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 281d42047d193c847be6b5f3fe3a6ff0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bossCountDown: 45
+  stat: {fileID: 11400000, guid: be6ead377383c7a499c8cf811e520298, type: 2}
 --- !u!114 &6015170998445940062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,6 +216,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 260992ca2b09e3a498255e2c78ad7065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5878713058778989067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6128957829873134037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5271157443317fe428b288e2692d413c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossCountDown: 45
 --- !u!114 &4209698774933076843
 MonoBehaviour:
   m_ObjectHideFlags: 0

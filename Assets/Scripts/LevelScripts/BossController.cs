@@ -26,8 +26,8 @@ public class BossController : MonoBehaviour, Idamageable, Ieffectable
     [Header("UI References")]
     public GameObject[] statusUI; //Array of each status effect symbol
 
-    /*[Header("Stats")]*/
-    private Stats stat;
+    [Header("Stats")]
+    public Stats stat;
     private float attack;
     private float health; 
     private float speed;
@@ -48,19 +48,20 @@ public class BossController : MonoBehaviour, Idamageable, Ieffectable
         /* Gets the static instances and stores them in the Static References */
         gameManager = GameManager.instance;
         bossManager = BossManager.instance;
+        SetUnit();
+        StartController();
     }
     /*-  Sets the units stats when the object has spawned from pool using the newStats Stats variables -*/
-    public void SetUnit(Stats newStats)
+    public void SetUnit()
     {
-        stat = newStats;
-        attack = newStats.unitAttack;
-        health = newStats.unitHealth;
-        speed = newStats.unitSpeed;
-        attackRate = newStats.unitAttackRate;
-        thisSprite.sprite = newStats.unitUtils.unitSprite;
-        thisCollider.size =  newStats.unitUtils.unitSize;
-        audioSource.clip = newStats.unitUtils.unitsSfx.GetRandomSfx();
-        this.gameObject.tag = newStats.unitUtils.unitTag;
+        attack = stat.unitAttack;
+        health = stat.unitHealth;
+        speed = stat.unitSpeed;
+        attackRate = stat.unitAttackRate;
+        thisSprite.sprite = stat.unitUtils.unitSprite;
+        thisCollider.size =  stat.unitUtils.unitSize;
+        audioSource.clip = stat.unitUtils.unitsSfx.GetRandomSfx();
+        this.gameObject.tag = stat.unitUtils.unitTag;
     }
     /*-  Starts the unit's behaviour and movement -*/
     public void StartController()
@@ -90,7 +91,6 @@ public class BossController : MonoBehaviour, Idamageable, Ieffectable
     {
         /*  Makes new variables for the new attack  */
         float newAttack = stat.unitAttack;
-        float newHealth = health > stat.unitHealth ? newHealth = stat.unitHealth: newHealth = health; //If health is greater than set newHealth to stat.unitHealth, else set newHealth to health 
         float newSpeed = stat.unitSpeed;
         float newAttackRate = stat.unitAttackRate;
 
@@ -100,7 +100,6 @@ public class BossController : MonoBehaviour, Idamageable, Ieffectable
             for(int k = 0; k < statusEffects[i].effects.Count; k++)
             {
                 newAttack = newAttack * statusEffects[i].effects[k].GetStatusBonus(BuffedStats.attack);
-                newHealth = newHealth * statusEffects[i].effects[k].GetStatusBonus(BuffedStats.health);
                 newSpeed = newSpeed * statusEffects[i].effects[k].GetStatusBonus(BuffedStats.speed);
                 newAttackRate = newAttackRate * statusEffects[i].effects[k].GetStatusBonus(BuffedStats.attackRate);
             }
@@ -108,7 +107,6 @@ public class BossController : MonoBehaviour, Idamageable, Ieffectable
 
         /*  Sets stat values to newStats values */
         attack = newAttack;
-        health = newHealth;
         speed = newSpeed;
         attackRate = newAttackRate;
         bossManager.UpdateHealthUI();
@@ -153,6 +151,13 @@ public class BossController : MonoBehaviour, Idamageable, Ieffectable
             bossManager.EndBoss();
         }
     }
+    /*-  changes BossManager to change the string -*/
+    public void YellSpecialAttack(string str)
+    {
+        string sStr = "---" + str + "---";
+        bossManager.UpdateSpecialMoveText(sStr);
+    }
+
     /*-  OnDisable is called when the object becomes disabled -*/
     private void OnDisable()
     {
