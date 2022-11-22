@@ -1,2 +1,5 @@
 "Wall, grass, rock, stone, wood and dirt (480)" by West licensed CC0: https://opengameart.org/content/wall-grass-rock-stone-wood-and-dirt-480
 
+"Skybox Series Free" by Avionx licensed Standard Unity Asset Store EULA: https://assetstore.unity.com/packages/2d/textures-materials/sky/skybox-series-free-103633#releases
+
+"Gusty" by cron licensed CC0: https://opengameart.org/content/gutsy

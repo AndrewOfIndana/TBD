@@ -6289,14 +6289,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1265020937}
-  m_LocalRotation: {x: 0.4577983, y: 0.1157782, z: -0.87942237, w: 0.060270313}
+  m_LocalRotation: {x: 0.45080334, y: 0.19198436, z: -0.86598516, w: 0.09994073}
   m_LocalPosition: {x: 2, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 667050277}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 165, y: 125, z: 0}
+  m_LocalEulerAnglesHint: {x: 155, y: 125, z: 0}
 --- !u!114 &1265020939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7501,7 +7501,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh25574
+  m_Name: pb_Mesh48044
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

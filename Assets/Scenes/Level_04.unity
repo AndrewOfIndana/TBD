@@ -12378,6 +12378,16 @@ PrefabInstance:
       propertyPath: enemySpawnerUI
       value: 
       objectReference: {fileID: 6947313205575526980}
+    - target: {fileID: 3117340057834891310, guid: 19e26f2cd96072a4c95096cf1a0bd45c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3117340057834891310, guid: 19e26f2cd96072a4c95096cf1a0bd45c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 3117340058607212797, guid: 19e26f2cd96072a4c95096cf1a0bd45c,
         type: 3}
       propertyPath: m_RootOrder
