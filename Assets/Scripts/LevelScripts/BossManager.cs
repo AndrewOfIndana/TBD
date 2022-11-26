@@ -14,13 +14,13 @@ public class BossManager : MonoBehaviour
     public static BossManager instance;
 
     /*[Header("Static References")]*/
-    GameManager gameManager;
-    LevelManager levelManager;
+    protected GameManager gameManager;
+    protected LevelManager levelManager;
 
     [Header("Script Settings")]
     public GameObject bossPrefab;
     public Stats bossStat;
-    private BossController boss;
+    protected BossController boss;
 
     [Header("Boss UI References")]
     public GameObject enemySpawnerUI; //A reference to the enemySpawner health bar
@@ -57,7 +57,7 @@ public class BossManager : MonoBehaviour
         UpdateSetUpText();
     }
     /*-  Starts boss fight, Spawns the boss and changes the UI of the game -*/
-    public void StartBoss()
+    public virtual void StartBoss()
     {
         GameObject bossObj = Instantiate(bossPrefab, levelManager.enemySpawner.transform.position, Quaternion.identity);
         boss = bossObj.GetComponent<BossController>();
@@ -78,7 +78,7 @@ public class BossManager : MonoBehaviour
         bossMoveName.text = str;
         Invoke("ClearSpecialMoveText", 2f);
     }
-    private void ClearSpecialMoveText()
+    protected void ClearSpecialMoveText()
     {
         bossMoveName.text = "";
     }
@@ -105,9 +105,14 @@ public class BossManager : MonoBehaviour
     /*-  Ends boss fight, changes the the gameState to win -*/
     public void EndBoss()
     {
+        boss.gameObject.SetActive(false);   
+        levelManager.enemySpawner.gameObject.SetActive(false);
+        StartCoroutine(FinishBoss(3f));
+    }
+    private IEnumerator FinishBoss(float time)
+    {
+        yield return new WaitForSeconds(time);
         gameManager.SetGameState(GameStates.WIN); //Sets GameStates to WIN
         levelManager.ChangeState(); //Changes State for level
-        boss.gameObject.SetActive(false);
-        levelManager.enemySpawner.gameObject.SetActive(false);
     }
 }

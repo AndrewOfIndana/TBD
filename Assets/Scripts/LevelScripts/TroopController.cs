@@ -180,7 +180,7 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
         UpdateHealthUI();
 
         //if health is less than or equal to 0
-        if(health <= 0)
+        if(health <= 0 && this.gameObject.activeSelf)
         {
             troopBehaviour.VoidTargets();
             AudioSource.PlayClipAtPoint(stat.unitUtils.unitsSfx.deathSfx, this.transform.position, gameManager.GetGameOptions().GetVoiceClipVolume());

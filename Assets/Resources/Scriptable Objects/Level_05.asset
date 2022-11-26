@@ -17,7 +17,7 @@ MonoBehaviour:
   availbleUnits: {fileID: 11400000, guid: e6f025753cc591249b65c1777ab69044, type: 2}
   unitLimit: 3
   mana: 100
-  manaRegen: 2
+  manaRegen: 4
   playerHealth: 400
   enemyUnits: {fileID: 11400000, guid: 9ec142a4e901aee4e919b48cccf743c7, type: 2}
   enemySpawnRate: 3

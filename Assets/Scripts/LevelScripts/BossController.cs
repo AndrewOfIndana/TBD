@@ -144,7 +144,7 @@ public class BossController : MonoBehaviour, Idamageable, Ieffectable
         bossManager.UpdateHealthUI();
 
         //if health is less than or equal to 0
-        if(health <= 0)
+        if(health <= 0 && this.gameObject.activeSelf)
         {
             bossBehaviour.VoidTargets();
             AudioSource.PlayClipAtPoint(stat.unitUtils.unitsSfx.deathSfx, this.transform.position, gameManager.GetGameOptions().GetVoiceClipVolume());

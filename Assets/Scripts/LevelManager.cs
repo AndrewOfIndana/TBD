@@ -46,10 +46,13 @@ public class LevelManager : MonoBehaviour
     public int enragedCount = 0;
 
     [Header("Script Settings")]
+    public Animator transitionSlide;
     public CinemachineVirtualCamera topdownCamera; 
     public CinemachineVirtualCamera playerCamera;
     private AudioListener mainAudioListener;
     private CinemachineTransposer cameraOffset;
+    private bool isSetupActive = true;
+
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
     private void Awake()
@@ -89,6 +92,8 @@ public class LevelManager : MonoBehaviour
         GameObject cam = Camera.main.gameObject;
         mainAudioListener = cam.GetComponent<AudioListener>();
         mainAudioListener.enabled = true;
+        transitionSlide.SetTrigger("Start");
+
         /* Sets game to setup */
         gameManager.SetGameState(GameStates.SETUP);
         levelUI.UpdateScreen(0);
@@ -105,7 +110,7 @@ public class LevelManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             //if gameStates is PLAYING
-            if(gameManager.CheckIfPlaying())
+            if(gameManager.CheckIfPlaying() || gameManager.GetGameState() == GameStates.SETUP)
             {
                 LevelPaused();
             }
@@ -143,6 +148,7 @@ public class LevelManager : MonoBehaviour
             levelUI.UpdateScreen(1);
             levelUI.UpdateUI();
             SwitchCameras(0, 1);
+            isSetupActive = false;
             playerController.StartGame();
             enemySpawner.StartGame();
             SpawnPlayer();
@@ -312,13 +318,22 @@ public class LevelManager : MonoBehaviour
     public void LevelUnpause()
     {
         AdjustPlayerCamera();
-        if(playerAvatar.isActiveAndEnabled == true)
+        if(playerAvatar != null && playerAvatar.isActiveAndEnabled == true)
         {
             playerAvatar.SetAttackRange();
         }
-        SwitchCameras(0, 1);
-        levelUI.UpdateScreen(1);
-        gameManager.gameState = GameStates.PLAYING;
+
+        if(isSetupActive)
+        {
+            levelUI.UpdateScreen(0);
+            gameManager.gameState = GameStates.SETUP;
+        }
+        else if(!isSetupActive)
+        {
+            SwitchCameras(0, 1);
+            levelUI.UpdateScreen(1);
+            gameManager.gameState = GameStates.PLAYING;
+        }
     }
     /*-  Opens options menu, OnClick   -*/
     public void Options()
@@ -329,16 +344,19 @@ public class LevelManager : MonoBehaviour
     /*-  Calls GameManager RetryLevel, OnClick -*/
     public void LevelRetry()
     {
+        transitionSlide.SetTrigger("End");
         gameManager.RetryLevel();
     }
     /*-  Calls GameManager QuitLevel, OnClick -*/
     public void LevelQuit()
     {
+        transitionSlide.SetTrigger("End");
         gameManager.QuitLevel();
     }
     /*-  Calls GameManager NextLevel, OnClick -*/
     public void LevelComplete()
     {
+        transitionSlide.SetTrigger("End");
         gameManager.NextLevel();
     }
 

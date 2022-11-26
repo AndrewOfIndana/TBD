@@ -14,6 +14,7 @@ public class MenuManager : MonoBehaviour
     GameManager gameManager;
 
     [Header("Script References")]
+    public Animator transitionSlide;
     public GameObject[] menuScreens;
     public Image[] levelIcons;
     public Slider[] sliders;
@@ -35,6 +36,7 @@ public class MenuManager : MonoBehaviour
     
         /*  Hides the level icons that haven't been unlocked  */
         HideUI(levelIcons, gameManager.GetLastPlayedLevel()); 
+        transitionSlide.SetTrigger("Start");
     }
 
     /*---      FUNCTIONS     ---*/
@@ -46,8 +48,10 @@ public class MenuManager : MonoBehaviour
     /*-  Checks if a button is clicked, uses an index to indicate which button, OnClick -*/
     private void OnButtonClick(int index)
     {
+        transitionSlide.SetTrigger("End");
         gameManager.SelectLevel((index + 1));
     }
+
     /*-  Hides unused buttons or images by setting the images inactive in reverse order, takes a Image[] for the array of images affected, and a int for the listSize   -*/
     public void HideUI(Image[] icons, int listSize)
     {

@@ -18,7 +18,7 @@ MonoBehaviour:
   unitHealth: 5
   unitAttack: 10
   unitSpeed: 6
-  unitAttackRange: 5
+  unitAttackRange: 10
   unitAttackRate: 1
   unitUtils: {fileID: 11400000, guid: df62d5ef14ac8184ea934437f59e0cc3, type: 2}
   isUnitEnemy: 1

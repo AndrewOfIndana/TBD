@@ -12,12 +12,13 @@ public class CreditsManager : MonoBehaviour
     /*[Header("Static References")]*/
     GameManager gameManager;
 
+    public Animator transitionSlide;
     public GameObject[] gameScreens;
     public RectTransform credits;
-    public float yPos;
-    public float yMax;
-    public bool isCreditsMoving = false;
     public float scrollSpeed = .25f;
+    private float yPos;
+    private float yMax;
+    private bool isCreditsMoving = false;
 
     /*-  Start is called before the first frame update -*/
     private void Start()
@@ -29,13 +30,13 @@ public class CreditsManager : MonoBehaviour
         yMax = yPos * -1;
         UpdateScreen(0);
 
+        transitionSlide.SetTrigger("Start");
         Invoke("StartCredits", 5f);
     }
     private void StartCredits()
     {
         isCreditsMoving = true;
         gameManager.SetGameState(GameStates.PLAYING);
-        Debug.Log("Start");
     }
 
     /*---      UPDATE FUNCTIONS     ---*/
@@ -101,6 +102,7 @@ public class CreditsManager : MonoBehaviour
     /*-  Calls GameManager QuitLevel, OnClick -*/
     public void CreditQuit()
     {
+        transitionSlide.SetTrigger("End");
         gameManager.QuitLevel();
     }
 }

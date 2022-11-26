@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public GameStates gameState;
     public int currentLevel = 0;
     public int lastPlayedLevel = 1;
+    private float transitionTime = 1f;
 
     private GameOptions gameOptions;
 
@@ -59,26 +60,31 @@ public class GameManager : MonoBehaviour
     {
         currentLevel = btnIndex;
         string levelNum = currentLevel.ToString("D2"); //Converts level number to string format 00
-        SceneManager.LoadScene("Level_" + levelNum);
+        StartCoroutine(LoadLevel("Level_" + levelNum));
     }
     /*-  Chooses the next level -*/
     public void NextLevel()
     {
         currentLevel++;
         string levelNum = currentLevel.ToString("D2"); //Converts level number to string format 00
-        SceneManager.LoadScene("Level_" + levelNum);
+        StartCoroutine(LoadLevel("Level_" + levelNum));
     }
     /*-  Retries the current level -*/
     public void RetryLevel()
     {
         string levelNum = currentLevel.ToString("D2"); //Converts level number to string format 00
-        SceneManager.LoadScene("Level_" + levelNum);
+        StartCoroutine(LoadLevel("Level_" + levelNum));
     }
     /*-  Returns to the menuScene -*/
     public void QuitLevel()
     {
-        // gameState = GameStates.MENU;
-        SceneManager.LoadScene("Menu");
+        gameState = GameStates.MENU;
+        StartCoroutine(LoadLevel("Menu"));
+    }
+    private IEnumerator LoadLevel(string sceneName)
+    {
+        yield return new WaitForSeconds(transitionTime);
+        SceneManager.LoadSceneAsync(sceneName);
     }
 
     /*---      SET/GET FUNCTIONS     ---*/
