@@ -12,11 +12,16 @@ public class FinalBossManager : BossManager
 
     */
     [Header("Final Boss Settings")]
-    public Transform bossSpawnPoint;
-    public GameObject tentaclePrefab;
-    public Transform[] tentacleSpawnPoints;
     public Animator bodyAnimator;
-    public Animator featuresAnimator; 
+    public Animator featuresAnimator;
+    public GameObject beastModel;
+
+    [Header("Spawn Points")]
+    public Transform bossSpawnPoint;
+    public Transform[] tentacleSpawnPoints;
+
+    /*[Header("Script Settings")]*/
+    private FinalBossController finalBoss;
 
     /*-  Starts boss fight, Spawns the boss and changes the UI of the game -*/
     public override void StartBoss()
@@ -24,19 +29,44 @@ public class FinalBossManager : BossManager
         bodyAnimator.SetTrigger("Start");
         featuresAnimator.SetTrigger("Start");
         enemySpawnerUI.SetActive(false);
+        levelManager.enemySpawner.gameObject.SetActive(false);
         bossUI.SetActive(true);
         ClearSpecialMoveText();
-        StartCoroutine(StartFinalBoss(20f));
+        gameManager.GetGameOptions().SetColorFilter(new Color(1, .4f, .4f));
+        StartCoroutine(StartFinalBoss(10f));
     }
     private IEnumerator StartFinalBoss(float time)
     {
         yield return new WaitForSeconds(time);
-        // GameObject bossObj = Instantiate(bossPrefab, bossSpawnPoint.position , Quaternion.identity);
-        // boss = bossObj.GetComponent<BossController>();
-        
-        // for(int i = 0; i < tentacleSpawnPoints.Length; i++)
-        // {
-        //     GameObject tentacleObj = Instantiate(tentaclePrefab, tentacleSpawnPoints[i].position , Quaternion.identity);
-        // }
+        GameObject bossObj = Instantiate(bossPrefab, bossSpawnPoint.position , Quaternion.identity);
+        finalBoss = bossObj.GetComponent<FinalBossController>();
+        finalBoss.SpawnTentacle(tentacleSpawnPoints);
+    }
+    /*-  Updates the health bar of a unit -*/
+    public override void UpdateHealthUI()
+    {
+        //if boss's health is greater than the boss's stat.unitHealth and levelManager's isEnraged is true
+        if(finalBoss.GetHealth() > bossStat.unitHealth && levelManager.GetIsEnraged())
+        {
+            bossHealthBar.color = enragedColor;
+        }
+        //if boss's health is greater than the boss's stat.unitHealth and levelManager's isEnraged is flase
+        else if(finalBoss.GetHealth() > bossStat.unitHealth && !levelManager.GetIsEnraged())
+        {
+            bossHealthBar.color = buffedHpColor;
+        }
+        else
+        {
+            bossHealthBar.color = healthColor;
+            bossHealthBar.fillAmount = finalBoss.GetHealth()/bossStat.unitHealth;
+        }
+    }
+    /*-  Ends boss fight, changes the the gameState to win -*/
+    public override void EndBoss()
+    {
+        finalBoss.gameObject.SetActive(false);   
+        beastModel.SetActive(false);
+        gameManager.GetGameOptions().SetColorFilter(new Color(1, 1, 1));
+        StartCoroutine(FinishBoss(5f));
     }
 }

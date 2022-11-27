@@ -20,7 +20,7 @@ public class BossManager : MonoBehaviour
     [Header("Script Settings")]
     public GameObject bossPrefab;
     public Stats bossStat;
-    protected BossController boss;
+    private BossController boss;
 
     [Header("Boss UI References")]
     public GameObject enemySpawnerUI; //A reference to the enemySpawner health bar
@@ -28,9 +28,9 @@ public class BossManager : MonoBehaviour
     public TextMeshProUGUI bossName;
     public TextMeshProUGUI bossMoveName;
     public Image bossHealthBar; 
-    private Color healthColor;
-    private Color buffedHpColor = Color.yellow;
-    private Color enragedColor = new Color(1f, 0.16f, 0.14f);
+    protected Color healthColor;
+    protected Color buffedHpColor = Color.yellow;
+    protected Color enragedColor = new Color(1f, 0.16f, 0.14f);
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
@@ -84,7 +84,7 @@ public class BossManager : MonoBehaviour
     }
 
     /*-  Updates the health bar of a unit -*/
-    public void UpdateHealthUI()
+    public virtual void UpdateHealthUI()
     {
         //if boss's health is greater than the boss's stat.unitHealth and levelManager's isEnraged is true
         if(boss.GetHealth() > bossStat.unitHealth && levelManager.GetIsEnraged())
@@ -103,13 +103,13 @@ public class BossManager : MonoBehaviour
         }
     }
     /*-  Ends boss fight, changes the the gameState to win -*/
-    public void EndBoss()
+    public virtual void EndBoss()
     {
         boss.gameObject.SetActive(false);   
         levelManager.enemySpawner.gameObject.SetActive(false);
         StartCoroutine(FinishBoss(3f));
     }
-    private IEnumerator FinishBoss(float time)
+    protected IEnumerator FinishBoss(float time)
     {
         yield return new WaitForSeconds(time);
         gameManager.SetGameState(GameStates.WIN); //Sets GameStates to WIN

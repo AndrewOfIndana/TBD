@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 1691094655254222121}
   m_Layer: 6
   m_Name: TheBarricadedDefiance
-  m_TagString: EnemyTroop
+  m_TagString: EnemyTower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -228,6 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9dce9378678b6f45a4e8f6f59827bd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossCounter: 0
   bossCountDown: 30
 --- !u!114 &9107981852402987806
 MonoBehaviour:

@@ -10,17 +10,19 @@ public class TroopMovement : MonoBehaviour
 
     */
     /*[Header("Static References")]*/
-    GameManager gameManager;
+    protected GameManager gameManager;
+    protected LevelManager levelManager;
 
     /*[Header("Components")]*/
-    private TroopController troopController;
-    private TroopBehaviour troopBehaviour;
+    protected TroopController troopController;
+    protected TroopBehaviour troopBehaviour;
 
     /*[Header("Script Settings")]*/
-    private Transform path;
-    private int wavePointIndex; //Keeps track of which waypoint the troop is at
-    private bool hasReachedEnd = false;
-    private Vector3 dir;
+    protected Transform path;
+    protected int wavePointIndex; //Keeps track of which waypoint the troop is at
+    protected bool hasReachedEnd = false;
+    protected Vector3 dir;
+    protected Transform playerLocation;
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
@@ -34,9 +36,11 @@ public class TroopMovement : MonoBehaviour
     {
         /* Gets the static instances and stores them in the Static References */
         gameManager = GameManager.instance;
+        levelManager = LevelManager.instance;
+        playerLocation = levelManager.GetPlayerAvatar().transform;
     }
     /*-  Sets the troops first waypoint depending on if the unit is an enemy -*/
-    public void StartMovement()
+    public virtual void StartMovement()
     {
         //if the troop is an enemy 
         if(troopController.GetStats().isUnitEnemy)
@@ -55,7 +59,7 @@ public class TroopMovement : MonoBehaviour
     
     /*---      UPDATE FUNCTIONS     ---*/
     /*-  Update is called once per frame -*/
-    private void Update()
+    protected virtual void Update()
     {
         //if gameStates is not PLAYING
         if(!gameManager.CheckIfPlaying())
@@ -63,8 +67,27 @@ public class TroopMovement : MonoBehaviour
             return;
         }
 
+        if(troopBehaviour.GetTargetDetected() == null && hasReachedEnd)
+        {
+            /* MOVES TROOP FOLLOWING TROOP TO PLAYER LOCATION */
+
+            //if this position and playerDetected's position is greater 2
+            if(Vector3.Distance(transform.position, playerLocation.position) >= 2f)
+            {
+                dir = playerLocation.position - transform.position; 
+                transform.Translate(dir.normalized * troopController.GetSpeed() * Time.deltaTime, Space.World);
+                troopController.animator.SetBool("aIdle", false);
+
+            }
+            else
+            {
+                /* STOPS TROOP */
+
+                troopController.animator.SetBool("aIdle", true);
+            }
+        }
         //if targetDetected doesn't exist, playerDetected doesn't exist, and hasReachedEnd is false
-        if(troopBehaviour.GetTargetDetected() == null && troopBehaviour.GetPlayerDetected() == null && !hasReachedEnd)
+        else if(troopBehaviour.GetTargetDetected() == null && troopBehaviour.GetPlayerDetected() == null && !hasReachedEnd)
         {
             /* MOVES TROOP TO WAYPOINT */
 
@@ -113,7 +136,7 @@ public class TroopMovement : MonoBehaviour
 
     /*---      FUNCTIONS     ---*/
     /*-  Gets the next waypoint for the troop -*/
-    private void GetNextWaypoint()
+    protected void GetNextWaypoint()
     {
         //if the troop is an enemy 
         if(troopController.GetStats().isUnitEnemy)

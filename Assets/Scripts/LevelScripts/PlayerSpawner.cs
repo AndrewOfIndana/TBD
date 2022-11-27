@@ -16,7 +16,7 @@ public class PlayerSpawner : MonoBehaviour, Idamageable
     ObjectPool objectPool;
 
     [Header("Health Settings")]
-    public float health = 1000;
+    private float health;
     private float maxHealth;
 
     /*---      SETUP FUNCTIONS     ---*/

@@ -26,11 +26,10 @@ public abstract class BossBehaviour : MonoBehaviour
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
-    public void Awake()
+    public virtual void Awake()
     {
         bossController = this.GetComponent<BossController>();
     }
-
     /*-  Start is called before the first frame update -*/
     public void Start()
     {
@@ -46,7 +45,7 @@ public abstract class BossBehaviour : MonoBehaviour
     public abstract void StartBehaviour();
 
     /*-  Controls aoe attack -*/
-    public void ApplyAreaOfEffectAttack()
+    public virtual void ApplyAreaOfEffectAttack()
     {
         GameObject aoeObj = objectPool.SpawnFromPool("AreaOfEffect", this.transform.position, this.transform.rotation);
         AreaOfEffect aoe = aoeObj.GetComponent<AreaOfEffect>();
@@ -58,7 +57,7 @@ public abstract class BossBehaviour : MonoBehaviour
         }
     }
     /*-  Controls aoe status effects -*/
-    public void ApplyAreaOfEffectStatus(bool toEnemy, StatusEffect appliedEffect)
+    public virtual void ApplyAreaOfEffectStatus(bool toEnemy, StatusEffect appliedEffect)
     {
         GameObject aoeObj = objectPool.SpawnFromPool("AreaOfEffect", this.transform.position, this.transform.rotation);
         AreaOfEffect aoe = aoeObj.GetComponent<AreaOfEffect>();

@@ -84,6 +84,10 @@ public class GameManager : MonoBehaviour
     private IEnumerator LoadLevel(string sceneName)
     {
         yield return new WaitForSeconds(transitionTime);
+        if(currentLevel == 12)
+        {
+            gameOptions.SetColorFilter(new Color(1, 1, 1));
+        }
         SceneManager.LoadSceneAsync(sceneName);
     }
 

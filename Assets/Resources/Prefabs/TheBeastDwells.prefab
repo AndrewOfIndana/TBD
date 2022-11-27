@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5100515625877213542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5100515625877213541}
+  - component: {fileID: 5100515625877213543}
+  - component: {fileID: 5100515625877213544}
+  m_Layer: 6
+  m_Name: TheBeastDwells
+  m_TagString: EnemyTroop
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5100515625877213541
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5100515625877213542}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5100515625877213543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5100515625877213542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43061e59221a34f408670deea25697db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tentaclePrefab: {fileID: 2341184296189743632, guid: b1720da1f73451649812c5956e1e3cd2,
+    type: 3}
+  tentacles: []
+  germStats: {fileID: 11400000, guid: cafd53f2ca33ceb41950aaf06820a906, type: 2}
+  stat: {fileID: 11400000, guid: 24128dd517e398e4b9a0f372286aec93, type: 2}
+--- !u!114 &5100515625877213544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5100515625877213542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e503b512b702af4e9fa8fa92905be1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossCounter: 0
+  bossCountDown: 50
+  spawnRate: 2

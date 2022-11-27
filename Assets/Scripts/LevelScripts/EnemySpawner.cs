@@ -17,7 +17,7 @@ public class EnemySpawner : MonoBehaviour, Idamageable
     BossManager bossManager;
 
     [Header("Health Settings")]
-    public float health = 1000;
+    private float health;
     private float maxHealth;
 
     /*[Header("Script Settings")]*/

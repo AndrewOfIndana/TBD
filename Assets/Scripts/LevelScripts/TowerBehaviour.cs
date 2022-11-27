@@ -11,15 +11,15 @@ public class TowerBehaviour : MonoBehaviour
 
     */
     /*[Header("Static References")]*/
-    GameManager gameManager;
-    ObjectPool objectPool; 
+    protected GameManager gameManager;
+    protected ObjectPool objectPool; 
 
     /*[Header("Components")]*/
-    private TowerController towerController;
+    protected TowerController towerController;
 
     [Header("Script Settings")]
     public Transform firingPoint; 
-    private Transform targetDetected; //What the unit detects
+    protected Transform targetDetected; //What the unit detects
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
@@ -35,14 +35,14 @@ public class TowerBehaviour : MonoBehaviour
         objectPool = ObjectPool.instance; 
     }
     /*-  Starts the units targeting behaviour -*/
-    public void StartBehaviour()
+    public virtual void StartBehaviour()
     {
         StartCoroutine(UpdateTarget(towerController.GetAttackRate()));
     }
 
     /*---      FUNCTIONS     ---*/
     /*-  Repeatedly updates a target and shoots, takes a float for the time -*/
-    private IEnumerator UpdateTarget(float time)
+    protected virtual IEnumerator UpdateTarget(float time)
     {
         yield return new WaitForSeconds(time); 
 
@@ -77,7 +77,7 @@ public class TowerBehaviour : MonoBehaviour
         }
     }
     /*-  Controls targeting -*/
-    private void Targeting()
+    protected void Targeting()
     {
         float shortestDistance = Mathf.Infinity;
         Transform nearestTarget = null;
@@ -111,7 +111,7 @@ public class TowerBehaviour : MonoBehaviour
         }
     }
     /*-  Controls shooting -*/
-    private void Shoot()
+    protected void Shoot()
     {
         GameObject bulletObj = objectPool.SpawnFromPool(towerController.GetStats().unitUtils.sharedTags.bulletTag, firingPoint.position, firingPoint.rotation);
         Bullet bullet = bulletObj.GetComponent<Bullet>();

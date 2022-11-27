@@ -26,6 +26,7 @@ public class GameOptions : MonoBehaviour
         {
             colorAdjustments = colAdj;
             colorAdjustments.postExposure.value = brightness;
+            colorAdjustments.colorFilter.value = new Color(1, 1, 1);
         }
     }
 
@@ -53,6 +54,11 @@ public class GameOptions : MonoBehaviour
         brightness = br;
         colorAdjustments.postExposure.value = brightness;
     }
+    public void SetColorFilter(Color fil)
+    {
+        colorAdjustments.colorFilter.value = fil;
+    }
+
     /*---      SET/GET FUNCTIONS     ---*/
     public float GetCameraZoom()
     {
