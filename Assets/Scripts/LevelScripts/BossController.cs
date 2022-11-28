@@ -60,7 +60,11 @@ public class BossController : MonoBehaviour, Idamageable, Ieffectable
         attackRate = stat.unitAttackRate;
         thisSprite.sprite = stat.unitUtils.unitSprite;
         thisCollider.size =  stat.unitUtils.unitSize;
-        audioSource.clip = stat.unitUtils.unitsSfx.GetRandomSfx();
+
+        if(stat.unitUtils.unitsSfx != null)
+        {
+            audioSource.clip = stat.unitUtils.unitsSfx.GetRandomSfx();
+        }
         this.gameObject.tag = stat.unitUtils.unitTag;
     }
     /*-  Starts the unit's behaviour and movement -*/
@@ -147,7 +151,11 @@ public class BossController : MonoBehaviour, Idamageable, Ieffectable
         if(health <= 0 && this.gameObject.activeSelf)
         {
             bossBehaviour.VoidTargets();
-            AudioSource.PlayClipAtPoint(stat.unitUtils.unitsSfx.deathSfx, this.transform.position, gameManager.GetGameOptions().GetVoiceClipVolume());
+
+            if(stat.unitUtils.unitsSfx != null)
+            {
+                AudioSource.PlayClipAtPoint(stat.unitUtils.unitsSfx.deathSfx, this.transform.position, gameManager.GetGameOptions().GetVoiceClipVolume());
+            }
             bossManager.EndBoss();
         }
     }

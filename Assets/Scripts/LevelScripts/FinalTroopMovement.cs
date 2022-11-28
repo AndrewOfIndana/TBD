@@ -28,26 +28,8 @@ public class FinalTroopMovement : TroopMovement
             return;
         }
 
-        if(troopBehaviour.GetTargetDetected() == null && (hasReachedEnd || troopController.GetStats().unitUtils.unitType == UnitType.BOSS))
-        {
-            /* MOVES TROOP FOLLOWING TROOP TO PLAYER LOCATION */
-
-            //if this position and playerDetected's position is greater 2
-            if(Vector3.Distance(transform.position, playerLocation.position) >= 2f)
-            {
-                dir = playerLocation.position - transform.position; 
-                transform.Translate(dir.normalized * troopController.GetSpeed() * Time.deltaTime, Space.World);
-                troopController.animator.SetBool("aIdle", false);
-            }
-            else
-            {
-                /* STOPS TROOP */
-
-                troopController.animator.SetBool("aIdle", true);
-            }
-        }
         //if targetDetected doesn't exist, playerDetected doesn't exist, and hasReachedEnd is false
-        else if(troopBehaviour.GetTargetDetected() == null && troopController.GetStats().unitUtils.unitType == UnitType.TROOP && !hasReachedEnd)
+        if(troopBehaviour.GetTargetDetected() == null && troopController.GetStats().unitUtils.unitType == UnitType.TROOP && !hasReachedEnd)
         {
             /* MOVES TROOP TO WAYPOINT */
 

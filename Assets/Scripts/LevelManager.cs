@@ -43,7 +43,7 @@ public class LevelManager : MonoBehaviour
     private float clockCalmTime;
     private float clockEnragedTime;
     private float clockTime = 0;
-    public int enragedCount = 0;
+    private int enragedCount = 0;
 
     [Header("Script Settings")]
     public Animator transitionSlide;

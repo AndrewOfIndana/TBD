@@ -16,7 +16,7 @@ MonoBehaviour:
   unitName: Germ
   unitDescription: Flies and targets the player
   unitHealth: 5
-  unitAttack: 15
+  unitAttack: 5
   unitSpeed: 7.5
   unitAttackRange: 5
   unitAttackRate: 0.5

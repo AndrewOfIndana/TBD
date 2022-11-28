@@ -17,7 +17,7 @@ MonoBehaviour:
   unitDescription: Spawns units while being a tower
   unitHealth: 5
   unitAttack: 5
-  unitSpeed: 0
+  unitSpeed: 5
   unitAttackRange: 15
   unitAttackRate: 0.75
   unitUtils: {fileID: 11400000, guid: df7be35c12eb5744d9e773900272ea06, type: 2}

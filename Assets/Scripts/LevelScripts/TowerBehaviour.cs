@@ -137,4 +137,10 @@ public class TowerBehaviour : MonoBehaviour
             }
         }
     }
+    /*-  Sets all target to null  -*/
+    public virtual void VoidTargets()
+    {
+        targetDetected = null;
+        towerController.animator.SetBool("aAttacking", false);
+    }
 }

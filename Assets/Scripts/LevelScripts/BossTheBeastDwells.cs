@@ -12,9 +12,6 @@ public class BossTheBeastDwells : BossBehaviour
     /*[Header("Components")]*/
     private FinalBossController finalBossController;
 
-    [Header("Script Settings")]
-    public float spawnRate;
-
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
     public override void Awake()
@@ -26,7 +23,7 @@ public class BossTheBeastDwells : BossBehaviour
     {
         StartCoroutine(UpdateTarget(1f));
         StartCoroutine(UngraspableAttack(finalBossController.GetAttackRate()));
-        // StartCoroutine(SpawnEnemy(spawnRate));
+        StartCoroutine(SpawnEnemy(finalBossController.GetStats().unitSpeed));
     }
 
     /*---      FUNCTIONS     ---*/
@@ -127,20 +124,23 @@ public class BossTheBeastDwells : BossBehaviour
     /*---      MOVES     ---*/
     public override void SpecialAttack_1()
     {
-        Debug.Log("ATTACK ONE");
-        finalBossController.YellSpecialAttack("ATTACK ONE");
+        //DOOM
+        ApplyAreaOfEffectStatus(false, finalBossController.GetStats().unitUtils.unitKeyEffects[0]);
+        finalBossController.YellSpecialAttack(finalBossController.GetStats().unitUtils.unitKeyEffects[0].effectName);
         specialAttack = GetNextSpecialMove();
     }
     public override void SpecialAttack_2()
     {
-        Debug.Log("ATTACK TWO");
-        finalBossController.YellSpecialAttack("ATTACK TWO");
+        //TERROR
+        ApplyAreaOfEffectStatus(false, finalBossController.GetStats().unitUtils.unitKeyEffects[1]);
+        finalBossController.YellSpecialAttack(finalBossController.GetStats().unitUtils.unitKeyEffects[1].effectName);
         specialAttack = GetNextSpecialMove();
     }
     public override void SpecialAttack_3()
     {
-        Debug.Log("ATTACK THREE");
-        finalBossController.YellSpecialAttack("ATTACK THREE");
+        //MIND'S EYE
+        ApplyAreaOfEffectStatus(true, finalBossController.GetStats().unitUtils.unitKeyEffects[2]);
+        finalBossController.YellSpecialAttack(finalBossController.GetStats().unitUtils.unitKeyEffects[2].effectName);
         specialAttack = GetNextSpecialMove();
     }
 }

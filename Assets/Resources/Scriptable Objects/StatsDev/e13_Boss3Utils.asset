@@ -21,4 +21,7 @@ MonoBehaviour:
   unitTag: EnemyBoss
   targetTags: []
   sharedTags: {fileID: 11400000, guid: d3fc0c1f4507e3841928636ff32a43d0, type: 2}
-  unitKeyEffects: []
+  unitKeyEffects:
+  - {fileID: 11400000, guid: 2c784e513a085544c918ac1f8f706167, type: 2}
+  - {fileID: 11400000, guid: 058fdec714597e445997e3700696470b, type: 2}
+  - {fileID: 11400000, guid: ff72ce229186dec42ac10fa6d6e91b9d, type: 2}

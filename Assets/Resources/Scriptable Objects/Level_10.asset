@@ -16,11 +16,11 @@ MonoBehaviour:
   levelName: Gateway
   availbleUnits: {fileID: 11400000, guid: fed90387f2cebc34186cdd30aa686d91, type: 2}
   unitLimit: 4
-  mana: 50
-  manaRegen: 1
+  mana: 70
+  manaRegen: 10
   playerHealth: 150
   enemyUnits: {fileID: 11400000, guid: d8cb079afff2c094db891dff9a30abe2, type: 2}
-  enemySpawnRate: 1.75
+  enemySpawnRate: 2
   enemyHealth: 450
   enemyCalmTime: 270
   enemyEnragedTime: 90

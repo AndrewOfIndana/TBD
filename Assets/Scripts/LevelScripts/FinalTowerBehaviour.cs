@@ -11,7 +11,6 @@ public class FinalTowerBehaviour : TowerBehaviour
     */
     private LevelManager levelManager;
 
-    public float spawnRate;
     private bool areEnemiesPathFindingNormal = false;
     private List<Stats> typesOfEnemies = new List<Stats>();
     private FinalBossController finalBossController;
@@ -40,7 +39,7 @@ public class FinalTowerBehaviour : TowerBehaviour
     public override void StartBehaviour()
     {
         StartCoroutine(UpdateTarget(towerController.GetAttackRate()));
-        StartCoroutine(SpawnEnemy(spawnRate));
+        StartCoroutine(SpawnEnemy(towerController.GetStats().unitSpeed));
     }
 
     /*---      FUNCTIONS     ---*/
@@ -113,9 +112,11 @@ public class FinalTowerBehaviour : TowerBehaviour
             StartCoroutine(SpawnEnemy(rate)); 
         }
     }
-
-    private void OnDisable()
+    /*-  Sets all target to null  -*/
+    public override void VoidTargets()
     {
         finalBossController.TakeDamage(1f);
+        targetDetected = null;
+        towerController.animator.SetBool("aAttacking", false);
     }
 }

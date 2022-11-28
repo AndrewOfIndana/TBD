@@ -68,7 +68,11 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
         thisSprite.sprite = newStats.unitUtils.unitSprite;
         thisCollider.size =  newStats.unitUtils.unitSize;
         healthBar.fillAmount = health/newStats.unitHealth;
-        audioSource.clip = newStats.unitUtils.unitsSfx.GetRandomSfx();
+
+        if(stat.unitUtils.unitsSfx != null)
+        {
+            audioSource.clip = stat.unitUtils.unitsSfx.GetRandomSfx();
+        }
         this.gameObject.tag = newStats.unitUtils.unitTag;
 
         if(newStats.unitUtils.unitBehaviour == Behaviour.SUPPORT)
@@ -183,7 +187,11 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
         if(health <= 0 && this.gameObject.activeSelf)
         {
             troopBehaviour.VoidTargets();
-            AudioSource.PlayClipAtPoint(stat.unitUtils.unitsSfx.deathSfx, this.transform.position, gameManager.GetGameOptions().GetVoiceClipVolume());
+            
+            if(stat.unitUtils.unitsSfx != null)
+            {
+                AudioSource.PlayClipAtPoint(stat.unitUtils.unitsSfx.deathSfx, this.transform.position, gameManager.GetGameOptions().GetVoiceClipVolume());
+            }
             this.gameObject.SetActive(false); 
         }
     }

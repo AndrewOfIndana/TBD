@@ -18,7 +18,7 @@ public class FinalBossController : MonoBehaviour, Idamageable, Ieffectable
 
     [Header("GameObject References")]
     public GameObject tentaclePrefab;
-    // private AudioSource audioSource;
+    private AudioSource audioSource;
     public List<TowerController> tentacles = new List<TowerController>();
     public Stats germStats;
 
@@ -34,7 +34,7 @@ public class FinalBossController : MonoBehaviour, Idamageable, Ieffectable
     private void Awake()
     {
         bossBehaviour = this.GetComponent<BossBehaviour>();
-        // audioSource = this.GetComponent<AudioSource>();
+        audioSource = this.GetComponent<AudioSource>();
     }
     /*-  Start is called before the first frame update -*/
     private void Start()
@@ -51,7 +51,10 @@ public class FinalBossController : MonoBehaviour, Idamageable, Ieffectable
         attack = stat.unitAttack;
         health = stat.unitHealth;
         attackRate = stat.unitAttackRate;
-        // audioSource.clip = stat.unitUtils.unitsSfx.GetRandomSfx();
+        if(stat.unitUtils.unitsSfx != null)
+        {
+            audioSource.clip = stat.unitUtils.unitsSfx.GetRandomSfx();
+        }
         this.gameObject.tag = stat.unitUtils.unitTag;
     }
     public void SpawnTentacle(Transform[] spawnPoints)
@@ -149,7 +152,10 @@ public class FinalBossController : MonoBehaviour, Idamageable, Ieffectable
         //if health is less than or equal to 0
         if(health <= 0 && this.gameObject.activeSelf)
         {
-            // AudioSource.PlayClipAtPoint(stat.unitUtils.unitsSfx.deathSfx, this.transform.position, gameManager.GetGameOptions().GetVoiceClipVolume());
+            if(stat.unitUtils.unitsSfx != null)
+            {
+                AudioSource.PlayClipAtPoint(stat.unitUtils.unitsSfx.deathSfx, this.transform.position, gameManager.GetGameOptions().GetVoiceClipVolume());
+            }
             bossManager.EndBoss();
         }
     }

@@ -21,7 +21,7 @@ public abstract class BossBehaviour : MonoBehaviour
     protected PlayerAvatar playerAvatar;
 
     protected bossDelegate specialAttack;
-    public int bossCounter = 0;
+    protected int bossCounter = 0;
     public int bossCountDown = 45;
 
     /*---      SETUP FUNCTIONS     ---*/
