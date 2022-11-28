@@ -23,4 +23,4 @@ MonoBehaviour:
   unitUtils: {fileID: 11400000, guid: 5ad06612686bc7d4db0ebdee52dd9c0e, type: 2}
   isUnitEnemy: 0
   unitCost: 5
-  unitThumbnail: {fileID: 21300000, guid: 5026dc32e4ca6704280df89c7cc728aa, type: 3}
+  unitThumbnail: {fileID: 21300000, guid: 33741040ae9d3d5479df50f29afbd1e0, type: 3}
