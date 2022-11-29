@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public int currentLevel = 0;
     public int lastPlayedLevel = 1;
     private float transitionTime = 1f;
+    private bool firstTimePlaying = true;
 
     private GameOptions gameOptions;
 
@@ -44,7 +45,7 @@ public class GameManager : MonoBehaviour
     /*-  Start is called before the first frame update -*/
     private void Start()
     {
-        // gameState = GameStates.MENU;
+        gameState = GameStates.MENU;
     }
 
     /*---      MAIN FUNCTIONS     ---*/
@@ -60,7 +61,16 @@ public class GameManager : MonoBehaviour
     {
         currentLevel = btnIndex;
         string levelNum = currentLevel.ToString("D2"); //Converts level number to string format 00
-        StartCoroutine(LoadLevel("Level_" + levelNum));
+
+        if(firstTimePlaying)
+        {
+            firstTimePlaying = false;
+            StartCoroutine(LoadLevel("HowToPlay"));
+        }
+        else
+        {
+            StartCoroutine(LoadLevel("Level_" + levelNum));
+        }
     }
     /*-  Chooses the next level -*/
     public void NextLevel()

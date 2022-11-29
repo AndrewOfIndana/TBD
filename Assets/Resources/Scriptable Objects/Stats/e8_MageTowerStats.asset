@@ -15,7 +15,7 @@ MonoBehaviour:
   unitID: 16
   unitName: Archer tower
   unitDescription: Shoots oncoming troops
-  unitHealth: 75
+  unitHealth: 50
   unitAttack: 3
   unitSpeed: 0
   unitAttackRange: 10

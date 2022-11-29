@@ -15,7 +15,7 @@ MonoBehaviour:
   levelID: 5
   levelName: Dunes
   availbleUnits: {fileID: 11400000, guid: e6f025753cc591249b65c1777ab69044, type: 2}
-  unitLimit: 3
+  unitLimit: 4
   mana: 100
   manaRegen: 4
   playerHealth: 400

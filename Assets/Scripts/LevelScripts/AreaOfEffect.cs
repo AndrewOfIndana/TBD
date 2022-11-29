@@ -12,6 +12,7 @@ public class AreaOfEffect : MonoBehaviour
     private SphereCollider aoeCollider;
 
     [Header("Script Settings")]
+    public GameObject[] aoeParticles;
     private bool isAppliedByEnemy;
     private bool isAppliedToEnemy;
     private float aoeAttack;
@@ -23,6 +24,7 @@ public class AreaOfEffect : MonoBehaviour
     private void Awake()
     {
         aoeCollider = this.GetComponent<SphereCollider>();
+        ClearParticleEffects();
     }
     /*-  Start is called before the first frame update -*/
     private void Start()
@@ -43,6 +45,14 @@ public class AreaOfEffect : MonoBehaviour
         isAppliedToEnemy = toEnemy;
         aoeAttack = atk;
 
+        if(!fromEnemy)
+        {
+            UpdateParticleEffect(0, spread);
+        }
+        else if(fromEnemy)
+        {
+            UpdateParticleEffect(1, spread);
+        }
     }
     /*-  Sets target to the tower's enemyDetected as well as bullet's attack value -*/
     public void SetAOE(float spread, bool fromEnemy, bool toEnemy, StatusEffect statEffect)
@@ -97,11 +107,27 @@ public class AreaOfEffect : MonoBehaviour
     }
 
     /*---      FUNCTIONS     ---*/
+    private void ClearParticleEffects()
+    {
+        for(int i = 0; i < aoeParticles.Length; i++)
+        {
+            aoeParticles[i].transform.localScale = new Vector3(1, 1, 1);
+            aoeParticles[i].SetActive(false);
+        }
+    }
+
+    private void UpdateParticleEffect(int index, float spread)
+    {
+
+        aoeParticles[index].transform.localScale = new Vector3(spread, 1, spread);
+        aoeParticles[index].SetActive(true);
+    }
     /*-  Destroys the bullet -*/
     public void DestroyAOE()
     {
         aoeEffect = null;
         aoeAttack = 0;
+        ClearParticleEffects();
         this.gameObject.SetActive(false); 
     }
 
