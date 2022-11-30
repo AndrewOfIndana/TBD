@@ -20,7 +20,7 @@ MonoBehaviour:
   manaRegen: 5
   playerHealth: 100
   enemyUnits: {fileID: 11400000, guid: c4a842ab3c5317f4b938899ee4f7fda3, type: 2}
-  enemySpawnRate: 2
+  enemySpawnRate: 2.5
   enemyHealth: 100
   enemyCalmTime: 120
   enemyEnragedTime: 60

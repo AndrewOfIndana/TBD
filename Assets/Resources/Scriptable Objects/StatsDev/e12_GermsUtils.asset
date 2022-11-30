@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitSprite: {fileID: 21300000, guid: 92a1b554ce94c544c8b1cafb331c639e, type: 3}
   unitSize: {x: 1.5, y: 2, z: 1.5}
-  unitsSfx: {fileID: 0}
+  unitsSfx: {fileID: 11400000, guid: 0e44e954b2b27cb4f8040a84cf745cad, type: 2}
   unitAnimationSpeed: 1.25
   unitType: 0
   unitBehaviour: 2

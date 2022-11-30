@@ -83,7 +83,7 @@ public class FinalBossController : MonoBehaviour, Idamageable, Ieffectable
     public void StartController()
     {
         bossBehaviour.StartBehaviour(); //Starts the boss's Behaviour
-        // audioSource.Play();
+        audioSource.Play();
     }
     /*---      FUNCTIONS     ---*/
     /*-  Handles applying a status effect for a unit takes a StatusEffect for the applied effect -*/

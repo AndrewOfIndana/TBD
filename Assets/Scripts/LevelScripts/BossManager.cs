@@ -20,6 +20,8 @@ public class BossManager : MonoBehaviour
     [Header("Script Settings")]
     public GameObject bossPrefab;
     public Stats bossStat;
+    public AudioClip bossMusic;
+    public AudioSource backGroundMusic; 
     private BossController boss;
 
     [Header("Boss UI References")]
@@ -61,6 +63,8 @@ public class BossManager : MonoBehaviour
     {
         GameObject bossObj = Instantiate(bossPrefab, levelManager.enemySpawner.transform.position, Quaternion.identity);
         boss = bossObj.GetComponent<BossController>();
+        backGroundMusic.clip = bossMusic;
+        backGroundMusic.Play();
         enemySpawnerUI.SetActive(false);
         bossUI.SetActive(true);
         ClearSpecialMoveText();
