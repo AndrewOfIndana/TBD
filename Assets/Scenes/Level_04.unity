@@ -12334,6 +12334,16 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 2582150605535645243, guid: 19e26f2cd96072a4c95096cf1a0bd45c,
+        type: 3}
+      propertyPath: bossMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: 79a3bb52d8f497540ac52cc15f58686c, type: 3}
+    - target: {fileID: 2582150605535645243, guid: 19e26f2cd96072a4c95096cf1a0bd45c,
+        type: 3}
+      propertyPath: backGroundMusic
+      value: 
+      objectReference: {fileID: 5440504541679258484}
     - target: {fileID: 2761915878649134641, guid: 19e26f2cd96072a4c95096cf1a0bd45c,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -12469,6 +12479,11 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7286480862949949946, guid: 19e26f2cd96072a4c95096cf1a0bd45c,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 302cdf426623b064ab05282a08ae68cd, type: 3}
     - target: {fileID: 7803947741595671737, guid: 19e26f2cd96072a4c95096cf1a0bd45c,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -12501,3 +12516,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19e26f2cd96072a4c95096cf1a0bd45c, type: 3}
+--- !u!82 &5440504541679258484 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 7286480862949949946, guid: 19e26f2cd96072a4c95096cf1a0bd45c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5440504541679258483}
+  m_PrefabAsset: {fileID: 0}

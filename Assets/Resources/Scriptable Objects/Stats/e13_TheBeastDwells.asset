@@ -17,7 +17,7 @@ MonoBehaviour:
   unitDescription: Eldritch Abomination
   unitHealth: 3
   unitAttack: 25
-  unitSpeed: 4
+  unitSpeed: 5
   unitAttackRange: 100
   unitAttackRate: 50
   unitUtils: {fileID: 11400000, guid: 1ecb59a8b3d518447857f840a6c529de, type: 2}
