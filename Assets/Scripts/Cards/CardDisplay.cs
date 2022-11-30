@@ -27,13 +27,30 @@ public Card Card
     //sets card location on the screen
     public CardDisplay Left => x > 0 ? DeckCreator.Instance.Cards[x - 1, y] : null;
     public CardDisplay Right => x > 0 ? DeckCreator.Instance.Cards[y, x + 1] : null;
-    public CardDisplay Top => y > 0 ? DeckCreator.Instance.Cards[x, y - 1] : null;
-    public CardDisplay Bottom => x < 0 ? DeckCreator.Instance.Cards[x, y + 1] : null;
 
-    private void Start() => button.onClick.AddListener(() => DeckCreator.Instance.Select(this));
+    public CardDisplay[] Neighbors => new[]
+    {
+        Left,Right
+    };
+    //private void Start() => button.onClick.AddListener(() => DeckCreator.Instance.Select(this));
 
-
-
+   
+    public List<CardDisplay> CardsInRow(List<CardDisplay> exclude = null)
+    {
+        var result = new List<CardDisplay> { this, };
+        if (exclude == null)
+        {
+            exclude = new List<CardDisplay> { this, };
+        }
+        else { exclude.Add(this);
+        }
+        foreach(var neighbour in Neighbors)
+        {
+            if (neighbour == null || exclude.Contains(neighbour) || neighbour.Card != Card) continue;
+            result.AddRange(neighbour.CardsInRow(exclude));
+        }
+        return result;
+    }
 
 
 
