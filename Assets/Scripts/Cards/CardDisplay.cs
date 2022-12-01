@@ -32,7 +32,7 @@ public Card Card
     {
         Left,Right
     };
-    //private void Start() => button.onClick.AddListener(() => DeckCreator.Instance.Select(this));
+    private void Start() => button.onClick.AddListener(() => DeckCreator.Instance.Select(this));
 
    
     public List<CardDisplay> CardsInRow(List<CardDisplay> exclude = null)

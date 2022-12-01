@@ -17,3 +17,4 @@ MonoBehaviour:
   cardImage: {fileID: 21300000, guid: bd11db3f46b0cae47a3ce0940e982700, type: 3}
   particle: {fileID: 0}
   audioSource: {fileID: 0}
+  value: 1

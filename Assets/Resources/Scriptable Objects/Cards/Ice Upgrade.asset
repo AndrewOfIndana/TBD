@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98d0a72d6c64267409d3d98b0a829bce, type: 3}
   m_Name: Ice Upgrade
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Ice Upgrade
   Description: 
   cardImage: {fileID: 21300000, guid: bbf94f1b250aa254c98d9251fed562ea, type: 3}
   particle: {fileID: 0}
   audioSource: {fileID: 0}
+  value: 5

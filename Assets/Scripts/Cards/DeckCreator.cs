@@ -19,14 +19,14 @@ public class DeckCreator : MonoBehaviour
     public List<Card> testDeck = new List<Card> { };
     private void Awake() => Instance = this;
    
-   
-
+    private IEnumerator coroutine;
+  
     // Start is called before the first frame update
     void Start()
     {
         buildDeck();
     }
-
+    
     public void buildDeck()
     {
         //counts how many cards in a deck and applies the images to the card
@@ -44,13 +44,41 @@ public class DeckCreator : MonoBehaviour
             }
       
     }
+    IEnumerator  CoolDown(float time, int pos)
+    {
+        var card = decks[y].deck[x + pos];
+        decks[0].deck[pos].gameObject.SetActive(false);
+        
 
-    
+        yield return new WaitForSeconds(time);
+        decks[0].deck[pos].gameObject.SetActive(true);
+        Debug.Log(card.Card.value);
+        card.Card = CardDatabase.Cards[UnityEngine.Random.Range(0, CardDatabase.Cards.Length)];
+    }
+    public void Card1()
+    {
+        StartCoroutine(CoolDown(2f, 0));
+      
+    }
 
-    
 
+    public void Card2()
+    {
+        StartCoroutine(CoolDown(2f, 1));
+    }
+    public void Card3()
+    {
+        StartCoroutine(CoolDown(2f, 2));
 
-   
+    }
+
+    public async void Select(CardDisplay card)
+    {
+        if (!_selection.Contains(card)) _selection.Add(card);//adds the card
+        if (_selection.Count < 3) return;
+        Debug.Log($"Selected tiles at ({_selection[0].x},{_selection[0].y}) and ({_selection[1].x}, {_selection[1].y})and ({_selection[2].x},{_selection[2].y}");
+
+    }
 
 }
     

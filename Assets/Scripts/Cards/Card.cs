@@ -10,4 +10,5 @@ public class Card : ScriptableObject
     public Sprite cardImage; // the matching image of the card
     public GameObject particle;
     public GameObject audioSource;
+    public int value;
 }
