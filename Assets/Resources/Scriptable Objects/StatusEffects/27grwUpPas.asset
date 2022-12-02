@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56d08fa4eda095c488bf70fcdee34af6, type: 3}
+  m_Name: 27grwUpPas
+  m_EditorClassIdentifier: 
+  effectId: 27
+  effectName: Growth Upgrade (Passive)
+  effects:
+  - {fileID: 11400000, guid: 4af7ab2d33361c842a67f534b4be57ba, type: 2}
+  - {fileID: 11400000, guid: 22d9a5182232b5348a83736c1927973f, type: 2}
+  - {fileID: 11400000, guid: 8d6d6c3ca0f0d554884c1b5e1fa2d8d6, type: 2}
+  - {fileID: 11400000, guid: c525741bbe4344d41a6dd31a7c66389d, type: 2}
+  effectLifetime: 20

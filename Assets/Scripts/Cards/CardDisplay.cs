@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public sealed class CardDisplay : MonoBehaviour
 {
-    public int x;
-    public int y;
+    [HideInInspector] public int x;
+    [HideInInspector] public int y;
 
     private Card _card;
 

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56d08fa4eda095c488bf70fcdee34af6, type: 3}
+  m_Name: 17iceUpPas
+  m_EditorClassIdentifier: 
+  effectId: 17
+  effectName: Ice Upgrade (Passive)
+  effects:
+  - {fileID: 11400000, guid: c1f21892d3666d14faa6ced4988ef028, type: 2}
+  - {fileID: 11400000, guid: b623b9eef797f1a4fa5949a2aa2916bf, type: 2}
+  - {fileID: 11400000, guid: 5195249e3a2c0ff42978ba155e632849, type: 2}
+  effectLifetime: 15

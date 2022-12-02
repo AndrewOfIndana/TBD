@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public float mana = 100;
     public float manaRegen = 2;
     private List<Stats> units = new List<Stats>(); 
+    public List<CardEffects> cards = new List<CardEffects>();
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
@@ -69,6 +70,19 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    public void AddCard(CardEffects card, int index)
+    {
+        Debug.Log("Adding card: " + card + " at position " + index);
+    }
+    public void ActivateCard(CardEffects card, int index)
+    {
+        Debug.Log("Activating card: " + card + " at position " + index);
+    }
+    public void ReplaceCard(CardEffects card, int index)
+    {
+        Debug.Log("Replacing card: " + card + " at position " + index);
+    }
+
     /*-  Repeatedly regenerates mana, takes a float for the time -*/
     private IEnumerator RegenerateMana(float time)
     {

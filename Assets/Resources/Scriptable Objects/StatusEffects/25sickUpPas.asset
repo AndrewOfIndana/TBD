@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56d08fa4eda095c488bf70fcdee34af6, type: 3}
+  m_Name: 25sickUpPas
+  m_EditorClassIdentifier: 
+  effectId: 25
+  effectName: Sick Upgrade (Passive)
+  effects:
+  - {fileID: 11400000, guid: 5f0e4f0fb58199249b33164cdf7c8b75, type: 2}
+  - {fileID: 11400000, guid: fcbdd9bd014011341a305671af73725c, type: 2}
+  - {fileID: 11400000, guid: ef239a830e88dc5449dbeee0e477e055, type: 2}
+  effectLifetime: 15

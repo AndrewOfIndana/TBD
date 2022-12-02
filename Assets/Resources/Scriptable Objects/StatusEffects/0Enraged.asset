@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56d08fa4eda095c488bf70fcdee34af6, type: 3}
   m_Name: 0Enraged
   m_EditorClassIdentifier: 
+  effectId: 0
   effectName: Enraged
   effects:
   - {fileID: 11400000, guid: 0120c91ec3f7fde44aaeeed5e006a528, type: 2}
   - {fileID: 11400000, guid: 1c6bc73d08151444fa6481f483a79785, type: 2}
   - {fileID: 11400000, guid: e5b1d3fb4f8cf4846aa2153b39b9c088, type: 2}
-  effectLifetime: 10
-  effectParticles: {fileID: 2633752689828998228, guid: 61327cda271dc4b48b586d7041d99356,
-    type: 3}
+  effectLifetime: 999

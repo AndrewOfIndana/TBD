@@ -10,13 +10,16 @@ public class DeckCreator : MonoBehaviour
     public static DeckCreator Instance { get; private set; }
     public PlayerDeck[] decks;
     public CardDisplay[,] Cards { get; private set; }
-    public int x;
-    public int y;
+    [HideInInspector] public int x;
+    [HideInInspector] public int y;
     public int Height => Cards.GetLength(0);
     public int Width => Cards.GetLength(1);
     private readonly List<CardDisplay> _selection = new List<CardDisplay>();
     public int deckSize;
-    public List<Card> testDeck = new List<Card> { };
+    // public List<Card> testDeck = new List<Card> { };
+    public PlayerController playerController;
+    public float coolDownTime = 30f;
+
     private void Awake() => Instance = this;
    
     private IEnumerator coroutine;
@@ -41,43 +44,54 @@ public class DeckCreator : MonoBehaviour
                 Cards[y, x] = card;
                 //sets the card image from a random scritpable object in the database
                 card.Card = CardDatabase.Cards[UnityEngine.Random.Range(0, CardDatabase.Cards.Length)];
+                playerController.AddCard(card.Card.value, x);
             }
       
     }
-    IEnumerator  CoolDown(float time, int pos)
+    IEnumerator CoolDown(float time, int pos)
     {
         var card = decks[y].deck[x + pos];
         decks[0].deck[pos].gameObject.SetActive(false);
-        
+
+        if(playerController != null)
+        {
+            playerController.ActivateCard(card.Card.value, pos);
+        }
+        else
+        {
+            Debug.Log("NO RECEIVING END");
+        }
 
         yield return new WaitForSeconds(time);
         decks[0].deck[pos].gameObject.SetActive(true);
-        Debug.Log(card.Card.value);
         card.Card = CardDatabase.Cards[UnityEngine.Random.Range(0, CardDatabase.Cards.Length)];
+
+        if(playerController != null)
+        {
+            playerController.ReplaceCard(card.Card.value, pos);
+        }
+        else
+        {
+            Debug.Log("NO RECEIVING END");
+        }
     }
     public void Card1()
     {
-        StartCoroutine(CoolDown(2f, 0));
-      
+        StartCoroutine(CoolDown(coolDownTime, 0));
     }
-
-
     public void Card2()
     {
-        StartCoroutine(CoolDown(2f, 1));
+        StartCoroutine(CoolDown(coolDownTime, 1));
     }
     public void Card3()
     {
-        StartCoroutine(CoolDown(2f, 2));
-
+        StartCoroutine(CoolDown(coolDownTime, 2));
     }
 
-    public async void Select(CardDisplay card)
+    public void Select(CardDisplay card)
     {
         if (!_selection.Contains(card)) _selection.Add(card);//adds the card
         if (_selection.Count < 3) return;
-        Debug.Log($"Selected tiles at ({_selection[0].x},{_selection[0].y}) and ({_selection[1].x}, {_selection[1].y})and ({_selection[2].x},{_selection[2].y}");
-
     }
 
 }

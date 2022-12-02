@@ -15,8 +15,8 @@ MonoBehaviour:
   unitID: 19
   unitName: Tentacle
   unitDescription: Spawns units while being a tower
-  unitHealth: 5
-  unitAttack: 5
+  unitHealth: 250
+  unitAttack: 3
   unitSpeed: 7
   unitAttackRange: 15
   unitAttackRate: 0.75

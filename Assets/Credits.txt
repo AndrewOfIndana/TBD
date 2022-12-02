@@ -3,3 +3,5 @@
 "Skybox Series Free" by Avionx licensed Standard Unity Asset Store EULA: https://assetstore.unity.com/packages/2d/textures-materials/sky/skybox-series-free-103633#releases
 
 "Gusty" by cron licensed CC0: https://opengameart.org/content/gutsy
+
+"Black Chancery" by Earl Allen/Doug Miles CC0: https://www.dafont.com/black-chancery.font

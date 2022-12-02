@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c713d1ea1e534554193421bc0a55f827, type: 3}
+  m_Name: FireUpgrade
+  m_EditorClassIdentifier: 
+  cardID: 2
+  passiveName: Fire Upgrade (Passive)
+  passiveDescription: "Ally Stats \u2013 Atk Up * 1.25"
+  passiveEffect: {fileID: 11400000, guid: 39bc1f9715b03584caa3b2c7ebff9baf, type: 2}
+  activeName: Fire Upgrade
+  activeDescription: 1 Ally Atk Up * 2
+  activeEffect: {fileID: 11400000, guid: 3c84d13802676374e8e33eadabe7ae9d, type: 2}

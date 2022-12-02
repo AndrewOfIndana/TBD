@@ -6,9 +6,6 @@ public enum Attribute { fire, ice, lightning, poision, grow };// the different t
 public class Card : ScriptableObject
 {
     public string Name; // name of card 
-    public string Description; // a description of what the card does
     public Sprite cardImage; // the matching image of the card
-    public GameObject particle;
-    public GameObject audioSource;
-    public int value;
+    public CardEffects value;
 }

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56d08fa4eda095c488bf70fcdee34af6, type: 3}
+  m_Name: 10MindEye
+  m_EditorClassIdentifier: 
+  effectId: 10
+  effectName: Mind's Eye
+  effects:
+  - {fileID: 11400000, guid: 0407c7c2ebf59234aa0e519882002d7a, type: 2}
+  - {fileID: 11400000, guid: 1891b2c0b5a47b943905271d2aeb81d3, type: 2}
+  effectLifetime: 30
