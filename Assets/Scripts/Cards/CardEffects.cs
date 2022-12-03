@@ -21,4 +21,5 @@ public class CardEffects : ScriptableObject
     public string activeName; 
     public string activeDescription; 
     public StatusEffect activeEffect;
+    public bool isAppliedToEnemy;
 }

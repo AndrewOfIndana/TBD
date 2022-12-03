@@ -12,7 +12,7 @@ public class Aura : MonoBehaviour
     */
     [Header("Script Settings")]
     private SphereCollider auraCollider;
-    private List<StatusEffect> auraEffects = new List<StatusEffect>();
+    public List<StatusEffect> auraEffects = new List<StatusEffect>();
     private bool isAppliedByEnemy;
     private bool isAppliedToEnemy;
 
@@ -28,6 +28,13 @@ public class Aura : MonoBehaviour
     {
         auraCollider.enabled = true;
         auraEffects = effects;
+        isAppliedByEnemy = fromEnemy;
+        isAppliedToEnemy = toEnemy;
+    }
+
+    public void EnableAura(bool fromEnemy, bool toEnemy)
+    {
+        auraCollider.enabled = true;
         isAppliedByEnemy = fromEnemy;
         isAppliedToEnemy = toEnemy;
     }
@@ -79,5 +86,10 @@ public class Aura : MonoBehaviour
     public void DisableAura()
     {
         auraCollider.enabled = false;
+    }
+
+    public void SetAuraEffect(List<StatusEffect> effects)
+    {
+        auraEffects = effects;
     }
 }

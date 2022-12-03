@@ -61,6 +61,16 @@ public class AreaOfEffect : MonoBehaviour
         isAppliedByEnemy = fromEnemy;
         isAppliedToEnemy = toEnemy;
         aoeEffect = statEffect;
+
+        if(!fromEnemy)
+        {
+            UpdateParticleEffect(2, spread);
+        }
+        else if(fromEnemy)
+        {
+            UpdateParticleEffect(3, spread);
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -81,7 +91,11 @@ public class AreaOfEffect : MonoBehaviour
             {
                 SpreadEffect(other);
             }
-            else if(isAppliedByEnemy && isAppliedToEnemy && otherUnit.IsEnemy() && aoeEffect != null)
+            else if(!isAppliedByEnemy && isAppliedToEnemy && otherUnit.IsEnemy() && aoeEffect != null)
+            {
+                SpreadEffect(other);
+            }
+            else if(!isAppliedByEnemy && !isAppliedToEnemy && !otherUnit.IsEnemy() && aoeEffect != null)
             {
                 SpreadEffect(other);
             }

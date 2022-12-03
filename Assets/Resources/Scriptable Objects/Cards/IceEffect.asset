@@ -19,3 +19,4 @@ MonoBehaviour:
   activeName: Ice Effect
   activeDescription: Enemy Speed Down * 1.75
   activeEffect: {fileID: 11400000, guid: d6d9db94972e8e64b83036d459d4bdfb, type: 2}
+  isAppliedToEnemy: 1

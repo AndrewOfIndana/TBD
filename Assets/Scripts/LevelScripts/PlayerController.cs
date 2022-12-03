@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,12 +19,15 @@ public class PlayerController : MonoBehaviour
     [Header("Controller References")]
     public PlayerSpawner playerSpawner;
     private PlayerTowerDeployer playerTowerDeployer;
+    public PlayerAvatar playerAvatar;
+    public Aura playerAura;
 
     [Header("Script Settings")]
     public float mana = 100;
     public float manaRegen = 2;
     private List<Stats> units = new List<Stats>(); 
     public List<CardEffects> cards = new List<CardEffects>();
+    public List<StatusEffect> playerPassiveEffect = new List<StatusEffect>();
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Awake is called when the script is being loaded -*/
@@ -46,6 +50,9 @@ public class PlayerController : MonoBehaviour
     /*-  StartGame is called when the game has started -*/
     public void StartGame()
     {
+        playerAvatar = levelManager.GetPlayerAvatar();
+        playerAura = playerAvatar.GetPlayerAura();
+        UpdateAura();
         StartCoroutine(RegenerateMana(1f));
         levelUI.UpdateUI(); //Updates UI when the playerStart
     }
@@ -70,17 +77,38 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    public void AddCard(CardEffects card, int index)
+
+    public void AddCard(CardEffects card)
     {
-        Debug.Log("Adding card: " + card + " at position " + index);
+        cards.Add(card);
+        playerPassiveEffect.Add(card.passiveEffect);
     }
     public void ActivateCard(CardEffects card, int index)
     {
-        Debug.Log("Activating card: " + card + " at position " + index);
+        if(playerAvatar != null && playerAvatar.isActiveAndEnabled == true)
+        {
+            playerAvatar.ActivateCardEffect(card.isAppliedToEnemy, card.activeEffect);
+        }
+
+        if(cards.Contains(card))
+        {
+            playerPassiveEffect.Remove(card.passiveEffect);
+        }
+        UpdateAura();
     }
     public void ReplaceCard(CardEffects card, int index)
     {
-        Debug.Log("Replacing card: " + card + " at position " + index);
+        cards[index] =  card;
+        playerPassiveEffect.Add(card.passiveEffect);
+        UpdateAura();
+    }
+    public void UpdateAura()
+    {
+        if(playerAvatar != null && playerAvatar.isActiveAndEnabled == true)
+        {
+            playerPassiveEffect.Select(e => e).Distinct();
+            playerAura.SetAuraEffect(playerPassiveEffect);
+        }
     }
 
     /*-  Repeatedly regenerates mana, takes a float for the time -*/

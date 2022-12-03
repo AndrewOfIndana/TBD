@@ -55,8 +55,8 @@ MonoBehaviour:
   x: 0
   y: 0
   deckSize: 0
-  testDeck:
-  - {fileID: 0}
+  playerController: {fileID: 0}
+  coolDownTime: 10
 --- !u!1 &1483088888108664097
 GameObject:
   m_ObjectHideFlags: 0

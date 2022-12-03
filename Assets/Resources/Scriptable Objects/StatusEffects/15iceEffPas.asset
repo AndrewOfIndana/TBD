@@ -16,4 +16,4 @@ MonoBehaviour:
   effectName: Ice Effect (Passive)
   effects:
   - {fileID: 11400000, guid: 13b9ee42f3544c34eaf0a93aa9ad733d, type: 2}
-  effectLifetime: 15
+  effectLifetime: 5

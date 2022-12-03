@@ -25,4 +25,5 @@ MonoBehaviour:
   - EnemyTower
   - EnemyBoss
   sharedTags: {fileID: 11400000, guid: fef36fcd149f1b74d9614a1e3e09f962, type: 2}
-  unitKeyEffects: []
+  unitKeyEffects:
+  - {fileID: 11400000, guid: 97719074dd025e4478c739893af25f88, type: 2}

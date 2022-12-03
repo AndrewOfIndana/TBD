@@ -19,3 +19,4 @@ MonoBehaviour:
   activeName: Poison Effect
   activeDescription: Enemy Atk Down * 1.75
   activeEffect: {fileID: 11400000, guid: e07c772087d58fd41a94fe284c4f6247, type: 2}
+  isAppliedToEnemy: 1

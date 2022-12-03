@@ -24,31 +24,37 @@ public class DeckCreator : MonoBehaviour
    
     private IEnumerator coroutine;
   
-    // Start is called before the first frame update
-    void Start()
-    {
-        buildDeck();
-    }
-    
     public void buildDeck()
     {
         //counts how many cards in a deck and applies the images to the card
         Cards = new CardDisplay[decks.Max(hand => hand.deck.Length), 3];
+        for(int i =0; i < Width; i++)
+        {
+            decks[0].deck[i].gameObject.SetActive(false);
+        }
       // deals the cards to the player
-            for (var x = 0; x < Width; x++)
-            {
-                //gets the card location 
-                var card = decks[y].deck[x];
-                card.x = x;
-                card.y = y;
-                Cards[y, x] = card;
-                //sets the card image from a random scritpable object in the database
-                card.Card = CardDatabase.Cards[UnityEngine.Random.Range(0, CardDatabase.Cards.Length)];
-                playerController.AddCard(card.Card.value, x);
-            }
+        StartCoroutine(SetDown(coolDownTime, x));
       
     }
-    IEnumerator CoolDown(float time, int pos)
+    private IEnumerator SetDown(float time, int pos)
+    {
+        if(pos < Width)
+        {
+            yield return new WaitForSeconds(time);
+            decks[0].deck[pos].gameObject.SetActive(true);
+            var card = decks[y].deck[pos];
+            card.x = pos;
+            card.y = pos;
+            Cards[y, x] = card;
+            //sets the card image from a random scritpable object in the database
+            card.Card = CardDatabase.Cards[UnityEngine.Random.Range(0, CardDatabase.Cards.Length)];
+            playerController.AddCard(card.Card.value);
+            StartCoroutine(SetDown(coolDownTime, pos + 1));
+        }
+    }
+
+
+    private IEnumerator CoolDown(float time, int pos)
     {
         var card = decks[y].deck[x + pos];
         decks[0].deck[pos].gameObject.SetActive(false);

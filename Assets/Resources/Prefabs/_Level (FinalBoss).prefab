@@ -2711,6 +2711,7 @@ MonoBehaviour:
   playerController: {fileID: 2779009898346871714}
   playerSpawner: {fileID: 4748109250481464168}
   enemySpawner: {fileID: 2422394693411793677}
+  deckCreator: {fileID: 137680345988607331}
   playerPrefab: {fileID: 7037220480807331756, guid: 3766a3decefa70b46999ff18930951f6,
     type: 3}
   enragedStatus: {fileID: 11400000, guid: 947c88df1935d484e82c60e9e143db6d, type: 2}
@@ -7479,7 +7480,6 @@ MonoBehaviour:
   playerSpawner: {fileID: 4748109250481464168}
   mana: 100
   manaRegen: 2
-  cards: []
 --- !u!114 &8898502549959131106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11038,6 +11038,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 168618d977dd664438948492ec54e0cf, type: 3}
+--- !u!114 &137680345988607331 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2001137365740352485, guid: 168618d977dd664438948492ec54e0cf,
+    type: 3}
+  m_PrefabInstance: {fileID: 1885975112914755206}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315171232229543172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41d4e9f9f5a3606458e252fd4b8887ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1315171232229543172 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 606922842064819074, guid: 168618d977dd664438948492ec54e0cf,

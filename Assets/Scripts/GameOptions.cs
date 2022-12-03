@@ -14,11 +14,11 @@ public class GameOptions : MonoBehaviour
 
     private ColorAdjustments colorAdjustments;
 
-    private float cameraZoom = 6;
-    private float musicVolume = 0;
-    private float effectVolume = 0;
-    private float voiceVolume = 0;
-    private float brightness = 0;
+    public float cameraZoom = 6;
+    public float musicVolume = -50;
+    public float effectVolume = 0;
+    public float voiceVolume = 0;
+    public float brightness = 0;
 
     private void Start()
     {
@@ -70,7 +70,7 @@ public class GameOptions : MonoBehaviour
     }
     public float GetCameraZoomAttackRange()
     {
-        return cameraZoom * 2;
+        return cameraZoom * 3;
     }
     public float GetVoiceClipVolume()
     {

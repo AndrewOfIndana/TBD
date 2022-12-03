@@ -12,6 +12,7 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     */
     /*[Header("Static References")]*/
     GameManager gameManager;
+    ObjectPool objectPool;
     List<Transform> availableTiles;
 
     [Header("GameObject Reference")]
@@ -26,8 +27,7 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     private float health;
     private float speed;
     private float attackRate;
-    public float attackRange;
-    private List<StatusEffect> auraStatusEffects = new List<StatusEffect>();
+    private float attackRange;
 
     /*[Header("Script Settings")]*/
     private Transform closestTile;
@@ -45,9 +45,11 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     {
         /* Gets the static instances and stores them in the Static References */
         gameManager = GameManager.instance;
+        objectPool = ObjectPool.instance;
         SetAttackRange();
         availableTiles = Tile.GetTiles(); //Gets the list of transform from Tile
         closestTile = availableTiles[0]; //Sets closestTile to the first availableTiles list item
+        playerAura.EnableAura(stat.isUnitEnemy, stat.isUnitEnemy);
     }
     /*-  OnEnable is called when the object becomes enabled -*/
     private void OnEnable()
@@ -59,7 +61,6 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
         attackRate = stat.unitAttackRate;
         healthBar.fillAmount = health / stat.unitHealth;
         StartCoroutine(RegenerateHealth(1f));
-        //playerAura.EnableAura(auraStatusEffects, stat.isUnitEnemy, stat.isUnitEnemy);
     }
 
     /*---      UPDATE FUNCTIONS     ---*/
@@ -105,6 +106,40 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
     }
 
     /*---      FUNCTIONS     ---*/
+    public void ActivateCardEffect(bool toEnemy, StatusEffect cardEffect)
+    {
+        ApplyAreaOfEffectStatus(toEnemy, cardEffect);
+        
+        if(toEnemy)
+        {
+            ApplyAreaOfEffectAttack();
+        }
+    }
+
+    public void ApplyAreaOfEffectAttack()
+    {
+        GameObject aoeObj = objectPool.SpawnFromPool("AreaOfEffect", this.transform.position, this.transform.rotation);
+        AreaOfEffect aoe = aoeObj.GetComponent<AreaOfEffect>();
+
+        //if this bullet exist
+        if(aoe != null)
+        {
+            aoe.SetAOE(attackRange, stat.isUnitEnemy, !stat.isUnitEnemy, attack); //calls the bullet's seek function
+        }
+    }
+    /*-  Controls aoe status effects -*/
+    public void ApplyAreaOfEffectStatus(bool toEnemy, StatusEffect appliedEffect)
+    {
+        GameObject aoeObj = objectPool.SpawnFromPool("AreaOfEffect", this.transform.position, this.transform.rotation);
+        AreaOfEffect aoe = aoeObj.GetComponent<AreaOfEffect>();
+
+        //if this bullet exist
+        if(aoe != null)
+        {
+            aoe.SetAOE(attackRange, stat.isUnitEnemy, toEnemy, appliedEffect); //calls the bullet's seek function
+        }
+    }
+    
     /*-  Repeatedly regenerates health, takes a float for the time -*/
     private IEnumerator RegenerateHealth(float time)
     {
@@ -159,12 +194,16 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
         //if health is less than or equal to 0
         if (health <= 0)
         {
-            // playerAura.DisableAura();
+            playerAura.DisableAura();
             this.gameObject.SetActive(false);
         }
     }
 
     /*---      SET/GET FUNCTIONS     ---*/
+    public Aura GetPlayerAura()
+    {
+        return playerAura;
+    }
     public void SetAttackRange()
     {
         attackRange = gameManager.GetGameOptions().GetCameraZoomAttackRange();

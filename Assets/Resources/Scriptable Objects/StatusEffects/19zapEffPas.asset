@@ -16,4 +16,4 @@ MonoBehaviour:
   effectName: Zap Effect (Passive)
   effects:
   - {fileID: 11400000, guid: 81574ee27a34edb4cabf91f20862a376, type: 2}
-  effectLifetime: 15
+  effectLifetime: 5

@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     /*-  Start is called before the first frame update -*/
     private void Start()
     {
-        gameState = GameStates.MENU;
+        // gameState = GameStates.MENU;
     }
 
     /*---      MAIN FUNCTIONS     ---*/

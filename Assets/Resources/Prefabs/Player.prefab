@@ -292,6 +292,7 @@ Transform:
   - {fileID: 7037220481289707790}
   - {fileID: 231856631}
   - {fileID: 5850963868032278080}
+  - {fileID: 5022618392307562242}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -338,9 +339,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 9099600117971821011}
   healthBar: {fileID: 2145755683}
-  playerAura: {fileID: 0}
+  playerAura: {fileID: 2193690732247127858}
   stat: {fileID: 11400000, guid: 1eec6fa06b189da4093e28b2ffe09a55, type: 2}
-  attackRange: 0
 --- !u!114 &595206621860369269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,6 +479,65 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &8312155253175274978
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5022618392307562242}
+  - component: {fileID: 4431817651123009315}
+  - component: {fileID: 2193690732247127858}
+  m_Layer: 2
+  m_Name: Aura
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5022618392307562242
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8312155253175274978}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7037220480807331759}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &4431817651123009315
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8312155253175274978}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2193690732247127858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8312155253175274978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 801b8fda43eb3ff4f805ed1cfceb570b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  auraEffects: []
 --- !u!1001 &2971936563742870638
 PrefabInstance:
   m_ObjectHideFlags: 0

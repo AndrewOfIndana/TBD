@@ -5015,6 +5015,10 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: caaf725e52a192e4fa192d4f7693f393,
         type: 2}
     - target: {fileID: 1570489448, guid: fd05e0e5183210c4ab40f79547ff4276, type: 3}
+      propertyPath: musicVolume
+      value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1570489448, guid: fd05e0e5183210c4ab40f79547ff4276, type: 3}
       propertyPath: postProcess
       value: 
       objectReference: {fileID: 11400000, guid: caaf725e52a192e4fa192d4f7693f393,

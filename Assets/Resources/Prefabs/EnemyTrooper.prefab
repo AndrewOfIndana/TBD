@@ -382,7 +382,7 @@ GameObject:
   - component: {fileID: 1217795024101238879}
   - component: {fileID: 3428434811132943232}
   - component: {fileID: 7979312805661614880}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Aura
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,6 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 801b8fda43eb3ff4f805ed1cfceb570b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  auraEffects: []
 --- !u!1 &6411988931796246986
 GameObject:
   m_ObjectHideFlags: 0

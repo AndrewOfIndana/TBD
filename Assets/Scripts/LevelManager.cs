@@ -30,6 +30,7 @@ public class LevelManager : MonoBehaviour
     public PlayerController playerController;
     public PlayerSpawner playerSpawner;
     public EnemySpawner enemySpawner;
+    public DeckCreator deckCreator;
 
     [Header("Player Avatar Settings")]
     public GameObject playerPrefab;
@@ -67,7 +68,6 @@ public class LevelManager : MonoBehaviour
         { 
             instance = this; 
         } 
-
         /*  Gets the components  */
         levelUI = this.gameObject.GetComponent<LevelUI>();
 
@@ -149,15 +149,17 @@ public class LevelManager : MonoBehaviour
             levelUI.UpdateUI();
             SwitchCameras(0, 1);
             isSetupActive = false;
-            playerController.StartGame();
-            enemySpawner.StartGame();
             SpawnPlayer();
             AdjustPlayerCamera();
+            deckCreator.buildDeck();
+            playerController.StartGame();
+            enemySpawner.StartGame();
             StartCoroutine(EnragedCycle(1f)); //Begins EnragedCycle IEnumerator at 1 second
         }
         else if(gameManager.GetGameState() == GameStates.WIN) //if the gameState is WIN
         {
             /* Player WINS */
+            mainAudioListener.enabled = true;
             gameManager.SetLastPlayedLevel();
             levelUI.UpdateScreen(4);
             SwitchCameras(1, 0);
@@ -165,6 +167,7 @@ public class LevelManager : MonoBehaviour
         else if(gameManager.GetGameState() == GameStates.LOSE) //if the gameState is LOSE
         {
             /* Player LOSES */
+            mainAudioListener.enabled = true;
             levelUI.UpdateScreen(5);
             SwitchCameras(1, 0);
         }
@@ -233,6 +236,7 @@ public class LevelManager : MonoBehaviour
         if(gameManager.CheckIfPlaying())
         {
             playerAvatar.gameObject.SetActive(true);
+            playerController.UpdateAura();
             playerAvatar.transform.position = playerSpawner.transform.position;
             SwitchCameras(0, 1);
             mainAudioListener.enabled = false;

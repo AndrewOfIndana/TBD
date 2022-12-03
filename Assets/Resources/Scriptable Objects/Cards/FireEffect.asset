@@ -19,3 +19,4 @@ MonoBehaviour:
   activeName: Fire Effect
   activeDescription: Enemy Hp Down * 1.75
   activeEffect: {fileID: 11400000, guid: 1b9b7f9f97442084b9943640ef527820, type: 2}
+  isAppliedToEnemy: 1

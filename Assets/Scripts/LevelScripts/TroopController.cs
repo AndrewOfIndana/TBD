@@ -163,7 +163,7 @@ public class TroopController : MonoBehaviour, Idamageable, Ieffectable
     private void UpdateHealthUI()
     {
         //if health is greater than stat.unitHealth and levelManager's isEnraged is true
-        if(health > stat.unitHealth && levelManager.GetIsEnraged())
+        if(health > stat.unitHealth && levelManager.GetIsEnraged() && stat.isUnitEnemy)
         {
             healthBar.color = enragedColor;
         }

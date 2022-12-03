@@ -19,3 +19,4 @@ MonoBehaviour:
   activeName: 'Lightning Effect '
   activeDescription: Enemy AtkSpeed Down * 1.75
   activeEffect: {fileID: 11400000, guid: 9ad7e9881978c3d4481726c5eb396c38, type: 2}
+  isAppliedToEnemy: 1

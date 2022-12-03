@@ -16,4 +16,4 @@ MonoBehaviour:
   effectName: Sick Effect (Passive)
   effects:
   - {fileID: 11400000, guid: ba7e9399a8d3399419becc60d30a7a51, type: 2}
-  effectLifetime: 15
+  effectLifetime: 5
