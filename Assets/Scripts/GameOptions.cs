@@ -15,9 +15,9 @@ public class GameOptions : MonoBehaviour
     private ColorAdjustments colorAdjustments;
 
     public float cameraZoom = 6;
-    public float musicVolume = -50;
+    public float musicVolume = -10;
     public float effectVolume = 0;
-    public float voiceVolume = 0;
+    public float voiceVolume = -10;
     public float brightness = 0;
 
     private void Start()
@@ -28,6 +28,13 @@ public class GameOptions : MonoBehaviour
             colorAdjustments.postExposure.value = brightness;
             colorAdjustments.colorFilter.value = new Color(1, 1, 1);
         }
+        SetCameraZoom(cameraZoom);
+        SetMusicVolume(musicVolume);
+        SetEffectVolume(effectVolume);
+        SetVoiceVolume(voiceVolume);
+        SetBrightness(brightness);
+
+
     }
 
     public void SetCameraZoom(float zoom)

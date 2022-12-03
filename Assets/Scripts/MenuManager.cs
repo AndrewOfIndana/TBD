@@ -11,7 +11,7 @@ public class MenuManager : MonoBehaviour
 
     */
     /*[Header("Static References")]*/
-    GameManager gameManager;
+    protected GameManager gameManager;
 
     [Header("Script References")]
     public Animator transitionSlide;
@@ -21,7 +21,7 @@ public class MenuManager : MonoBehaviour
 
     /*---      SETUP FUNCTIONS     ---*/
     /*-  Start is called before the first frame update -*/
-    private void Start()
+    protected virtual void Start()
     {
         /* Gets the static instances and stores them in the Static References */
         gameManager = GameManager.instance;
@@ -41,12 +41,12 @@ public class MenuManager : MonoBehaviour
 
     /*---      FUNCTIONS     ---*/
     /*-  Adds listeners to each button, takes a button and the index from the for loop -*/
-    private void AddListeners(Button btn, int index)
+    protected void AddListeners(Button btn, int index)
     {
         btn.onClick.AddListener(() => { OnButtonClick(index); }); //Adds a listeners a button
     }
     /*-  Checks if a button is clicked, uses an index to indicate which button, OnClick -*/
-    private void OnButtonClick(int index)
+    protected void OnButtonClick(int index)
     {
         transitionSlide.SetTrigger("End");
         gameManager.SelectLevel((index + 1));
@@ -111,7 +111,7 @@ public class MenuManager : MonoBehaviour
         }
     }
     /*-  Updates the Swaps the screen, takes an index for chosen screen -*/
-    private void UpdateScreen(int index)
+    protected void UpdateScreen(int index)
     {
         for(int i = 0; i < menuScreens.Length; i++)
         {
