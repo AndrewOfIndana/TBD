@@ -19,6 +19,7 @@ public class DeckCreator : MonoBehaviour
     // public List<Card> testDeck = new List<Card> { };
     public PlayerController playerController;
     public float coolDownTime = 30f;
+    public float startUpTime = 30f;
 
     private void Awake() => Instance = this;
    
@@ -33,7 +34,7 @@ public class DeckCreator : MonoBehaviour
             decks[0].deck[i].gameObject.SetActive(false);
         }
       // deals the cards to the player
-        StartCoroutine(SetDown(coolDownTime, x));
+        StartCoroutine(SetDown(startUpTime, x));
       
     }
     private IEnumerator SetDown(float time, int pos)
@@ -49,7 +50,7 @@ public class DeckCreator : MonoBehaviour
             //sets the card image from a random scritpable object in the database
             card.Card = CardDatabase.Cards[UnityEngine.Random.Range(0, CardDatabase.Cards.Length)];
             playerController.AddCard(card.Card.value);
-            StartCoroutine(SetDown(coolDownTime, pos + 1));
+            StartCoroutine(SetDown(startUpTime, pos + 1));
         }
     }
 
@@ -83,14 +84,17 @@ public class DeckCreator : MonoBehaviour
     }
     public void Card1()
     {
+        decks[0].deck[0].HideEffect();
         StartCoroutine(CoolDown(coolDownTime, 0));
     }
     public void Card2()
     {
+        decks[0].deck[1].HideEffect();
         StartCoroutine(CoolDown(coolDownTime, 1));
     }
     public void Card3()
     {
+        decks[0].deck[2].HideEffect();
         StartCoroutine(CoolDown(coolDownTime, 2));
     }
 

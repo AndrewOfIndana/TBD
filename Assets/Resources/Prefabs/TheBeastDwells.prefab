@@ -46,10 +46,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43061e59221a34f408670deea25697db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  germStats: {fileID: 11400000, guid: cafd53f2ca33ceb41950aaf06820a906, type: 2}
+  tentacleStats: {fileID: 11400000, guid: 50836a881b51ce04cb74a25715e24f8a, type: 2}
   tentaclePrefab: {fileID: 2341184296189743632, guid: b1720da1f73451649812c5956e1e3cd2,
     type: 3}
+  tentacleSprites:
+  - {fileID: 21300000, guid: c904557e26f32b841a10d11464b767f7, type: 3}
+  - {fileID: 21300000, guid: 691c7627ddbb8a04f9b75afdb401ffcc, type: 3}
+  - {fileID: 21300000, guid: abc6ff8eef59dca42a017af31395fb49, type: 3}
+  - {fileID: 21300000, guid: a89471eeec5125f4aa903f4d5bf37382, type: 3}
   tentacles: []
-  germStats: {fileID: 11400000, guid: cafd53f2ca33ceb41950aaf06820a906, type: 2}
   stat: {fileID: 11400000, guid: 24128dd517e398e4b9a0f372286aec93, type: 2}
 --- !u!114 &5100515625877213544
 MonoBehaviour:

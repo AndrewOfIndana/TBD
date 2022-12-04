@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardID: 8
   passiveName: Poison Upgrade (Passive)
-  passiveDescription: "Ally Stats \u2013 AtkSpeed Up * 1.25"
+  passiveDescription: Buffs your unit's atk, hp, and speed slightly (x1.05)
   passiveEffect: {fileID: 11400000, guid: 489d11ec4ecfc544882949729d002935, type: 2}
   activeName: Poison Upgrade
-  activeDescription: Ally AtkSpeed Up * 2
+  activeDescription: Buffs your unit's atk speed greatly (x1.25)
   activeEffect: {fileID: 11400000, guid: 609191d9eda10134fb68323e0c7cf8f5, type: 2}
+  isAppliedToEnemy: 0

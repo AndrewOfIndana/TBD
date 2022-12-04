@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitID: 6
   unitName: Mage
-  unitDescription: Follows path, ignores everything
+  unitDescription: Low stats overall, can buff nearby units, support
   unitHealth: 20
   unitAttack: 2.5
   unitSpeed: 3

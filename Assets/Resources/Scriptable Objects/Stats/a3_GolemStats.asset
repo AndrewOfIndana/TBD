@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitID: 3
   unitName: Golem
-  unitDescription: Follows path, targets towers first ranged, unit
+  unitDescription: High hp and atk, follows player when within range, has AoE
   unitHealth: 100
   unitAttack: 15
   unitSpeed: 3.5

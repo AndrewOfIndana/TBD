@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: a8_MageTowerStats
   m_EditorClassIdentifier: 
   unitID: 8
-  unitName: Archer tower
-  unitDescription: Shoots oncoming troops
+  unitName: Mage Tower
+  unitDescription: AoE tower with high atk rate
   unitHealth: 75
   unitAttack: 3
   unitSpeed: 0

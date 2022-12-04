@@ -17,10 +17,12 @@ public class FinalBossController : MonoBehaviour, Idamageable, Ieffectable
     private BossBehaviour bossBehaviour;
 
     [Header("GameObject References")]
-    public GameObject tentaclePrefab;
-    private AudioSource audioSource;
-    public List<TowerController> tentacles = new List<TowerController>();
     public Stats germStats;
+    public Stats tentacleStats;
+    public GameObject tentaclePrefab;
+    public Sprite[] tentacleSprites;
+    public List<TowerController> tentacles = new List<TowerController>();
+    private AudioSource audioSource;
 
     [Header("Stats")]
     public Stats stat;
@@ -62,21 +64,25 @@ public class FinalBossController : MonoBehaviour, Idamageable, Ieffectable
         for(int i = 0; i < spawnPoints.Length; i++)
         {
             GameObject towerObj = Instantiate(tentaclePrefab, spawnPoints[i].position , Quaternion.identity);
-            FinalTowerBehaviour tentacle = towerObj.GetComponent<FinalTowerBehaviour>();
-            tentacle.SetController(this);
 
-            if(tentacle != null)
+            TowerController tentacleCtr = towerObj.GetComponent<TowerController>();
+            tentacleCtr.SetUnit(tentacleStats, tentacleSprites[Random.Range(0, tentacleSprites.Length)]);
+            tentacles.Add(tentacleCtr);
+
+            FinalTowerBehaviour tentacleBvr = towerObj.GetComponent<FinalTowerBehaviour>();
+            tentacleBvr.SetController(this);
+
+            if(tentacleBvr != null)
             {
                 if(i == 0)
                 {
-                    tentacle.SetSpawnType(false);
+                    tentacleBvr.SetSpawnType(false);
                 }
                 else
                 {
-                    tentacle.SetSpawnType(true);
+                    tentacleBvr.SetSpawnType(true);
                 }
             }
-            tentacles.Add(towerObj.GetComponent<TowerController>());
         }
     }
     /*-  Starts the unit's behaviour and movement -*/

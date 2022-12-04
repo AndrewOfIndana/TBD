@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardID: 5
   passiveName: Lightning Effect (Passive)
-  passiveDescription: Ally Speed Up * 1.5
+  passiveDescription: Buffs your unit's speed slightly (x1.1)
   passiveEffect: {fileID: 11400000, guid: b0db11a74af61dc41833a4f1ff7af12d, type: 2}
   activeName: 'Lightning Effect '
-  activeDescription: Enemy AtkSpeed Down * 1.75
+  activeDescription: Debuffs enemy unit's atk speed while doing an AoE attack (x-1.4)
   activeEffect: {fileID: 11400000, guid: 9ad7e9881978c3d4481726c5eb396c38, type: 2}
   isAppliedToEnemy: 1

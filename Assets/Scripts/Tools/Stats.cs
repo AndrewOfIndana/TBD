@@ -13,6 +13,7 @@ public class Stats : ScriptableObject
     [Header("Information")]
     public int unitID; //The ID number of the unit
     public string unitName; //Name of the unit
+    [TextArea(3,10)]
     public string unitDescription; //Description of the unit
 
     [Header("Stats")]

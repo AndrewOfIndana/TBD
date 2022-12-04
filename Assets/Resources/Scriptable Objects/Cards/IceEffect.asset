@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardID: 3
   passiveName: Ice Effect (Passive)
-  passiveDescription: Ally Hp Up * 1.5
+  passiveDescription: Buffs your unit's hp slightly (x1.1)
   passiveEffect: {fileID: 11400000, guid: 3f71f3992be36844397a0200ee6095af, type: 2}
   activeName: Ice Effect
-  activeDescription: Enemy Speed Down * 1.75
+  activeDescription: Debuffs enemy unit's speed while doing an AoE attack (x-1.4)
   activeEffect: {fileID: 11400000, guid: d6d9db94972e8e64b83036d459d4bdfb, type: 2}
   isAppliedToEnemy: 1

@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardID: 9
   passiveName: Growth Upgrade (passive)
-  passiveDescription: Enemy Stats  Down* 1.25
+  passiveDescription: Debuff your unit's stats slightly (x-1.1)
   passiveEffect: {fileID: 11400000, guid: 97b05fdac067562449fd0abed4ae8cb7, type: 2}
   activeName: Growth Upgrade
-  activeDescription: Ally Stats Up * 3
+  activeDescription: Buffs your unit's stats greatly (x1.5)
   activeEffect: {fileID: 11400000, guid: ef967192c6986e34ea9020ff35cbd639, type: 2}
+  isAppliedToEnemy: 0

@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardID: 6
   passiveName: Lightning Upgrade (Passive)
-  passiveDescription: "Ally Stats \u2013 Speed Up * 1.25"
+  passiveDescription: Buffs your unit's atk, atk speed, and hp slightly (x1.05)
   passiveEffect: {fileID: 11400000, guid: b8a49265318e9384283bf718075f3d7a, type: 2}
   activeName: Lightning Upgrade
-  activeDescription: Ally Speed Up * 2
+  activeDescription: Buffs your unit's spped greatly (x1.25)
   activeEffect: {fileID: 11400000, guid: 1aad4b1a77ece464c94bb9db94276f8d, type: 2}
+  isAppliedToEnemy: 0

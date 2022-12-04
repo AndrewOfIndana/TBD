@@ -37,6 +37,10 @@ public class LevelUI : MonoBehaviour
     public TextMeshProUGUI levelNameTxt;
     public TextMeshProUGUI levelUnitCount;
     public GameObject startGameButton;
+    public GameObject[] unitInfos; 
+    public TextMeshProUGUI[] unitInfoName;
+    public TextMeshProUGUI[] unitInfoCost;
+    public TextMeshProUGUI[] unitInfoDescription;
 
     [Header("GameUI References")]
     public Image[] unitIcons;
@@ -128,6 +132,9 @@ public class LevelUI : MonoBehaviour
         for(int i = 0; i < levelManager.GetLevelPlayerUnits().Count; i++)
         {
             selectUnitIcons[i].sprite = levelManager.GetLevelPlayerUnits()[i].unitThumbnail;
+            unitInfoName[i].text = levelManager.GetLevelPlayerUnits()[i].unitName;
+            unitInfoCost[i].text = "Cost: " + levelManager.GetLevelPlayerUnits()[i].unitCost + " mana";
+            unitInfoDescription[i].text = levelManager.GetLevelPlayerUnits()[i].unitDescription;
         }
 
         enragedClockSection.fillAmount = level.enemyEnragedTime/level.GetTotalTime(); //Updates the enragedClockSection fillAmount
@@ -154,6 +161,11 @@ public class LevelUI : MonoBehaviour
         {
             unitIcons[k].sprite = levelManager.GetPlayerUnits()[k].unitThumbnail;
         }
+
+        for(int j = 0; j < unitInfos.Length; j++)
+        {
+            unitInfos[j].SetActive(false);
+        }
     }
     /*-  Updates the Game UI -*/
     public void UpdateUI()
@@ -171,7 +183,6 @@ public class LevelUI : MonoBehaviour
     /*-  Turns off hud when the player dies or not -*/
     public void UpdatePlayerDeath(bool isDead)
     {
-        Cards.SetActive(isDead);
         Units.SetActive(isDead);
     }
     public void CameraZoomSlide(float s)

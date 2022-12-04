@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardID: 4
   passiveName: Ice Upgrade (Passive)
-  passiveDescription: "Ally Stats \u2013 Hp Up * 1.25"
+  passiveDescription: Buffs your unit's atk, atk speed, and speed slightly (x1.05)
   passiveEffect: {fileID: 11400000, guid: 3aeda4e0e21207b49a899a1d30130ac4, type: 2}
   activeName: Ice Upgrade
-  activeDescription: Ally Hp Up * 2
+  activeDescription: Buffs your unit's hp greatly (x1.25)
   activeEffect: {fileID: 11400000, guid: bae3a5c2974802e4f8b03c7362cf5c9e, type: 2}
+  isAppliedToEnemy: 0

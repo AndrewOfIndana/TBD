@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitID: 2
   unitName: Archer
-  unitDescription: Follows path, targets towers first ranged, unit
+  unitDescription: High range, low atk, ranged unit, good for taking out units from
+    a far, spammable.
   unitHealth: 10
   unitAttack: 3
   unitSpeed: 5.5

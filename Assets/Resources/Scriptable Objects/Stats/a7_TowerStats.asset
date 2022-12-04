@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: a7_TowerStats
   m_EditorClassIdentifier: 
   unitID: 7
-  unitName: ArcherTower
-  unitDescription: Shoots oncoming troops
+  unitName: Archer Tower
+  unitDescription: single target tower with high range
   unitHealth: 75
   unitAttack: 5
   unitSpeed: 0

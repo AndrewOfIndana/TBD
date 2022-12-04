@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardID: 7
   passiveName: Poison Effect (Passive)
-  passiveDescription: Ally AtkSpeed Up * 1.5
+  passiveDescription: Buffs your unit's atk speed slightly (x1.1)
   passiveEffect: {fileID: 11400000, guid: a0a379e5b6d631047985d13adbd0dd6d, type: 2}
   activeName: Poison Effect
-  activeDescription: Enemy Atk Down * 1.75
+  activeDescription: Debuffs enemy unit's atk while doing an AoE attack (x-1.4)
   activeEffect: {fileID: 11400000, guid: e07c772087d58fd41a94fe284c4f6247, type: 2}
   isAppliedToEnemy: 1

@@ -70,6 +70,23 @@ public class TowerController : MonoBehaviour, Idamageable, Ieffectable
         }
         this.gameObject.tag = newStats.unitUtils.unitTag;
     }
+    /*-  Sets the units stats when the object has spawned from pool using the newStats Stats variables -*/
+    public void SetUnit(Stats newStats, Sprite variation)
+    {
+        stat = newStats;
+        attack = newStats.unitAttack;
+        health = newStats.unitHealth;
+        attackRate = newStats.unitAttackRate;
+        thisSprite.sprite = variation;
+        thisCollider.size =  newStats.unitUtils.unitSize;
+        healthBar.fillAmount = health/newStats.unitHealth;
+
+        if(stat.unitUtils.unitsSfx != null)
+        {
+            audioSource.clip = stat.unitUtils.unitsSfx.GetRandomSfx();
+        }
+        this.gameObject.tag = newStats.unitUtils.unitTag;
+    }
     /*-  Starts the unit's behaviour and movement -*/
     public void StartController()
     {

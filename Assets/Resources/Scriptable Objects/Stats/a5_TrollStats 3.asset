@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitID: 5
   unitName: Troll
-  unitDescription: Follows path, ignores everything
+  unitDescription: High hp, and atk low speed, targets only bases and bosses, ignores
+    units
   unitHealth: 250
   unitAttack: 100
   unitSpeed: 2

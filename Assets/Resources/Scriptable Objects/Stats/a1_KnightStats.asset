@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitID: 1
   unitName: Knight
-  unitDescription: Follows path, targets units first
+  unitDescription: Medium hp, atk, and speed, follows path and targets nearby units,
+    spammable
   unitHealth: 25
   unitAttack: 5
   unitSpeed: 5

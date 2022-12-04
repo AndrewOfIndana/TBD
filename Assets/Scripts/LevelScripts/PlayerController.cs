@@ -104,11 +104,8 @@ public class PlayerController : MonoBehaviour
     }
     public void UpdateAura()
     {
-        if(playerAvatar != null && playerAvatar.isActiveAndEnabled == true)
-        {
-            playerPassiveEffect.Select(e => e).Distinct();
-            playerAura.SetAuraEffect(playerPassiveEffect);
-        }
+        playerPassiveEffect.Select(e => e).Distinct();
+        playerAura.SetAuraEffect(playerPassiveEffect);
     }
 
     /*-  Repeatedly regenerates mana, takes a float for the time -*/

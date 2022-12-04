@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardID: 1
   passiveName: Fire Effect (Passive)
-  passiveDescription: Ally Atk Up * 1.5
+  passiveDescription: Buffs your unit's atk slightly (x1.1)
   passiveEffect: {fileID: 11400000, guid: f4f3b399bd44b904f89699c33bf2599e, type: 2}
   activeName: Fire Effect
-  activeDescription: Enemy Hp Down * 1.75
+  activeDescription: Debuffs enemy unit's hp while doing an AoE attack (x-1.4)
   activeEffect: {fileID: 11400000, guid: 1b9b7f9f97442084b9943640ef527820, type: 2}
   isAppliedToEnemy: 1

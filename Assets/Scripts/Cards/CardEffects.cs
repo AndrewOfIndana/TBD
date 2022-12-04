@@ -14,12 +14,13 @@ public class CardEffects : ScriptableObject
 
     [Header("Passive Effect Variables")]
     public string passiveName; 
-    public string passiveDescription; 
+    
+    [TextArea(3,10)] public string passiveDescription; 
     public StatusEffect passiveEffect;
 
     [Header("Active Effect Variables")]
     public string activeName; 
-    public string activeDescription; 
+    [TextArea(3,10)] public string activeDescription; 
     public StatusEffect activeEffect;
     public bool isAppliedToEnemy;
 }

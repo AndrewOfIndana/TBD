@@ -12,7 +12,7 @@ public class Aura : MonoBehaviour
     */
     [Header("Script Settings")]
     private SphereCollider auraCollider;
-    public List<StatusEffect> auraEffects = new List<StatusEffect>();
+    private List<StatusEffect> auraEffects = new List<StatusEffect>();
     private bool isAppliedByEnemy;
     private bool isAppliedToEnemy;
 

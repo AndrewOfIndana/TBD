@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public sealed class CardDisplay : MonoBehaviour
+public sealed class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [HideInInspector] public int x;
     [HideInInspector] public int y;
 
     private Card _card;
-
+    public GameObject hiddenUI;
+    public CardInfo hiddenCardInfo;
 
 public Card Card
 {
@@ -52,14 +54,19 @@ public Card Card
         return result;
     }
 
-
-
-
-
-
-
-
-
-
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        hiddenUI.SetActive(true);
+        hiddenCardInfo.SetCardInfo(_card);
+    }
+    public void HideEffect()
+    {
+        hiddenUI.SetActive(false);
+    }
+    
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        hiddenUI.SetActive(false);
+    }
 }
 

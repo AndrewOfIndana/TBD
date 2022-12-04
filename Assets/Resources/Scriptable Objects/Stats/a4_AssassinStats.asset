@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitID: 4
   unitName: Assassin
-  unitDescription: Follows path, ignores everything
+  unitDescription: Low hp, high atk and speed, is ignored by ranged units, not immune
+    to AoE
   unitHealth: 5
   unitAttack: 10
   unitSpeed: 6

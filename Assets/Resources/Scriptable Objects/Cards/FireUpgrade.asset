@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardID: 2
   passiveName: Fire Upgrade (Passive)
-  passiveDescription: "Ally Stats \u2013 Atk Up * 1.25"
+  passiveDescription: Buffs your unit's atk speed, hp, and speed slightly (x1.05)
   passiveEffect: {fileID: 11400000, guid: 39bc1f9715b03584caa3b2c7ebff9baf, type: 2}
   activeName: Fire Upgrade
-  activeDescription: 1 Ally Atk Up * 2
+  activeDescription: Buffs your unit's atk greatly (x1.25)
   activeEffect: {fileID: 11400000, guid: 3c84d13802676374e8e33eadabe7ae9d, type: 2}
+  isAppliedToEnemy: 0
