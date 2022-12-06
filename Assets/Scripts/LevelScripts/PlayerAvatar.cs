@@ -194,7 +194,6 @@ public class PlayerAvatar : MonoBehaviour, Idamageable
         //if health is less than or equal to 0
         if (health <= 0)
         {
-            playerAura.DisableAura();
             this.gameObject.SetActive(false);
         }
     }

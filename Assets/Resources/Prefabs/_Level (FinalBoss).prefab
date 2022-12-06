@@ -3872,14 +3872,14 @@ MonoBehaviour:
   - {fileID: 5208401645608432859}
   - {fileID: 8173066294919326221}
   selectUnitIcons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1412696140449408557}
+  - {fileID: 720067575351422206}
+  - {fileID: 824692045588103783}
+  - {fileID: 8669044262267860367}
+  - {fileID: 1134614362712899292}
+  - {fileID: 7057176759135936928}
+  - {fileID: 4227073365296672456}
+  - {fileID: 6098236190328265527}
   chosenUnitIcons:
   - {fileID: 6692914154281285969}
   - {fileID: 2221497083073353562}

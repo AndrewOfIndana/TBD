@@ -5268,14 +5268,14 @@ MonoBehaviour:
   - {fileID: 3302522385251967387}
   - {fileID: 1513085578945937229}
   selectUnitIcons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 3423510800967823944}
+  - {fileID: 3755641682398545808}
+  - {fileID: 5903849675176764385}
+  - {fileID: 331709436243118346}
+  - {fileID: 9209252033983704093}
+  - {fileID: 1581621295544668534}
+  - {fileID: 305565537896062613}
+  - {fileID: 867516327183378706}
   chosenUnitIcons:
   - {fileID: 4139123451424828433}
   - {fileID: 8883149039723577882}
