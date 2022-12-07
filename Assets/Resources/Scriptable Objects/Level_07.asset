@@ -22,5 +22,5 @@ MonoBehaviour:
   enemyUnits: {fileID: 11400000, guid: 9d69c7f4d3526f14cb975a4e16d2e7df, type: 2}
   enemySpawnRate: 2.75
   enemyHealth: 350
-  enemyCalmTime: 180
-  enemyEnragedTime: 60
+  enemyCalmTime: 150
+  enemyEnragedTime: 30

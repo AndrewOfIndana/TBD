@@ -23,4 +23,4 @@ MonoBehaviour:
   enemySpawnRate: 2.5
   enemyHealth: 400
   enemyCalmTime: 180
-  enemyEnragedTime: 160
+  enemyEnragedTime: 60

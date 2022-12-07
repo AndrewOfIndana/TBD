@@ -22,5 +22,5 @@ MonoBehaviour:
   unitAttackRate: 3
   unitUtils: {fileID: 11400000, guid: 76c5d302b1d03f74d9708b2a1d411066, type: 2}
   isUnitEnemy: 0
-  unitCost: 30
+  unitCost: 25
   unitThumbnail: {fileID: 21300000, guid: f50b98594084f2f4d989df2fd33badc7, type: 3}
