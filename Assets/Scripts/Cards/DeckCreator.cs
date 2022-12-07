@@ -60,24 +60,11 @@ public class DeckCreator : MonoBehaviour
         var card = decks[y].deck[x + pos];
         decks[0].deck[pos].gameObject.SetActive(false);
 
-        if(playerController != null)
-        {
-            playerController.ActivateCard(card.Card.value, pos);
-            yield return new WaitForSeconds(time);
-            decks[0].deck[pos].gameObject.SetActive(true);
-            card.Card = CardDatabase.Cards[UnityEngine.Random.Range(0, CardDatabase.Cards.Length)];
-        }
-        else
-        {
-            yield return new WaitForSeconds(time);
-            decks[0].deck[pos].gameObject.SetActive(true);
-            card.Card = CardDatabase.Cards[UnityEngine.Random.Range(0, CardDatabase.Cards.Length)];
-        }
-
-        if(playerController != null)
-        {
-            playerController.ReplaceCard(card.Card.value, pos);
-        }
+        playerController.ActivateCard(card.Card.value, pos);
+        yield return new WaitForSeconds(time);
+        decks[0].deck[pos].gameObject.SetActive(true);
+        card.Card = CardDatabase.Cards[UnityEngine.Random.Range(0, CardDatabase.Cards.Length)];
+        playerController.ReplaceCard(card.Card.value, pos);
     }
     public void Card1()
     {
