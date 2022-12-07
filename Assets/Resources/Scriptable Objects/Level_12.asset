@@ -16,7 +16,7 @@ MonoBehaviour:
   levelName: Evil
   availbleUnits: {fileID: 11400000, guid: 6a28b9494a5f9094aae38adca15fa559, type: 2}
   unitLimit: 8
-  mana: 100
+  mana: 200
   manaRegen: 5
   playerHealth: 100
   enemyUnits: {fileID: 11400000, guid: c4a842ab3c5317f4b938899ee4f7fda3, type: 2}
