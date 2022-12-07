@@ -236,12 +236,12 @@ public class LevelManager : MonoBehaviour
         if(gameManager.CheckIfPlaying())
         {
             playerAvatar.gameObject.SetActive(true);
-            playerController.UpdateAura();
             playerAvatar.transform.position = playerSpawner.transform.position;
             SwitchCameras(0, 1);
             mainAudioListener.enabled = false;
             levelUI.UpdateUI();
             levelUI.UpdatePlayerDeath(true);
+            playerController.UpdateAura();
             hasPlayerRespawned = true;
         }
     }
@@ -325,6 +325,7 @@ public class LevelManager : MonoBehaviour
         if(playerAvatar != null && playerAvatar.isActiveAndEnabled == true)
         {
             playerAvatar.SetAttackRange();
+            playerController.UpdateAura();
         }
 
         if(isSetupActive)

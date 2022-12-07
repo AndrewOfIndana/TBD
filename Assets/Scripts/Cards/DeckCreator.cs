@@ -63,23 +63,20 @@ public class DeckCreator : MonoBehaviour
         if(playerController != null)
         {
             playerController.ActivateCard(card.Card.value, pos);
+            yield return new WaitForSeconds(time);
+            decks[0].deck[pos].gameObject.SetActive(true);
+            card.Card = CardDatabase.Cards[UnityEngine.Random.Range(0, CardDatabase.Cards.Length)];
         }
         else
         {
-            Debug.Log("NO RECEIVING END");
+            yield return new WaitForSeconds(time);
+            decks[0].deck[pos].gameObject.SetActive(true);
+            card.Card = CardDatabase.Cards[UnityEngine.Random.Range(0, CardDatabase.Cards.Length)];
         }
-
-        yield return new WaitForSeconds(time);
-        decks[0].deck[pos].gameObject.SetActive(true);
-        card.Card = CardDatabase.Cards[UnityEngine.Random.Range(0, CardDatabase.Cards.Length)];
 
         if(playerController != null)
         {
             playerController.ReplaceCard(card.Card.value, pos);
-        }
-        else
-        {
-            Debug.Log("NO RECEIVING END");
         }
     }
     public void Card1()
