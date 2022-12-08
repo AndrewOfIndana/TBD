@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09e265862da64bf478143804fb6168f5, type: 3}
   m_Name: e1_KnightUtils
   m_EditorClassIdentifier: 
-  unitSprite: {fileID: 21300000, guid: 0d88c550012b653469e4b299a48ea636, type: 3}
+  unitSprite: {fileID: 21300000, guid: 740e72177535ef346aaf64731e3549f0, type: 3}
   unitSize: {x: 1.5, y: 2, z: 1.5}
   unitsSfx: {fileID: 11400000, guid: d43bdc6bf8b47004eb5c59572032c3d9, type: 2}
   unitAnimationSpeed: 1
@@ -25,4 +25,4 @@ MonoBehaviour:
   - AllyTower
   - AllyBase
   sharedTags: {fileID: 11400000, guid: d3fc0c1f4507e3841928636ff32a43d0, type: 2}
-  unitSupportAuraEffect: []
+  unitKeyEffects: []
