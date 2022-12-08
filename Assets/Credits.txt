@@ -1,21 +1,28 @@
-Made By TBDStudio
-
-President and Sound Designer Bruno Kitazuka
-
-Lead Artist Megan Majstorovic
-
-Lead Programmer, Level designer, Artist Andrew Choi
-
-Programmer and Social Media Manager Da’Trell Williams
-
-Other Art Assets
-
-"Wall, grass, rock, stone, wood and dirt (480)" by West licensed CC0: https://opengameart.org/content/wall-grass-rock-stone-wood-and-dirt-480
+Game made by:	TBD Games Studios
+	
+President:	Bruno Kitazuka
+	
+Lead programmer:	Andrew Choi
+	
+Programmer:	Da’Trell Williams
+	
+Level designer:	Andrew Choi
+	
+Lead artist:	Megan Majstorovic
+	
+Artist:	Andrew Choi
+	
+Social media manager:	Da’Trell Williams
+	
+Head of quality insurance: 	Bruno Kitazuka
+	
+Head sound designer:	Bruno Kitazuka
+	
+Other art assets used:	"Wall, grass, rock, stone, wood and dirt (480)" by West licensed CC0: https://opengameart.org/content/wall-grass-rock-stone-wood-and-dirt-480
 
 "Skybox Series Free" by Avionx licensed Standard Unity Asset Store EULA: https://assetstore.unity.com/packages/2d/textures-materials/sky/skybox-series-free-103633#releases
 
 "Gusty" by cron licensed CC0: https://opengameart.org/content/gutsy
+	
+Font used:	"Black Chancery" by Earl Allen/Doug Miles CC0: https://www.dafont.com/black-chancery.font
 
-Font Used:
-
-"Black Chancery" by Earl Allen/Doug Miles CC0: https://www.dafont.com/black-chancery.font
