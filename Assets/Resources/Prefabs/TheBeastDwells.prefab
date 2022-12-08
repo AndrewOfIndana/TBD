@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e503b512b702af4e9fa8fa92905be1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bossCountDown: 50
+  bossCountDown: 60
 --- !u!82 &-7080258615594560064
 AudioSource:
   m_ObjectHideFlags: 0

@@ -16,7 +16,7 @@ MonoBehaviour:
   unitName: The Beast Dwells
   unitDescription: Eldritch Abomination
   unitHealth: 3
-  unitAttack: 25
+  unitAttack: 30
   unitSpeed: 5
   unitAttackRange: 100
   unitAttackRate: 50
