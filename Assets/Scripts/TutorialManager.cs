@@ -111,7 +111,7 @@ public class TutorialManager : MonoBehaviour
     public void HowToPlayPlay()
     {
         transitionSlide.SetTrigger("End");
-        gameManager.SelectLevel(1);
+        gameManager.SelectLevel(gameManager.currentLevel);
     }
     /*-  Calls GameManager QuitLevel, OnClick -*/
     public void HowToPlayQuit()
