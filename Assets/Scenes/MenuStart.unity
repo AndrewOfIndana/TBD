@@ -4885,7 +4885,7 @@ PrefabInstance:
     - target: {fileID: 8876656629469397081, guid: fd05e0e5183210c4ab40f79547ff4276,
         type: 3}
       propertyPath: lastPlayedLevel
-      value: 12
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8876656629469397082, guid: fd05e0e5183210c4ab40f79547ff4276,
         type: 3}
