@@ -1,8 +1,8 @@
-# TBD
-The Best Defender is a combination between an action strategy and a tower defense. The player controls an avater and can summon both troops to attack, and towers to defend. The player must destory the enemy base while defending their own. There are 12 levels and 3 bosses all of which are fun!
+# The Best Defender
 
-Project Archives Link:
-https://drive.google.com/drive/folders/1PANimtJK70PYF5gudooZwcxKxyTBmOZE
+### Project Description
+A hybrid action strategy and tower defense game. The player controls an avatar and can summon troops to attack and towers to defend. The objective is to destroy the enemy base while protecting their own. The game features 12 levels and 3 bosses, providing a challenging and engaging experience. Developed in collaboration with a team, this game stands out as one of my most enjoyable and extensive projects, showcasing various gameplay mechanics and intricate content.
 
-Itch.IO Page:
-https://andyofearth.itch.io/tombsounds
+- [Itch.IO Page](https://the-best-dreams-games.itch.io/the-best-defender)
+
+
